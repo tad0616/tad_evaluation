@@ -1,0 +1,9 @@
+
+<!--列出所有資料-->
+<{if $block}>
+  <{foreach from=$block item=data}>
+    <div class="row-fluid">
+      <a href="<{$xoops_url}>/modules/tad_evaluation/index.php?evaluation_sn=<{$data.evaluation_sn}>"><{$data.evaluation_title}></a>
+    </div>
+  <{/foreach}>
+<{/if}>

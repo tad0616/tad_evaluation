@@ -1,0 +1,22 @@
+<?php
+//  ------------------------------------------------------------------------ //
+// 本模組由 tad 製作
+// 製作日期：2013-10-23
+// $Id:$
+// ------------------------------------------------------------------------- //
+
+include_once "../../mainfile.php";
+include_once "function.php";
+
+//判斷是否對該模組有管理權限
+$isAdmin=false;
+if ($xoopsUser) {
+    $module_id = $xoopsModule->getVar('mid');
+    $isAdmin=$xoopsUser->isAdmin($module_id);
+}
+
+$interface_menu[_MD_TADEVALUA_SMNAME1]="index.php";
+if($isAdmin){
+  $interface_menu[_TAD_TO_ADMIN]="admin/main.php";
+}
+?>
