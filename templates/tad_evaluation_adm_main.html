@@ -2,66 +2,6 @@
 <link rel="stylesheet" type="text/css" media="screen" href="<{$xoops_url}>/modules/tadtools/bootstrap/css/bootstrap-responsive.css" />
 <link rel="stylesheet" type="text/css" media="screen" href="<{$xoops_url}>/modules/tadtools/css/xoops_adm.css" />
 
-<!--顯示表單-->
-
-
-<{if $now_op=="tad_evaluation_form"}>
-  <{$formValidator_code}>
-
-  <form action="<{$action}>" method="post" id="myForm" enctype="multipart/form-data">
-
-
-
-    <!--評鑑編號-->
-    <input type='hidden' name="evaluation_sn" value="<{$evaluation_sn}>">
-
-
-    <!--評鑑名稱-->
-    <div class="row-fluid">
-      <div class="span2 text-right">
-        <{$smarty.const._MA_TADEVALUA_EVALUATION_TITLE}>
-      </div>
-      <div class="span10">
-        <input type="text" name="evaluation_title" id="evaluation_title" class="span6 " value="<{$evaluation_title}>" placeholder="<{$smarty.const._MA_TADEVALUA_EVALUATION_TITLE}>">
-      </div>
-    </div>
-
-    <!--評鑑說明-->
-    <div class="row-fluid">
-      <div class="span2 text-right">
-        <{$smarty.const._MA_TADEVALUA_EVALUATION_DESCRIPTION}>
-      </div>
-
-      <div class="span10">
-        <{$evaluation_description_editor}>
-      </div>
-    </div>
-
-    <!--是否啟用-->
-    <div class="row-fluid">
-      <div class="span2 text-right">
-        <{$smarty.const._MA_TADEVALUA_EVALUATION_ENABLE}>
-      </div>
-      <div class="span10">
-        <label class="radio inline">
-          <input type="radio" name="evaluation_enable" id="evaluation_enable_1" value="1" class="" <{if $evaluation_enable == "1"}>checked="checked"<{/if}>><{$smarty.const._YES}>
-        </label>
-        <label class="radio inline">
-          <input type="radio" name="evaluation_enable" id="evaluation_enable_0" value="0" class="" <{if $evaluation_enable == "0"}>checked="checked"<{/if}>><{$smarty.const._NO}>
-        </label>
-      </div>
-    </div>
-
-    <div class="text-center">
-      <input type="hidden" name="op" value="<{$next_op}>">
-
-      <a href="main.php?evaluation_sn=<{$evaluation_sn}>" class="btn btn-primary"><{$smarty.const._MA_TADEVALUA_EVALUATION_IMPORT}></a>
-      <button type="submit" class="btn btn-primary"><{$smarty.const._TAD_SAVE}></button>
-    </div>
-
-  </form>
-<{/if}>
-
 
 <!--列出所有資料-->
 <{if $all_content}>
@@ -94,7 +34,11 @@
     <{foreach from=$all_content item=data}>
       <tr>
         <td nowrap><a href="main.php?evaluation_sn=<{$data.evaluation_sn}>"><{$data.evaluation_title}></a></td>
-        <td nowrap><{$data.evaluation_enable}></td>
+        <td nowrap>
+          <{if $data.evaluation_enable=='1'}><{$smarty.const._YES}><{else}><{$smarty.const._NO}><{/if}>
+          <i class="icon-folder-open"></i> <{$data.evaluation_cates}>
+          <i class="icon-file"></i> <{$data.evaluation_files}>
+        </td>
         <td nowrap><{$data.evaluation_uid}></td>
         <td nowrap><{$data.evaluation_date}></td>
         <td><a href="main.php?evaluation_sn=<{$data.evaluation_sn}>"><{$data.evaluation_path}></a></td>
@@ -103,7 +47,7 @@
         <td nowrap>
           <a href="zip.php?evaluation_sn=<{$data.evaluation_sn}>" class="btn btn-mini btn-success"><{$smarty.const._MA_TADEVALUA_EVALUATION_EXPORT}></a>
           <a href="javascript:delete_tad_evaluation_func(<{$data.evaluation_sn}>);" class="btn btn-mini btn-danger"><{$smarty.const._TAD_DEL}></a>
-          <a href="<{$action}>?op=tad_evaluation_form&evaluation_sn=<{$data.evaluation_sn}>" class="btn btn-mini btn-warning"><{$smarty.const._TAD_EDIT}></a>
+          <a href="<{$action}>?evaluation_sn=<{$data.evaluation_sn}>" class="btn btn-mini btn-warning"><{$smarty.const._TAD_EDIT}></a>
         </td>
         <{/if}>
       </tr>
@@ -128,7 +72,7 @@
 <{/if}>
 
 <!--顯示某一筆資料-->
-<{if $now_op=="show_one_tad_evaluation"}>
+<{if $now_op=="show_one_tad_evaluation" or $now_op=="tad_evaluation_form"}>
 
   <{$jquery}>
 
@@ -145,89 +89,98 @@
   <script type="text/javascript">
   $(document).ready(function(){
     $(".evaluation_fancy_<{$evaluation_sn}>").fancybox();
-    $("#sort").sortable({ opacity: 0.6, cursor: "move", update: function() {
-      var order = $(this).sortable("serialize");
-      $.post("../save_sort.php", order, function(theResponse){
-        $("#save_msg").html(theResponse);
-      });
-    }
-    });
   });
   </script>
 
-  <h2 class="text-center"><a href="../index.php?evaluation_sn=<{$evaluation_sn}>"><{$title}></a></h2>
-  <hr>
+  <{$formValidator_code}>
 
-  <div class="row-fluid">
-    <!--建立者-->
-  <div class="span2 text-right">
-    <{$smarty.const._MA_TADEVALUA_EVALUATION_UID}>
-  </div>
-  <div class="span4">
-    <{$uid_name}>
-  </div>
+  <form action="<{$action}>" method="post" id="myForm" enctype="multipart/form-data">
+
+    <!--評鑑編號-->
+    <input type='hidden' name="evaluation_sn" value="<{$evaluation_sn}>">
 
 
-    <!--建立日期-->
-    <div class="span2 text-right">
-      <{$smarty.const._MA_TADEVALUA_EVALUATION_DATE}>
-    </div>
-    <div class="span4">
-      <{$evaluation_date}>
-    </div>
-
-  </div>
-
-  <{if $evaluation_description}>
-    <!--評鑑說明-->
+    <!--評鑑名稱-->
     <div class="row-fluid">
-      <div class="well">
-        <{$evaluation_description}>
+      <h4 class="span2 text-right"><{$smarty.const._MA_TADEVALUA_EVALUATION_TITLE}></h4>
+
+      <div class="span4">
+        <input type="text" name="evaluation_title" id="evaluation_title" class="span12 " value="<{$evaluation_title}>" placeholder="<{$smarty.const._MA_TADEVALUA_EVALUATION_TITLE}>">
+      </div>
+
+    <!--是否啟用-->
+      <div class="span2 text-right">
+        <{$smarty.const._MA_TADEVALUA_EVALUATION_ENABLE}>
+      </div>
+      <div class="span4">
+        <label class="radio inline">
+          <input type="radio" name="evaluation_enable" id="evaluation_enable_1" value="1" <{if $evaluation_enable == "1"}>checked="checked"<{/if}>><{$smarty.const._YES}>
+        </label>
+        <label class="radio inline">
+          <input type="radio" name="evaluation_enable" id="evaluation_enable_0" value="0" <{if $evaluation_enable == "0"}>checked="checked"<{/if}>><{$smarty.const._NO}>
+        </label>
       </div>
     </div>
-  <{/if}>
-
-  <div class="well">
+    <!--評鑑說明-->
     <div class="row-fluid">
+      <div class="span12">
+        <{$evaluation_description_editor}>
+      </div>
+    </div>
 
-      <{if $all_files}>
-      <form action="<{$action}>" method="post" id="myForm" enctype="multipart/form-data">
-        <div class="span6">
-          <{$all_files}>
 
-          <div class="text-center">
-            <input type="hidden" name="op" value="tad_evaluation_import">
-            <input type="hidden" name="evaluation_sn" value="<{$evaluation_sn}>">
-            <button type="submit" class="btn btn-primary"><{$smarty.const._MA_TADEVALUA_EVALUATION_IMPORT}></button>
-          </div>
-        </div>
-      </form>
-      <{else}>
-        <div class="span6 hero-unit">
-          <{$smarty.const._MA_TADEVALUA_EVALUATION_IMPORT_PATH}><br>
-          <span class="label label-info"><{$evaluation_path}></span>
-        </div>
+    <div class="text-center">
+      <input type="hidden" name="op" value="<{$next_op}>">
+      <{if $evaluation_sn}>
+        <a href="../index.php?evaluation_sn=<{$evaluation_sn}>" class="btn btn-success"><{$smarty.const._MA_TADEVALUA_EVALUATION_VIEW}></a>
       <{/if}>
+      <button type="submit" class="btn btn-primary"><{$smarty.const._TAD_SAVE}></button>
+    </div>
 
-      <{if $all_files}>
+  </form>
+
+  <{if $evaluation_sn}>
+    <div class="well">
+      <div class="row-fluid">
+
+        <{if $all_files}>
         <form action="<{$action}>" method="post" id="myForm" enctype="multipart/form-data">
-          <div class="span6" id='sort'>
-            <{$db_files}>
-            <div class="text-center">
-              <input type="hidden" name="op" value="save_tad_evaluation">
-              <input type="hidden" name="evaluation_sn" value="<{$evaluation_sn}>">
+          <div class="span6">
+            <{$all_files}>
 
-              <!--button type="submit" class="btn btn-primary"><{$smarty.const._TAD_SAVE}></button-->
+            <div class="text-center">
+              <input type="hidden" name="op" value="tad_evaluation_import">
+              <input type="hidden" name="evaluation_sn" value="<{$evaluation_sn}>">
+              <button type="submit" class="btn btn-primary"><{$smarty.const._MA_TADEVALUA_EVALUATION_IMPORT}></button>
             </div>
           </div>
         </form>
-      <{else}>
-        <div class="span6 hero-unit">
-          <{$smarty.const._MA_TADEVALUA_EVALUATION_IMPORT_FILES}>
-        </div>
-      <{/if}>
-    </div>
-  </div>
-  <div id="save_msg"></div>
+        <{else}>
+          <div class="span6 hero-unit">
+            <{$smarty.const._MA_TADEVALUA_EVALUATION_IMPORT_PATH}><br>
+            <div style="color:blue;"><{$evaluation_path}></div>
+          </div>
+        <{/if}>
 
+        <{if $all_files}>
+          <form action="<{$action}>" method="post" id="myForm" enctype="multipart/form-data">
+            <div class="span6" id='sort'>
+              <{$db_files}>
+              <div class="text-center">
+                <input type="hidden" name="op" value="save_tad_evaluation">
+                <input type="hidden" name="evaluation_sn" value="<{$evaluation_sn}>">
+
+                <!--button type="submit" class="btn btn-primary"><{$smarty.const._TAD_SAVE}></button-->
+              </div>
+            </div>
+          </form>
+        <{else}>
+          <div class="span6 hero-unit">
+            <{$smarty.const._MA_TADEVALUA_EVALUATION_IMPORT_FILES}>
+          </div>
+        <{/if}>
+      </div>
+    </div>
+    <div id="save_msg"></div>
+  <{/if}>
 <{/if}>

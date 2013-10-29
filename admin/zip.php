@@ -5,10 +5,7 @@ include_once "../function.php";
 $evaluation_sn=intval($_GET['evaluation_sn']);
 $evaluation=get_tad_evaluation($evaluation_sn);
 $dirname=$evaluation['evaluation_title'];
-
-$os=(PATH_SEPARATOR==':')?"linux":"win";
-if($os=="win" and _CHARSET!="Big5")$dirname=iconv(_CHARSET, "Big5", $dirname);
-
+$dirname=change_charset($dirname,false);
 if(file_exists(XOOPS_ROOT_PATH."/uploads/tad_evaluation/{$dirname}.zip")){
   unlink(XOOPS_ROOT_PATH."/uploads/tad_evaluation/{$dirname}.zip");
 }
@@ -28,7 +25,7 @@ if(file_exists(XOOPS_ROOT_PATH."/uploads/tad_evaluation/{$dirname}.zip")){
   if ($v_list == 0) {
     die("Error : ".$zipfile->errorInfo(true));
   }else{
-    if($os=="win" and _CHARSET!="Big5")$dirname=iconv("Big5", _CHARSET, $dirname);
+    $dirname=change_charset($dirname,true);
     header("location:".XOOPS_URL."/uploads/tad_evaluation/{$dirname}.zip");
   }
 }

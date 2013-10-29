@@ -1,5 +1,6 @@
 <{$bootstrap}>
 <{$jquery}>
+<{$tab_ui}>
 <{$toolbar}>
 
 <!--列出所有資料-->
@@ -58,21 +59,15 @@
   <script type="text/javascript">
   $(document).ready(function(){
     $(".evaluation_fancy_<{$evaluation_sn}>").fancybox({
-    fitToView : false,
+    fitToView : true,
     width   : '90%',
     height    : '100%',
-    autoSize  : false,
+    autoSize  : true,
     closeClick  : false,
     openEffect  : 'none',
     closeEffect : 'none'
     });
-    $("#sort").sortable({ opacity: 0.6, cursor: "move", update: function() {
-      var order = $(this).sortable("serialize");
-      $.post("save_sort.php", order, function(theResponse){
-        $("#save_msg").html(theResponse);
-      });
-    }
-    });
+
   });
   </script>
 
@@ -85,14 +80,29 @@
   </div>
   <{/if}>
 
-  <div class="row-fluid">
-    <div class="span12">
-      <{$db_files}>
+  <{if $evaluation_files}>
+    <div class="row-fluid">
+      <div class="span12">
+        <{if $use_tab=='1'}>
+          <div id="evaluation_sn_tabs">
+            <ul>
+              <{$db_files.title}>
+            </ul>
+            <{$db_files.content}>
+          </div>
+        <{else}>
+          <{$db_files}>
+        <{/if}>
+      </div>
     </div>
-  </div>
+  <{else}>
+    <div class="hero-unit">
+      <{$smarty.const._MD_TADEVALUA_EVALUATION_EMPTY}>
+    </div>
+  <{/if}>
   <{if $isAdmin}>
   <div class="row-fluid text-right">
-    <a href="admin/main.php?op=tad_evaluation_form&evaluation_sn=<{$evaluation_sn}>" class="btn btn-warning"><{$smarty.const._TAD_EDIT}></a>
+    <a href="admin/main.php?evaluation_sn=<{$evaluation_sn}>" class="btn btn-warning"><{$smarty.const._TAD_EDIT}></a>
   </div>
   <{/if}>
 <{/if}>

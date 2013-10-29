@@ -52,33 +52,15 @@ function list_tad_evaluation(){
   $xoopsTpl->assign('now_op' , 'list_tad_evaluation');
 }
 
-//以流水號秀出某筆tad_evaluation資料數
-function get_evaluation_count($evaluation_sn,$tbl){
-  global $xoopsDB;
-
-  if(empty($evaluation_sn)){
-    return;
-  }else{
-    $evaluation_sn=intval($evaluation_sn);
-  }
-
-  $sql = "select count(*) from `".$xoopsDB->prefix($tbl)."` where `evaluation_sn` = '{$evaluation_sn}' ";
-  $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
-  list($count)=$xoopsDB->fetchRow($result);
-  return $count;
-}
-
 //以流水號秀出某筆tad_evaluation資料內容
 function show_one_tad_evaluation($evaluation_sn=""){
-  global $xoopsDB , $xoopsTpl , $isAdmin;
+  global $xoopsDB , $xoopsTpl , $isAdmin ,$xoopsModuleConfig;
 
   if(empty($evaluation_sn)){
     return;
   }else{
     $evaluation_sn=intval($evaluation_sn);
   }
-
-
 
   $sql = "select * from `".$xoopsDB->prefix("tad_evaluation")."` where `evaluation_sn` = '{$evaluation_sn}' ";
   $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
@@ -100,13 +82,63 @@ function show_one_tad_evaluation($evaluation_sn=""){
   $xoopsTpl->assign('evaluation_enable',$evaluation_enable);
   $xoopsTpl->assign('evaluation_uid',$uid_name);
   $xoopsTpl->assign('evaluation_date',$evaluation_date);
+  $xoopsTpl->assign('evaluation_cates',get_evaluation_count($evaluation_sn,'tad_evaluation_cate'));
+  $xoopsTpl->assign('evaluation_files',get_evaluation_count($evaluation_sn,'tad_evaluation_files'));
 
   $xoopsTpl->assign('now_op' , 'show_one_tad_evaluation');
   $xoopsTpl->assign('title' , $evaluation_title);
-  $xoopsTpl->assign('db_files' , db_files(false,false,$evaluation_sn));
+  if($xoopsModuleConfig['use_tab']=='1'){
+    $tab_ui="
+    <script type='text/javascript' src='".XOOPS_URL."/modules/tadtools/jqueryCookie/jquery.cookie.js'></script>
+      <script type='text/javascript'>
+      $(document).ready(function() {
+        var \$tabs = $('#evaluation_sn_tabs').tabs({ cookie: { expires: 30 } , collapsible: true});
+      });
+      </script>";
+    $xoopsTpl->assign('db_files' , db_files_tab($evaluation_sn));
+  }else{
+    $xoopsTpl->assign('db_files' , db_files(false,false,'show',$evaluation_sn));
+    $tab_ui="";
+  }
+
+  $xoopsTpl->assign('tab_ui' ,$tab_ui);
+  $xoopsTpl->assign('use_tab' , $xoopsModuleConfig['use_tab']);
 
 }
 
+//讀出資料庫中的檔案結構
+function db_files_tab($evaluation_sn,$of_cate_sn=0,$level=0){
+  global $xoopsDB , $xoopsTpl , $isAdmin ,$xoopsModuleConfig;
+
+  if(empty($evaluation_sn))return;
+
+  $i=1;
+
+
+  $sql = "select * from `".$xoopsDB->prefix("tad_evaluation_cate")."` where `evaluation_sn` = '{$evaluation_sn}' and `of_cate_sn`='0' order by cate_sort";
+  $result = $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
+
+  $all_title=$all_content="";
+
+  //`cate_sn`, `of_cate_sn`, `cate_title`, `cate_desc`, `cate_sort`, `cate_enable`, `evaluation_sn`
+  while($data=$xoopsDB->fetchArray($result)){
+    foreach($data as $k=>$v){
+      $$k=$v;
+    }
+
+    $all_title.="<li><a href='#tabs-{$i}'>{$cate_title}</a></li>";
+    $content=db_files(false,false,'show',$evaluation_sn,$cate_sn,1);
+    $all_content.="
+    <div id='tabs-{$i}'>
+    $content
+    </div>";
+    $i++;
+  }
+  $all['title']=$all_title;
+  $all['content']=$all_content;
+
+  return $all;
+}
 
 //顯示檔案內容
 function show_file($evaluation_sn,$cate_sn,$file_sn){
