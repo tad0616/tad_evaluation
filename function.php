@@ -78,7 +78,7 @@ function db_files($admin_tool=false,$icon=true,$mode='show',$evaluation_sn,$of_c
   $treeID=($xoopsModuleConfig['use_tab']=='1' and $mode=='show')?$of_cate_sn:'';
 
   if($old_level==$start and $mode=="edit"){
-    //加入表格樹
+    //後台編輯模式
     if(!file_exists(XOOPS_ROOT_PATH."/modules/tadtools/treetable.php")){
       redirect_header("index.php",3, _MA_NEED_TADTOOLS);
     }
@@ -92,10 +92,11 @@ function db_files($admin_tool=false,$icon=true,$mode='show',$evaluation_sn,$of_c
     <table id='treetbl{$treeID}'>
     <tbody class='sort'>";
   }elseif($mode=="show"){
-
+    //前台觀看模式
     $data="
-    <table >
+    <table>
     <tbody>";
+    $data.=get_cate_files($evaluation_sn,$of_cate_sn);
   }else{
     $data="";
   }
@@ -104,10 +105,6 @@ function db_files($admin_tool=false,$icon=true,$mode='show',$evaluation_sn,$of_c
   $pull=$admin_tool?"<img src='".XOOPS_URL."/modules/tadtools/treeTable/images/updown_s.png' style='cursor: s-resize;margin:0px 4px;' alt='"._MA_TADEVALUA_EVALUATION_PULL_TO_SORT."' title='"._MA_TADEVALUA_EVALUATION_PULL_TO_SORT."'>":"";
   $cate_icon=$icon?"<i class=\"icon-folder-open\"></i>":"";
   $file_icon=$icon?"<i class=\"icon-file\"></i>":"";
-
-  $img_ext=array("png","jpg","jpeg","gif");
-  $iframe_ext=array("svg","swf");
-  $video_ext=array("3gp","mp3","mp4");
 
 
   $left=$level * 20;
@@ -120,7 +117,7 @@ function db_files($admin_tool=false,$icon=true,$mode='show',$evaluation_sn,$of_c
 
   $sql = "select * from `".$xoopsDB->prefix("tad_evaluation_cate")."` where `evaluation_sn` = '{$evaluation_sn}' and `of_cate_sn`='$of_cate_sn' order by cate_sort";
   $result = $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
-
+//die($sql);
   //`cate_sn`, `of_cate_sn`, `cate_title`, `cate_desc`, `cate_sort`, `cate_enable`, `evaluation_sn`
   while($all=$xoopsDB->fetchArray($result)){
     foreach($all as $k=>$v){
@@ -140,48 +137,9 @@ function db_files($admin_tool=false,$icon=true,$mode='show',$evaluation_sn,$of_c
       </td>
     </tr>";
 
+    $data.=get_cate_files($evaluation_sn,$cate_sn);
 
-    $cate_path=get_tad_evaluation_cate_path($evaluation_sn,$cate_sn);
 
-
-    $sql = "select * from `".$xoopsDB->prefix("tad_evaluation_files")."` where `evaluation_sn` = '{$evaluation_sn}' and `cate_sn`='$cate_sn' order by file_sort";
-    $result2 = $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
-    while($all=$xoopsDB->fetchArray($result2)){
-      foreach($all as $k=>$v){
-        $$k=$v;
-      }
-
-      $filepart=explode('.',$file_name);
-      foreach($filepart as $ff){
-        $ext=strtolower($ff);
-      }
-
-      if(in_array($ext,$img_ext)){
-        $other="rel=\"gallery{$cate_sn}\"";
-        $href=XOOPS_URL."/uploads/tad_evaluation/{$evaluation['evaluation_title']}/{$cate_path}/{$file_name}#.{$ext}";
-      }elseif(in_array($ext,$iframe_ext)){
-        $other="data-fancybox-type=\"iframe\"";
-        $href=XOOPS_URL."/uploads/tad_evaluation/{$evaluation['evaluation_title']}/{$cate_path}/{$file_name}#.{$ext}";
-      }elseif(in_array($ext,$video_ext)){
-        $other="data-fancybox-type=\"iframe\"";
-        $url=XOOPS_URL."/uploads/tad_evaluation/{$evaluation['evaluation_title']}/{$cate_path}/{$file_name}";
-        $href="player.php?id=evaluation_player_{$evaluation_sn}&file={$url}&ext=.{$ext}";
-      }else{
-        $other="data-fancybox-type=\"iframe\"";
-        $file_name=strtolower($file_name);
-        $href=XOOPS_URL."/modules/tad_evaluation/index.php?evaluation_sn={$evaluation_sn}&cate_sn={$cate_sn}&file_sn={$file_sn}&file_name={$file_name}";
-      }
-
-      $class=(empty($cate_sn))?"":"class='child-of-cate_sn-_{$cate_sn}'";
-      $data.="
-      <tr id='file_sn-_{$file_sn}' $class style='letter-spacing: 0em;'>
-        <td style='font-size:11pt;padding:5px 0px;'>
-          {$pull}
-          {$file_icon}
-          <a class=\"evaluation_fancy_{$evaluation_sn} iconize\" $other href=\"{$href}\" style='font-weight:normal;'>{$file_desc}</a>
-        </td>
-      </tr>";
-    }
     $data.=db_files($admin_tool,$icon,$mode,$evaluation_sn,$cate_sn,$level);
   }
 
@@ -194,7 +152,59 @@ function db_files($admin_tool=false,$icon=true,$mode='show',$evaluation_sn,$of_c
   return $data;
 }
 
+function get_cate_files($evaluation_sn="",$cate_sn=""){
+  global $xoopsDB;
 
+  $img_ext=array("png","jpg","jpeg","gif");
+  $iframe_ext=array("svg","swf");
+  $video_ext=array("3gp","mp3","mp4");
+
+
+  $cate_path=get_tad_evaluation_cate_path($evaluation_sn,$cate_sn);
+
+  $sql = "select * from `".$xoopsDB->prefix("tad_evaluation_files")."` where `evaluation_sn` = '{$evaluation_sn}' and `cate_sn`='$cate_sn' order by file_sort";
+
+  $data="";
+  $result = $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
+  while($all=$xoopsDB->fetchArray($result)){
+    foreach($all as $k=>$v){
+      $$k=$v;
+    }
+
+    $filepart=explode('.',$file_name);
+    foreach($filepart as $ff){
+      $ext=strtolower($ff);
+    }
+
+    if(in_array($ext,$img_ext)){
+      $other="rel=\"gallery{$cate_sn}\"";
+      $href=XOOPS_URL."/uploads/tad_evaluation/{$evaluation['evaluation_title']}/{$cate_path}/{$file_name}#.{$ext}";
+    }elseif(in_array($ext,$iframe_ext)){
+      $other="data-fancybox-type=\"iframe\"";
+      $href=XOOPS_URL."/uploads/tad_evaluation/{$evaluation['evaluation_title']}/{$cate_path}/{$file_name}#.{$ext}";
+    }elseif(in_array($ext,$video_ext)){
+      $other="data-fancybox-type=\"iframe\"";
+      $url=XOOPS_URL."/uploads/tad_evaluation/{$evaluation['evaluation_title']}/{$cate_path}/{$file_name}";
+      $href="player.php?id=evaluation_player_{$evaluation_sn}&file={$url}&ext=.{$ext}";
+    }else{
+      $other="data-fancybox-type=\"iframe\"";
+      $file_name=strtolower($file_name);
+      $href=XOOPS_URL."/modules/tad_evaluation/index.php?evaluation_sn={$evaluation_sn}&cate_sn={$cate_sn}&file_sn={$file_sn}&file_name={$file_name}";
+    }
+
+    $class=(empty($cate_sn))?"":"class='child-of-cate_sn-_{$cate_sn}'";
+
+    $data.="
+    <tr id='file_sn-_{$file_sn}' $class style='letter-spacing: 0em;'>
+      <td style='font-size:11pt;padding:5px 0px;'>
+        {$pull}
+        {$file_icon}
+        <a class=\"evaluation_fancy_{$evaluation_sn} iconize\" $other href=\"{$href}\" style='font-weight:normal;'>{$file_desc}</a>
+      </td>
+    </tr>";
+  }
+  return $data;
+}
 
 //以流水號秀出某筆tad_evaluation資料數
 function get_evaluation_count($evaluation_sn,$tbl){
