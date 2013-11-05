@@ -152,9 +152,12 @@ function db_files($admin_tool=false,$icon=true,$mode='show',$evaluation_sn,$of_c
   return $data;
 }
 
+
+//抓取目錄下的檔案
 function get_cate_files($evaluation_sn="",$cate_sn=""){
   global $xoopsDB;
 
+  $evaluation=get_tad_evaluation($evaluation_sn);
   $img_ext=array("png","jpg","jpeg","gif");
   $iframe_ext=array("svg","swf");
   $video_ext=array("3gp","mp3","mp4");
