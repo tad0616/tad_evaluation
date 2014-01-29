@@ -1,20 +1,14 @@
 <?php
-//  ------------------------------------------------------------------------ //
-// 本模組由 tad 製作
-// 製作日期：2013-10-23
-// $Id:$
-// ------------------------------------------------------------------------- //
-
 /*-----------引入檔案區--------------*/
 $xoopsOption['template_main'] = "tad_evaluation_adm_main.html";
 include_once "header.php";
 include_once "../function.php";
-
+//die(var_export($_POST));
 /*-----------功能函數區--------------*/
 
 ////tad_evaluation編輯表單
 function tad_evaluation_form($evaluation_sn=""){
-  global $xoopsDB , $xoopsTpl;
+  global $xoopsDB , $xoopsTpl,$xoopsUser;
   //include_once(XOOPS_ROOT_PATH."/class/xoopsformloader.php");
   //include_once(XOOPS_ROOT_PATH."/class/xoopseditor/xoopseditor.php");
 
@@ -282,13 +276,12 @@ function array_to_dir($all_files,$of_cate_sn=0,$level=0){
       $checked=in_array($dir_name, $ignored)?"":"checked";
       $dir_name=in_array($dir_name, $ignored)?"<del>{$dir_name}</del>":$dir_name;
 
-      $all.="<div style='margin-left:{$left}px'>
+      $all.="
+      <div style='margin-left:{$left}px'>
       <label class='checkbox inline'>
-      <input name='cate_sn[$i]' type='hidden' value='{$_SESSION['cate_sn']}'>
-      <input name='of_cate_sn[$i]' type='hidden' value='{$of_cate_sn}'>
-      <input name='cate_title[$i]' type='checkbox' value='{$dir_name}' $checked>
-      <i class=\"icon-folder-open\"></i>
-      {$dir_name}
+        <input name='cates[$i]' type='checkbox' value='{$_SESSION['cate_sn']};{$of_cate_sn};{$dir_name}' $checked>
+        <i class=\"icon-folder-open\"></i>
+        {$dir_name}
       </label>
       </div>";
       $all.=array_to_dir($files,$_SESSION['cate_sn'],$level);
@@ -307,11 +300,9 @@ function array_to_dir($all_files,$of_cate_sn=0,$level=0){
       }
 
       $all.="
-      <div style='margin-left:{$left}px'>
+      <div style='margin-left:{$left}px;color:blue'>
       <label class='checkbox inline'>
-      <input name='file_sn[$i]' type='hidden' value='{$_SESSION['file_sn']}'>
-      <input name='cate_sn[$i]' type='hidden' value='{$of_cate_sn}'>
-      <input name='file_name[$i]' type='checkbox' value='{$files}' $checked>
+      <input name='files[$i]' type='checkbox' value='{$_SESSION['file_sn']};{$of_cate_sn};{$files}' $checked>
       <i class=\"icon-file\"></i>
       {$files}
       </label>
@@ -330,14 +321,16 @@ function tad_evaluation_import($evaluation_sn=""){
 
   $myts =& MyTextSanitizer::getInstance();
 
-  foreach($_POST['cate_title'] as $i=>$cate_title){
+  foreach($_POST['cates'] as $i=>$cate_data){
+    list($cate_sn,$of_cate_sn,$cate_title)=explode(";", $cate_data);
     $cate_title=$myts->addSlashes($cate_title);
-    save_tad_evaluation_cate($evaluation_sn,$cate_title,$_POST['cate_sn'][$i],$_POST['of_cate_sn'][$i]);
+    save_tad_evaluation_cate($evaluation_sn,$cate_title,$cate_sn,$of_cate_sn);
   }
 
-  foreach($_POST['file_name'] as $i=>$file_name){
+  foreach($_POST['files'] as $i=>$file_data){
+    list($file_sn,$cate_sn,$file_name)=explode(";", $file_data);
     $file_name=$myts->addSlashes($file_name);
-    save_tad_evaluation_files($evaluation_sn,$file_name,$_POST['file_sn'][$i],$_POST['cate_sn'][$i]);
+    save_tad_evaluation_files($evaluation_sn,$file_name,$file_sn,$cate_sn);
   }
 
 }
@@ -423,8 +416,13 @@ function delete_directory($dirname) {
   return true;
 }
 
+//列出目錄檔案
+function directory_list($directory_base_path=""){
 
-function directory_list($directory_base_path){
+  $myts =& MyTextSanitizer::getInstance();
+
+  $directory_base_path=$myts->addSlashes($directory_base_path);
+
   $directory_base_path = rtrim($directory_base_path, "/") . "/";
 
   $result_list = array();
@@ -432,17 +430,22 @@ function directory_list($directory_base_path){
   $allfile=glob($directory_base_path."*");
 
   foreach($allfile as $filename) {
+    $filename=$myts->addSlashes($filename);
     $basefilename=str_replace($directory_base_path, '', $filename);
 
-    if(is_dir($directory_base_path . $basefilename . "/")) {
-      $result_list[$basefilename] = directory_list("{$directory_base_path}{$basefilename}/");
-
+    if(is_dir($filename)) {
+      $result_list[$basefilename] = directory_list($filename);
     }else{
-      $result_list[] = $basefilename;
+
+      $ext = strtolower(array_pop(explode('.',$filename)));
+      $len=strlen($ext);
+      if($len > 0 and $len <=4 ){
+        $result_list[] = $basefilename;
+      }else{
+        $result_list[$basefilename] = directory_list($filename);
+      }
     }
-
   }
-
 
   return $result_list;
 

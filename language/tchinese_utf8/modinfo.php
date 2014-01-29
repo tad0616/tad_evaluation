@@ -1,9 +1,4 @@
 <?php
-//  ------------------------------------------------------------------------ //
-// 本模組由 tad 製作
-// 製作日期：2013-10-23
-// $Id:$
-// ------------------------------------------------------------------------- //
 include_once XOOPS_ROOT_PATH."/modules/tadtools/language/{$xoopsConfig['language']}/modinfo_common.php";
 
 define('_MI_TADEVALUA_NAME','評鑑檔案管理');

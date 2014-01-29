@@ -1,15 +1,10 @@
 <?php
-//  ------------------------------------------------------------------------ //
-// 本模組由 tad 製作
-// 製作日期：2013-10-23
-// $Id:$
-// ------------------------------------------------------------------------- //
 
 $modversion = array();
 
 //---模組基本資訊---//
 $modversion['name'] = _MI_TADEVALUA_NAME;
-$modversion['version']	= '1.21';
+$modversion['version']	= '1.4';
 $modversion['description'] = _MI_TADEVALUA_DESC;
 $modversion['author'] = _MI_TADEVALUA_AUTHOR;
 $modversion['credits']	= _MI_TADEVALUA_CREDITS;
@@ -20,8 +15,7 @@ $modversion['dirname'] = basename(dirname(__FILE__));
 
 
 //---模組狀態資訊---//
-$modversion['status_version'] = '1.21';
-$modversion['release_date'] = '2013-11-05';
+$modversion['release_date'] = '2014-01-25';
 $modversion['module_website_url'] = 'http://tad0616.net';
 $modversion['module_website_name'] = _MI_TADEVALUA_AUTHOR_WEB;
 $modversion['module_status'] = 'release';
@@ -90,20 +84,13 @@ $modversion['config'][1]['formtype']    = 'textarea';
 $modversion['config'][1]['valuetype']   = 'text';
 $modversion['config'][1]['default'] = 'Thumbs.db';
 
-$modversion['config'][2]['name']    = 'use_tab';
-$modversion['config'][2]['title']   = '_MI_TADEVALUA_USE_TAB';
-$modversion['config'][2]['description'] = '_MI_TADEVALUA_USE_TAB_DESC';
-$modversion['config'][2]['formtype']    = 'yesno';
-$modversion['config'][2]['valuetype']   = 'int';
-$modversion['config'][2]['default'] = '1';
-
-$modversion['config'][3]['name']    = 'os_charset';
-$modversion['config'][3]['title']   = '_MI_TADEVALUA_OS_CHARSET';
-$modversion['config'][3]['description'] = '_MI_TADEVALUA_OS_CHARSET_DESC';
-$modversion['config'][3]['formtype']    = 'select';
-$modversion['config'][3]['valuetype']   = 'text';
-$modversion['config'][3]['default'] = 'Auto';
-$modversion['config'][3]['options'] = array('Auto'=>'Auto','UTF-8'=>'UTF-8','Big5'=>'Big5');
+$modversion['config'][2]['name']    = 'os_charset';
+$modversion['config'][2]['title']   = '_MI_TADEVALUA_OS_CHARSET';
+$modversion['config'][2]['description'] = '_MI_TADEVALUA_OS_CHARSET_DESC';
+$modversion['config'][2]['formtype']    = 'select';
+$modversion['config'][2]['valuetype']   = 'text';
+$modversion['config'][2]['default'] = 'Auto';
+$modversion['config'][2]['options'] = array('Auto'=>'Auto','UTF-8'=>'UTF-8','Big5'=>'Big5');
 
 
 ?>

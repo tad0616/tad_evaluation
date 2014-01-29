@@ -1,10 +1,4 @@
 <?php
-//  ------------------------------------------------------------------------ //
-// 本模組由 tad 製作
-// 製作日期：2013-10-23
-// $Id:$
-// ------------------------------------------------------------------------- //
-
 //引入TadTools的函式庫
 if(!file_exists(XOOPS_ROOT_PATH."/modules/tadtools/tad_function.php")){
  redirect_header("http://www.tad0616.net/modules/tad_uploader/index.php?of_cat_sn=50",3, _TAD_NEED_TADTOOLS);
@@ -25,6 +19,10 @@ function change_charset($str,$OS2Web=true){
 
   if($os_charset != _CHARSET){
     $str=$OS2Web?iconv($os_charset, _CHARSET, $str):iconv(_CHARSET, $os_charset, $str);
+  }
+
+  if($OS2Web and $os_charset=="Big5" and _CHARSET=="UTF-8"){
+    $str=stripslashes($str);
   }
   return $str;
 }
@@ -72,12 +70,14 @@ function db_files($admin_tool=false,$icon=true,$mode='show',$evaluation_sn,$of_c
 
   if(empty($evaluation_sn))return;
 
+  $myts =& MyTextSanitizer::getInstance();
   $old_level=$level;
 
-  $start=($xoopsModuleConfig['use_tab']=='1' and $mode=='show')?1:0;
-  $treeID=($xoopsModuleConfig['use_tab']=='1' and $mode=='show')?$of_cate_sn:'';
+  $start=0;
+  $treeID=$evaluation_sn;
 
   if($old_level==$start and $mode=="edit"){
+
     //後台編輯模式
     if(!file_exists(XOOPS_ROOT_PATH."/modules/tadtools/treetable.php")){
       redirect_header("index.php",3, _MA_NEED_TADTOOLS);
@@ -91,12 +91,19 @@ function db_files($admin_tool=false,$icon=true,$mode='show',$evaluation_sn,$of_c
     <div id='save_msg' style='float:right;'></div>
     <table id='treetbl{$treeID}'>
     <tbody class='sort'>";
-  }elseif($mode=="show"){
-    //前台觀看模式
+  }elseif($old_level==$start and $mode=="show"){
+    //前台編輯模式
+    if(!file_exists(XOOPS_ROOT_PATH."/modules/tadtools/treetable.php")){
+      redirect_header("index.php",3, _MA_NEED_TADTOOLS);
+    }
+    include_once XOOPS_ROOT_PATH."/modules/tadtools/treetable.php";
+    $treetable=new treetable(true , "cate_sn" , "of_cate_sn" , "#treetbl{$treeID}",NULL,NULL,NULL,false);
+    $treetable_code=$treetable->render();
+
     $data="
-    <table>
-    <tbody>";
-    $data.=get_cate_files($evaluation_sn,$of_cate_sn);
+    $treetable_code
+    <table id='treetbl{$treeID}'>
+    <tbody class='sort'>";
   }else{
     $data="";
   }
@@ -117,7 +124,7 @@ function db_files($admin_tool=false,$icon=true,$mode='show',$evaluation_sn,$of_c
 
   $sql = "select * from `".$xoopsDB->prefix("tad_evaluation_cate")."` where `evaluation_sn` = '{$evaluation_sn}' and `of_cate_sn`='$of_cate_sn' order by cate_sort";
   $result = $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
-//die($sql);
+
   //`cate_sn`, `of_cate_sn`, `cate_title`, `cate_desc`, `cate_sort`, `cate_enable`, `evaluation_sn`
   while($all=$xoopsDB->fetchArray($result)){
     foreach($all as $k=>$v){
@@ -126,10 +133,14 @@ function db_files($admin_tool=false,$icon=true,$mode='show',$evaluation_sn,$of_c
 
     $class=(empty($of_cate_sn))?"":"class='child-of-cate_sn-_{$of_cate_sn}'";
 
-    $title=($mode=="show")?"<h{$h}>{$cate_title}</h{$h}>":"<b>$cate_title</b>";
+    $title=$cate_title;
+
+    $title=$myts->addSlashes($title);
+
+    $parent=empty($of_cate_sn)?"":"data-tt-parent-id='$of_cate_sn'";
 
     $data.="
-    <tr id='cate_sn-_{$cate_sn}' $class style='letter-spacing: 0em;'>
+    <tr data-tt-id='{$cate_sn}' $parent id='cate_sn-_{$cate_sn}' $class style='letter-spacing: 0em;'>
       <td style='font-size:11pt;padding:5px 0px;'>
         {$pull}
         {$cate_icon}
@@ -157,6 +168,9 @@ function db_files($admin_tool=false,$icon=true,$mode='show',$evaluation_sn,$of_c
 function get_cate_files($evaluation_sn="",$cate_sn=""){
   global $xoopsDB;
 
+  $myts =& MyTextSanitizer::getInstance();
+
+
   $evaluation=get_tad_evaluation($evaluation_sn);
   $img_ext=array("png","jpg","jpeg","gif");
   $iframe_ext=array("svg","swf");
@@ -166,9 +180,10 @@ function get_cate_files($evaluation_sn="",$cate_sn=""){
   $cate_path=get_tad_evaluation_cate_path($evaluation_sn,$cate_sn);
 
   $sql = "select * from `".$xoopsDB->prefix("tad_evaluation_files")."` where `evaluation_sn` = '{$evaluation_sn}' and `cate_sn`='$cate_sn' order by file_sort";
-
+//die($sql);
   $data="";
   $result = $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
+
   while($all=$xoopsDB->fetchArray($result)){
     foreach($all as $k=>$v){
       $$k=$v;
@@ -178,6 +193,9 @@ function get_cate_files($evaluation_sn="",$cate_sn=""){
     foreach($filepart as $ff){
       $ext=strtolower($ff);
     }
+
+    $cate_path=$myts->addSlashes($cate_path);
+    $file_name=$myts->addSlashes($file_name);
 
     if(in_array($ext,$img_ext)){
       $other="rel=\"gallery{$cate_sn}\"";
@@ -197,15 +215,16 @@ function get_cate_files($evaluation_sn="",$cate_sn=""){
 
     $class=(empty($cate_sn))?"":"class='child-of-cate_sn-_{$cate_sn}'";
 
+    $file_desc=$myts->addSlashes($file_desc);
+
     $data.="
-    <tr id='file_sn-_{$file_sn}' $class style='letter-spacing: 0em;'>
+    <tr data-tt-id='file_{$file_sn}' data-tt-parent-id='$cate_sn' id='file_sn-_{$file_sn}' $class style='letter-spacing: 0em;'>
       <td style='font-size:11pt;padding:5px 0px;'>
-        {$pull}
-        {$file_icon}
         <a class=\"evaluation_fancy_{$evaluation_sn} iconize\" $other href=\"{$href}\" style='font-weight:normal;'>{$file_desc}</a>
       </td>
     </tr>";
   }
+
   return $data;
 }
 

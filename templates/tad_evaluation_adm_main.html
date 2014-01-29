@@ -145,12 +145,12 @@
 
         <{if $all_files}>
         <form action="<{$action}>" method="post" id="myForm" enctype="multipart/form-data">
+          <input type="hidden" name="op" value="tad_evaluation_import">
+          <input type="hidden" name="evaluation_sn" value="<{$evaluation_sn}>">
           <div class="span6">
             <{$all_files}>
 
             <div class="text-center">
-              <input type="hidden" name="op" value="tad_evaluation_import">
-              <input type="hidden" name="evaluation_sn" value="<{$evaluation_sn}>">
               <button type="submit" class="btn btn-primary"><{$smarty.const._MA_TADEVALUA_EVALUATION_IMPORT}></button>
             </div>
           </div>

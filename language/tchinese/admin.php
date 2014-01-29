@@ -1,21 +1,12 @@
 <?php
-//  ------------------------------------------------------------------------ //
-// 本模組由 tad 製作
-// 製作日期：2013-10-23
-// $Id:$
-// ------------------------------------------------------------------------- //
-
 include_once "../../tadtools/language/{$xoopsConfig['language']}/admin_common.php";
 define("_TAD_NEED_TADTOOLS"," 需要 tadtools 模組，可至<a href='http://www.tad0616.net/modules/tad_uploader/index.php?of_cat_sn=50' target='_blank'>Tad教材網</a>下載。");
 
 define("_MA_TADEVALUA_EVALUATION_VIEW","回前台觀看評鑑");
-define("_MA_TADEVALUA_EVALUATION_SN","評鑑編號");
 define("_MA_TADEVALUA_EVALUATION_TITLE","評鑑名稱");
-define("_MA_TADEVALUA_EVALUATION_DESCRIPTION","評鑑說明");
 define("_MA_TADEVALUA_EVALUATION_ENABLE","是否啟用");
 define("_MA_TADEVALUA_EVALUATION_UID","建立者");
 define("_MA_TADEVALUA_EVALUATION_DATE","建立日期");
-define("_MA_TAD_EVALUATION_FORM","輸入表單");
 define("_MA_TADEVALUA_EVALUATION_PATH","上傳路徑");
 define("_MA_TADEVALUA_EVALUATION_EXPORT","打包匯出");
 define("_MA_TADEVALUA_EVALUATION_IMPORT","將上傳的檔案匯入到網站中");
