@@ -218,8 +218,9 @@ function show_one_tad_evaluation($evaluation_sn=""){
 
   $uid_name=XoopsUser::getUnameFromId($evaluation_uid,1);
   if(empty($uid_name))$uid_name=XoopsUser::getUnameFromId($evaluation_uid,0);
-
-  $xoopsTpl->assign('db_files',db_files(true,false,'edit',$evaluation_sn));
+  $db_files=db_files(true,false,'edit',$evaluation_sn);
+  //die(var_dump($db_files));
+  $xoopsTpl->assign('db_files',$db_files);
   $xoopsTpl->assign('evaluation_sn',$evaluation_sn);
   $xoopsTpl->assign('evaluation_title',$evaluation_title);
   $xoopsTpl->assign('evaluation_description',$evaluation_description);

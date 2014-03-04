@@ -121,8 +121,10 @@ function db_files($admin_tool=false,$icon=true,$mode='show',$evaluation_sn,$of_c
 
   $evaluation=get_tad_evaluation($evaluation_sn);
 
+  $data.=get_cate_files($evaluation_sn,0);
 
   $sql = "select * from `".$xoopsDB->prefix("tad_evaluation_cate")."` where `evaluation_sn` = '{$evaluation_sn}' and `of_cate_sn`='$of_cate_sn' order by cate_sort";
+  //die($sql);
   $result = $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
 
   //`cate_sn`, `of_cate_sn`, `cate_title`, `cate_desc`, `cate_sort`, `cate_enable`, `evaluation_sn`
