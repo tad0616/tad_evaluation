@@ -82,6 +82,7 @@ function show_one_tad_evaluation($evaluation_sn=""){
 
  // $xoopsTpl->assign('db_files' , db_files(false,false,'show',$evaluation_sn));
   $xoopsTpl->assign('db_files' , db_files(false,false,'show',$evaluation_sn));
+  $xoopsTpl->assign('level_css' , $xoopsModuleConfig['css_setup']);
 
 
 }

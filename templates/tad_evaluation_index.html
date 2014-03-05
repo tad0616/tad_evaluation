@@ -1,7 +1,11 @@
 <{$bootstrap}>
 <{$jquery}>
 <{$toolbar}>
-
+<{if $level_css}>
+  <style>
+    <{$level_css}>
+  </style>
+<{/if}>
 <!--列出所有資料-->
 <{if $all_content}>
   <{if $isAdmin}>

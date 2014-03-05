@@ -143,10 +143,8 @@ function db_files($admin_tool=false,$icon=true,$mode='show',$evaluation_sn,$of_c
 
     $data.="
     <tr data-tt-id='{$cate_sn}' $parent id='cate_sn-_{$cate_sn}' $class style='letter-spacing: 0em;'>
-      <td style='font-size:11pt;padding:5px 0px;'>
-        {$pull}
-        {$cate_icon}
-        {$title}
+      <td style='padding:5px 0px;' class='level{$level}'>
+        {$pull}{$cate_icon}{$title}
       </td>
     </tr>";
 
@@ -168,7 +166,7 @@ function db_files($admin_tool=false,$icon=true,$mode='show',$evaluation_sn,$of_c
 
 //抓取目錄下的檔案
 function get_cate_files($evaluation_sn="",$cate_sn=""){
-  global $xoopsDB;
+  global $xoopsDB,$xoopsModuleConfig;
 
   $myts =& MyTextSanitizer::getInstance();
 
@@ -199,7 +197,7 @@ function get_cate_files($evaluation_sn="",$cate_sn=""){
     $cate_path=$myts->addSlashes($cate_path);
     $file_name=$myts->addSlashes($file_name);
 
-    if(in_array($ext,$img_ext)){
+    if(in_array($ext,$img_ext) or $xoopsModuleConfig['use_google_doc']==0){
       $other="rel=\"gallery{$cate_sn}\"";
       $href=XOOPS_URL."/uploads/tad_evaluation/{$evaluation['evaluation_title']}/{$cate_path}/{$file_name}#.{$ext}";
     }elseif(in_array($ext,$iframe_ext)){

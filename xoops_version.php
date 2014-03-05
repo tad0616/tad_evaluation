@@ -4,7 +4,7 @@ $modversion = array();
 
 //---模組基本資訊---//
 $modversion['name'] = _MI_TADEVALUA_NAME;
-$modversion['version']	= '1.5';
+$modversion['version']	= '1.6';
 $modversion['description'] = _MI_TADEVALUA_DESC;
 $modversion['author'] = _MI_TADEVALUA_AUTHOR;
 $modversion['credits']	= _MI_TADEVALUA_CREDITS;
@@ -15,7 +15,7 @@ $modversion['dirname'] = basename(dirname(__FILE__));
 
 
 //---模組狀態資訊---//
-$modversion['release_date'] = '2014-02-14';
+$modversion['release_date'] = '2014-03-05';
 $modversion['module_website_url'] = 'http://tad0616.net';
 $modversion['module_website_name'] = _MI_TADEVALUA_AUTHOR_WEB;
 $modversion['module_status'] = 'release';
@@ -91,6 +91,24 @@ $modversion['config'][2]['formtype']    = 'select';
 $modversion['config'][2]['valuetype']   = 'text';
 $modversion['config'][2]['default'] = 'Auto';
 $modversion['config'][2]['options'] = array('Auto'=>'Auto','UTF-8'=>'UTF-8','Big5'=>'Big5');
+
+$modversion['config'][3]['name']  = 'use_google_doc';
+$modversion['config'][3]['title'] = '_MI_TADEVALUA_USE_GOOGLE_DOC';
+$modversion['config'][3]['description'] = '_MI_TADEVALUA_USE_GOOGLE_DOC_DESC';
+$modversion['config'][3]['formtype']  = 'yesno';
+$modversion['config'][3]['valuetype'] = 'int';
+$modversion['config'][3]['default'] = '1';
+
+$modversion['config'][4]['name']  = 'css_setup';
+$modversion['config'][4]['title'] = '_MI_TADEVALUA_CSS_SETUP';
+$modversion['config'][4]['description'] = '_MI_TADEVALUA_CSS_SETUP_DESC';
+$modversion['config'][4]['formtype']  = 'textarea';
+$modversion['config'][4]['valuetype'] = 'text';
+$modversion['config'][4]['default'] = '.level1{font-size:20px;color:#800040;line-height:150%;}
+.level2{font-size:18px;color:#00274F;line-height:150%;}
+.level3{font-size:16px;color:#003737;line-height:150%;}
+.level4{font-size:14px;color:#542929;line-height:150%;}
+.level5{font-size:12px;color:#000000;line-height:150%;}';
 
 
 ?>
