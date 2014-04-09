@@ -58,14 +58,15 @@ function tad_evaluation_form($evaluation_sn=""){
   $formValidator_code=$formValidator->render();
 
 
-    //評鑑說明
-    if(!file_exists(XOOPS_ROOT_PATH."/modules/tadtools/ck.php")){
-      redirect_header("http://www.tad0616.net/modules/tad_uploader/index.php?of_cat_sn=50" , 3 , _TAD_NEED_TADTOOLS);
-    }
-    include_once XOOPS_ROOT_PATH."/modules/tadtools/ck.php";
-    $ck=new CKEditor("tad_evaluation","evaluation_description",$evaluation_description);
-    $ck->setHeight(400);
+  //評鑑說明
+  if(!file_exists(XOOPS_ROOT_PATH."/modules/tadtools/ck.php")){
+    redirect_header("http://www.tad0616.net/modules/tad_uploader/index.php?of_cat_sn=50" , 3 , _TAD_NEED_TADTOOLS);
+  }
+  include_once XOOPS_ROOT_PATH."/modules/tadtools/ck.php";
+  $ck=new CKEditor("tad_evaluation","evaluation_description",$evaluation_description);
+  $ck->setHeight(400);
   $editor=$ck->render();
+
   $xoopsTpl->assign('evaluation_description_editor' , $editor);
   $xoopsTpl->assign('action' , $_SERVER["PHP_SELF"]);
   $xoopsTpl->assign('formValidator_code' , $formValidator_code);
@@ -218,7 +219,10 @@ function show_one_tad_evaluation($evaluation_sn=""){
 
   $uid_name=XoopsUser::getUnameFromId($evaluation_uid,1);
   if(empty($uid_name))$uid_name=XoopsUser::getUnameFromId($evaluation_uid,0);
+  $_SESSION['dir_count2']=$_SESSION['file_count2']=0;
   $db_files=db_files(true,false,'edit',$evaluation_sn);
+  $xoopsTpl->assign('dir_count2' , $_SESSION['dir_count2']);
+  $xoopsTpl->assign('file_count2' , $_SESSION['file_count2']);
   //die(var_dump($db_files));
   $xoopsTpl->assign('db_files',$db_files);
   $xoopsTpl->assign('evaluation_sn',$evaluation_sn);
@@ -239,9 +243,13 @@ function show_one_tad_evaluation($evaluation_sn=""){
 
   $all_files=directory_list($dir);
 
+  $_SESSION['dir_count']=$_SESSION['file_count']=$_SESSION['pass_count']=0;
   $all=array_to_dir($all_files);
 
   $xoopsTpl->assign('all_files' , $all);
+  $xoopsTpl->assign('dir_count' , $_SESSION['dir_count']);
+  $xoopsTpl->assign('file_count' , $_SESSION['file_count']);
+  $xoopsTpl->assign('pass_count' , $_SESSION['pass_count']);
   $xoopsTpl->assign('jquery' , get_jquery(true));
 
 }
@@ -273,14 +281,14 @@ function array_to_dir($all_files,$of_cate_sn=0,$level=0){
     if(is_array($files)){
 
       $dir_name=change_charset($dir_name,true);
-
-      $checked=in_array($dir_name, $ignored)?"":"checked";
       $dir_name=in_array($dir_name, $ignored)?"<del>{$dir_name}</del>":$dir_name;
+
+
+      $_SESSION['dir_count']++;
 
       $all.="
       <div style='margin-left:{$left}px'>
       <label class='checkbox inline'>
-        <input name='cates[$i]' type='checkbox' value='{$_SESSION['cate_sn']};{$of_cate_sn};{$dir_name}' $checked>
         <i class=\"icon-folder-open\"></i>
         {$dir_name}
       </label>
@@ -294,16 +302,17 @@ function array_to_dir($all_files,$of_cate_sn=0,$level=0){
         $_SESSION['file_sn']++;
       }
 
-      $checked="checked";
       if(in_array($files, $ignored) or substr($files, 0,2)=="~$"){
-        $checked="";
         $files="<del>{$files}</del>";
+        $_SESSION['pass_count']++;
+      }else{
+        $_SESSION['file_count']++;
       }
+
 
       $all.="
       <div style='margin-left:{$left}px;color:blue'>
       <label class='checkbox inline'>
-      <input name='files[$i]' type='checkbox' value='{$_SESSION['file_sn']};{$of_cate_sn};{$files}' $checked>
       <i class=\"icon-file\"></i>
       {$files}
       </label>
@@ -313,7 +322,7 @@ function array_to_dir($all_files,$of_cate_sn=0,$level=0){
   return $all;
 }
 
-
+/*
 //匯入檔案
 function tad_evaluation_import($evaluation_sn=""){
   global $xoopsDB , $xoopsTpl , $isAdmin;
@@ -333,7 +342,72 @@ function tad_evaluation_import($evaluation_sn=""){
     $file_name=$myts->addSlashes($file_name);
     save_tad_evaluation_files($evaluation_sn,$file_name,$file_sn,$cate_sn);
   }
+}
+*/
 
+//匯入檔案
+function tad_evaluation_import($evaluation_sn=""){
+  global $xoopsDB , $xoopsTpl , $isAdmin;
+
+  $evaluation=get_tad_evaluation($evaluation_sn);
+  delete_tad_evaluation_cate($evaluation_sn,false);
+
+  $evaluation_title=change_charset($evaluation['evaluation_title'],false);
+  $dir=XOOPS_ROOT_PATH."/uploads/tad_evaluation/{$evaluation_title}/";
+
+  $all_files=directory_list($dir);
+
+  dir_to_db($evaluation_sn,$all_files);
+}
+
+
+
+//把陣列直接存入資料庫
+function dir_to_db($evaluation_sn="",$all_files,$of_cate_sn=0,$level=0){
+  global $xoopsModuleConfig;
+
+  $myts =& MyTextSanitizer::getInstance();
+  //忽略不匯入的檔案
+  $ignored=explode(';',$xoopsModuleConfig['ignored']);
+
+  $os=(PATH_SEPARATOR==':')?"linux":"win";
+  $all="";
+  $left=$level * 20;
+  if(empty($level)){
+    $_SESSION['cate_sn']=1;
+    $_SESSION['file_sn']=0;
+  }else{
+    $_SESSION['cate_sn']++;
+  }
+  $level++;
+
+
+  foreach($all_files as $dir_name=>$files){
+
+    if(is_array($files)){
+
+      $dir_name=change_charset($dir_name,true);
+      if(!in_array($dir_name, $ignored)){
+
+        $cate_title=$myts->addSlashes($dir_name);
+        save_tad_evaluation_cate($evaluation_sn,$cate_title,$_SESSION['cate_sn'],$of_cate_sn);
+
+        dir_to_db($evaluation_sn,$files,$_SESSION['cate_sn'],$level);
+      }
+    }else{
+
+      $files=change_charset($files,true);
+
+      if(!empty($level)){
+        $_SESSION['file_sn']++;
+      }
+
+      if(!in_array($files, $ignored) and substr($files, 0,2)!="~$"){
+        $file_name=$myts->addSlashes($files);
+        save_tad_evaluation_files($evaluation_sn,$file_name,$_SESSION['file_sn'],$of_cate_sn);
+      }
+    }
+  }
 }
 
 

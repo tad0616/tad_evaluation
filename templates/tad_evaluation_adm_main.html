@@ -1,6 +1,6 @@
-<link rel="stylesheet" type="text/css" media="screen" href="<{$xoops_url}>/modules/tadtools/bootstrap/css/bootstrap.css" />
-<link rel="stylesheet" type="text/css" media="screen" href="<{$xoops_url}>/modules/tadtools/bootstrap/css/bootstrap-responsive.css" />
-<link rel="stylesheet" type="text/css" media="screen" href="<{$xoops_url}>/modules/tadtools/css/xoops_adm.css" />
+<link rel="stylesheet" type="text/css" media="all" href="<{$xoops_url}>/modules/tadtools/bootstrap/css/bootstrap.css" />
+<link rel="stylesheet" type="text/css" media="all" href="<{$xoops_url}>/modules/tadtools/bootstrap/css/bootstrap-responsive.css" />
+<link rel="stylesheet" type="text/css" media="all" href="<{$xoops_url}>/modules/tadtools/css/xoops_adm.css" />
 
 
 <!--列出所有資料-->
@@ -76,10 +76,10 @@
 
   <{$jquery}>
 
-  <link rel="stylesheet" href="<{$xoops_url}>/modules/tadtools/css/iconize.css" type="text/css" media="screen" />
+  <link rel="stylesheet" href="<{$xoops_url}>/modules/tadtools/css/iconize.css" type="text/css" media="all" />
   <script type="text/javascript" src="<{$xoops_url}>/modules/tadtools/fancyBox/lib/jquery.mousewheel-3.0.6.pack.js"></script>
   <script type="text/javascript" language="javascript" src="<{$xoops_url}>/modules/tadtools/fancyBox/source/jquery.fancybox.js?v=2.1.4"></script>
-  <link rel="stylesheet" href="<{$xoops_url}>/modules/tadtools/fancyBox/source/jquery.fancybox.css?v=2.1.4" type="text/css" media="screen" />
+  <link rel="stylesheet" href="<{$xoops_url}>/modules/tadtools/fancyBox/source/jquery.fancybox.css?v=2.1.4" type="text/css" media="all" />
   <link rel="stylesheet" type="text/css" href="<{$xoops_url}>/modules/tadtools/fancyBox/source/helpers/jquery.fancybox-buttons.css?v=1.0.5" />
   <script type="text/javascript" src="<{$xoops_url}>/modules/tadtools/fancyBox/source/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script>
   <link rel="stylesheet" type="text/css" href="<{$xoops_url}>/modules/tadtools/fancyBox/source/helpers/jquery.fancybox-thumbs.css?v=1.0.7" />
@@ -145,9 +145,14 @@
 
         <{if $all_files}>
         <form action="<{$action}>" method="post" id="myForm" enctype="multipart/form-data">
+
           <input type="hidden" name="op" value="tad_evaluation_import">
           <input type="hidden" name="evaluation_sn" value="<{$evaluation_sn}>">
           <div class="span6">
+            <i class="icon-folder-open"></i> <{$dir_count}>
+            <i class="icon-file"></i> <{$file_count}>
+            <i class="icon-trash"></i> <{$pass_count}>
+
             <{$all_files}>
 
             <div class="text-center">
@@ -165,6 +170,8 @@
         <{if $all_files}>
           <form action="<{$action}>" method="post" id="myForm" enctype="multipart/form-data">
             <div class="span6" id='sort'>
+            <i class="icon-folder-open"></i> <{$dir_count2}>
+            <i class="icon-file"></i> <{$file_count2}>
               <{$db_files}>
               <div class="text-center">
                 <input type="hidden" name="op" value="save_tad_evaluation">

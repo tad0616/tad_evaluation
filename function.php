@@ -141,6 +141,7 @@ function db_files($admin_tool=false,$icon=true,$mode='show',$evaluation_sn,$of_c
 
     $parent=empty($of_cate_sn)?"":"data-tt-parent-id='$of_cate_sn'";
 
+    $_SESSION['dir_count2']++;
     $data.="
     <tr data-tt-id='{$cate_sn}' $parent id='cate_sn-_{$cate_sn}' $class style='letter-spacing: 0em;'>
       <td style='padding:5px 0px;' class='level{$level}'>
@@ -174,7 +175,7 @@ function get_cate_files($evaluation_sn="",$cate_sn=""){
   $evaluation=get_tad_evaluation($evaluation_sn);
   $img_ext=array("png","jpg","jpeg","gif");
   $iframe_ext=array("svg","swf");
-  $video_ext=array("3gp","mp3","mp4");
+  $video_ext=array("3gp","mp3","mp4","flv");
 
 
   $cate_path=get_tad_evaluation_cate_path($evaluation_sn,$cate_sn);
@@ -197,16 +198,19 @@ function get_cate_files($evaluation_sn="",$cate_sn=""){
     $cate_path=$myts->addSlashes($cate_path);
     $file_name=$myts->addSlashes($file_name);
 
-    if(in_array($ext,$img_ext) or $xoopsModuleConfig['use_google_doc']==0){
-      $other="rel=\"gallery{$cate_sn}\"";
-      $href=XOOPS_URL."/uploads/tad_evaluation/{$evaluation['evaluation_title']}/{$cate_path}/{$file_name}#.{$ext}";
-    }elseif(in_array($ext,$iframe_ext)){
-      $other="data-fancybox-type=\"iframe\"";
+    if(in_array($ext,$img_ext)){
+      $other="rel=\"gallery{$cate_sn}\" target='_blank'";
       $href=XOOPS_URL."/uploads/tad_evaluation/{$evaluation['evaluation_title']}/{$cate_path}/{$file_name}#.{$ext}";
     }elseif(in_array($ext,$video_ext)){
       $other="data-fancybox-type=\"iframe\"";
       $url=XOOPS_URL."/uploads/tad_evaluation/{$evaluation['evaluation_title']}/{$cate_path}/{$file_name}";
       $href="player.php?id=evaluation_player_{$evaluation_sn}&file={$url}&ext=.{$ext}";
+    }elseif(in_array($ext,$iframe_ext)){
+      $other="data-fancybox-type=\"iframe\"";
+      $href=XOOPS_URL."/uploads/tad_evaluation/{$evaluation['evaluation_title']}/{$cate_path}/{$file_name}#.{$ext}";
+    }elseif($xoopsModuleConfig['use_google_doc']==0){
+      $other="target='_blank'";
+      $href=XOOPS_URL."/uploads/tad_evaluation/{$evaluation['evaluation_title']}/{$cate_path}/{$file_name}#.{$ext}";
     }else{
       $other="data-fancybox-type=\"iframe\"";
       $file_name=strtolower($file_name);
@@ -216,7 +220,7 @@ function get_cate_files($evaluation_sn="",$cate_sn=""){
     $class=(empty($cate_sn))?"":"class='child-of-cate_sn-_{$cate_sn}'";
 
     $file_desc=$myts->addSlashes($file_desc);
-
+    $_SESSION['file_count2']++;
     $data.="
     <tr data-tt-id='file_{$file_sn}' data-tt-parent-id='$cate_sn' id='file_sn-_{$file_sn}' $class style='letter-spacing: 0em;'>
       <td style='font-size:11pt;padding:5px 0px;'>
