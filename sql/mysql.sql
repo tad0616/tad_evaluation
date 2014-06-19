@@ -3,7 +3,7 @@ CREATE TABLE `tad_evaluation` (
   `evaluation_title` varchar(255) NOT NULL default '' COMMENT '評鑑名稱',
   `evaluation_description` text NOT NULL COMMENT '評鑑說明',
   `evaluation_enable` enum('1','0') NOT NULL COMMENT '是否啟用',
-  `evaluation_uid` smallint(6) unsigned NOT NULL default '0' COMMENT '建立者',
+  `evaluation_uid` mediumint(8) unsigned NOT NULL default '0' COMMENT '建立者',
   `evaluation_date` datetime NOT NULL default '0000-00-00 00:00:00' COMMENT '建立日期',
 PRIMARY KEY (`evaluation_sn`)
 ) ENGINE=MyISAM;
