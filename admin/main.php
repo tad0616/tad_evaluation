@@ -431,7 +431,7 @@ function save_tad_evaluation_files($evaluation_sn,$file_name,$file_sn,$cate_sn){
   $file_src=XOOPS_ROOT_PATH."/uploads/tad_evaluation/{$real_evaluation_title}/{$real_file_name}";
 
   $type=mime_content_type($file_src);
-  $size=filesize($file_src);
+  $size=intval(filesize($file_src));
 
   $filepart=explode('.',$file_name);
   foreach($filepart as $ff){
