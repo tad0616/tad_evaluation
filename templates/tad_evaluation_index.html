@@ -1,8 +1,11 @@
 <{$bootstrap}>
 <{$jquery}>
-<{$tab_ui}>
 <{$toolbar}>
-
+<{if $level_css}>
+  <style>
+    <{$level_css}>
+  </style>
+<{/if}>
 <!--列出所有資料-->
 <{if $all_content}>
   <{if $isAdmin}>
@@ -46,15 +49,17 @@
 
 <!--顯示某一筆資料-->
 <{if $now_op=="show_one_tad_evaluation"}>
-  <link rel="stylesheet" href="<{$xoops_url}>/modules/tadtools/css/iconize.css" type="text/css" media="screen" />
+  <link rel="stylesheet" href="<{$xoops_url}>/modules/tadtools/css/iconize.css" type="text/css" media="all" />
   <script type="text/javascript" src="<{$xoops_url}>/modules/tadtools/fancyBox/lib/jquery.mousewheel-3.0.6.pack.js"></script>
   <script type="text/javascript" language="javascript" src="<{$xoops_url}>/modules/tadtools/fancyBox/source/jquery.fancybox.js?v=2.1.4"></script>
-  <link rel="stylesheet" href="<{$xoops_url}>/modules/tadtools/fancyBox/source/jquery.fancybox.css?v=2.1.4" type="text/css" media="screen" />
+  <link rel="stylesheet" href="<{$xoops_url}>/modules/tadtools/fancyBox/source/jquery.fancybox.css?v=2.1.4" type="text/css" media="all" />
   <link rel="stylesheet" type="text/css" href="<{$xoops_url}>/modules/tadtools/fancyBox/source/helpers/jquery.fancybox-buttons.css?v=1.0.5" />
   <script type="text/javascript" src="<{$xoops_url}>/modules/tadtools/fancyBox/source/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script>
   <link rel="stylesheet" type="text/css" href="<{$xoops_url}>/modules/tadtools/fancyBox/source/helpers/jquery.fancybox-thumbs.css?v=1.0.7" />
   <script type="text/javascript" src="<{$xoops_url}>/modules/tadtools/fancyBox/source/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
   <script type="text/javascript" src="<{$xoops_url}>/modules/tadtools/fancyBox/source/helpers/jquery.fancybox-media.js?v=1.0.5"></script>
+  </script>
+
 
   <script type="text/javascript">
   $(document).ready(function(){
@@ -62,7 +67,7 @@
     fitToView : true,
     width   : '90%',
     height    : '100%',
-    autoSize  : true,
+    autoSize  : false,
     closeClick  : false,
     openEffect  : 'none',
     closeEffect : 'none'
@@ -70,36 +75,25 @@
 
   });
   </script>
+  <h1><{$evaluation_title}></h1>
+  <div class="well">
+    <a href="#" onclick="jQuery('#treetbl<{$evaluation_sn}>').treetable('expandAll'); return false;" class="btn btn-mini"><{$smarty.const._MD_TADEVALUA_EXPAND_ALL}></a>
+    <a href="#" onclick="jQuery('#treetbl<{$evaluation_sn}>').treetable('collapseAll'); return false;" class="btn btn-mini"><{$smarty.const._MD_TADEVALUA_COLLAPSE_ALL}></a>
+    <div class="row-fluid">
 
-  <h2 class="text-center"><{$title}></h2>
-  <{if $evaluation_description}>
-  <div class="row-fluid">
-    <div class="well">
-      <{$evaluation_description}>
+      <{if $db_files}>
+        <div class="span12">
+          <{$db_files}>
+        </div>
+      <{else}>
+        <div class="hero-unit">
+          <{$smarty.const._MD_TADEVALUA_EVALUATION_EMPTY}>
+        </div>
+      <{/if}>
     </div>
   </div>
-  <{/if}>
 
-  <{if $evaluation_files}>
-    <div class="row-fluid">
-      <div class="span12">
-        <{if $use_tab=='1'}>
-          <div id="evaluation_sn_tabs">
-            <ul>
-              <{$db_files.title}>
-            </ul>
-            <{$db_files.content}>
-          </div>
-        <{else}>
-          <{$db_files}>
-        <{/if}>
-      </div>
-    </div>
-  <{else}>
-    <div class="hero-unit">
-      <{$smarty.const._MD_TADEVALUA_EVALUATION_EMPTY}>
-    </div>
-  <{/if}>
+
   <{if $isAdmin}>
   <div class="row-fluid text-right">
     <a href="admin/main.php?evaluation_sn=<{$evaluation_sn}>" class="btn btn-warning"><{$smarty.const._TAD_EDIT}></a>

@@ -9,7 +9,6 @@ function xoops_module_uninstall_tad_evaluation(&$module) {
 }
 
 
-//§R°£¥Ø¿ý
 function delete_directory($dirname) {
   if (is_dir($dirname))
     $dir_handle = opendir($dirname);
@@ -28,7 +27,6 @@ function delete_directory($dirname) {
   return true;
 }
 
-//«þ¨©¥Ø¿ý
 function full_copy( $source="", $target=""){
   if ( is_dir( $source ) ){
     @mkdir( $target );
