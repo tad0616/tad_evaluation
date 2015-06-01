@@ -1,0 +1,58 @@
+"Tad_evaluation 1.71 Version 2014-09-25 release"
+=================================================
+1. Modify the program so that it conforms with WCAG
+2. Fixed in MySQL strict mode can not issue new event
+
+"Tad_evaluation Version 1.7 released 2014-03-20"
+=================================================
+ 1. You can import a large number of (early only to import about 1000 file or directory)
+ 2. Add the counting function directory, files and junk stalls
+ 3. When not in use Google doc will open in a new window download file
+
+"Tad_evaluation Version 1.6 released 2014-03-05"
+=================================================
+ 1. You can not set via Google doc, open the file direct download
+ 2. You can set the appearance of all walks of life (from preferences)
+
+"Tad_evaluation 1.5 version released 2014-02-14"
+=================================================
+ 1. Fixed incorrect size video playback problems.
+ 2. Fixed only if no catalog files, files can not be read bug.
+
+
+"Tad_evaluation 1.4 version released 2014-01-25"
+=================================================
+ 1. Fixed in the windows, cover, etc. If you encounter promises power rushing yards words will not import problems.
+ 2. Cancel tab mode, shall be replaced by the presentation of the tree form
+ 3. Adjust the import mode, files or directories can be more successfully imported.
+
+
+"Tad_evaluation 1.3 version released 2014-01-25"
+=================================================
+ Problem 1. Fixed file will repeated.
+ 2. streamline Languages
+ 3. Fixed error generated when the expulsion of the notification message
+
+
+"Tad_evaluation 1.2 version released 2014-01-21"
+=================================================
+ 1. Fix first layer directory files can not be read out when tab mode bug.
+ 2. Fixed part of the vocabulary terms.
+
+
+"Tad_evaluation version 1.1 release 2013-10-26"
+=================================================
+ 1. Fix will scan file import emptied bug.
+ 2. Fixed Home Add button issue invalid.
+ 3. New "tab Mode" and "do not import the file" is set, and will automatically filter temporary files
+ 4. Strengthening the document name sort (under Windows is almost completely correct, under Linux or to their own tune at hand)
+ 5. Item presentation to catalog the zoom feature, easy to adjust the position.
+ 6. Evaluation and integration of background editing import the file into a page, reducing distress.
+ FTP directory name automatically modifies evaluation 7. Modify title.
+
+
+ "Tad_evaluation version 1.0 release 2013-10-24"
+ =================================================
+  1. Supporting the entire batch of Chinese import directory file name scanning.
+  2. Support Search function
+  3. Watch the most direct online archives
