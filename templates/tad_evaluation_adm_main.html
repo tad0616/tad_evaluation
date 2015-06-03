@@ -17,18 +17,36 @@
 
   <table class="table table-striped table-hover">
     <thead>
-    <tr>
-      <th><!--評鑑名稱--><{$smarty.const._MA_TADEVALUA_EVALUATION_TITLE}></th>
-      <th nowrap><!--是否啟用--><{$smarty.const._MA_TADEVALUA_EVALUATION_ENABLE}></th>
-      <th nowrap><!--建立者--><{$smarty.const._MA_TADEVALUA_EVALUATION_UID}></th>
-      <th><!--建立日期--><{$smarty.const._MA_TADEVALUA_EVALUATION_DATE}></th>
-      <th><!--路徑--><{$smarty.const._MA_TADEVALUA_EVALUATION_PATH}></th>
-
-      <{if $isAdmin}>
-        <th><{$smarty.const._TAD_FUNCTION}></th>
-      <{/if}>
-    </tr>
+      <tr>
+        <th>
+          <!--評鑑名稱-->
+          <{$smarty.const._MA_TADEVALUA_EVALUATION_TITLE}>
+        </th>
+        <th nowrap>
+          <!--是否啟用-->
+          <{$smarty.const._MA_TADEVALUA_EVALUATION_ENABLE}>
+        </th>
+        <th nowrap>
+          <!--建立者-->
+          <{$smarty.const._MA_TADEVALUA_EVALUATION_UID}>
+        </th>
+        <th>
+          <!--建立日期-->
+          <{$smarty.const._MA_TADEVALUA_EVALUATION_DATE}>
+        </th>
+        <th>
+          <!--路徑-->
+          <{$smarty.const._MA_TADEVALUA_EVALUATION_PATH}>
+        </th>
+        <{if $isAdmin}>
+          <th>
+            <{$smarty.const._TAD_FUNCTION}>
+          </th>
+          <{/if}>
+      </tr>
     </thead>
+
+
 
     <tbody>
     <{foreach from=$all_content item=data}>
