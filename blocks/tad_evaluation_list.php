@@ -1,8 +1,8 @@
 <?php
 //區塊主函式 (評鑑列表(tad_evaluation_list))
-function tad_evaluation_list($options)
+function tad_evaluation_list()
 {
-    global $xoopsDB, $xoopsTpl, $isAdmin;
+    global $xoopsDB, $xoopsTpl;
 
     $sql = "select * from `" . $xoopsDB->prefix("tad_evaluation") . "` where evaluation_enable='1' order by evaluation_date desc limit 0,10";
 
@@ -16,16 +16,9 @@ function tad_evaluation_list($options)
             $$k = $v;
         }
 
-        $evaluation_enable = ($evaluation_enable == 1) ? _YES : _NO;
-        $uid_name          = XoopsUser::getUnameFromId($evaluation_uid, 1);
-        if (empty($uid_name)) {
-            $uid_name = XoopsUser::getUnameFromId($evaluation_uid, 0);
-        }
-
         $all_content[$i]['evaluation_sn']          = $evaluation_sn;
         $all_content[$i]['evaluation_title']       = $evaluation_title;
         $all_content[$i]['evaluation_description'] = $evaluation_description;
-        $all_content[$i]['evaluation_enable']      = $evaluation_enable;
         $all_content[$i]['evaluation_uid']         = $uid_name;
         $all_content[$i]['evaluation_date']        = $evaluation_date;
         $i++;

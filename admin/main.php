@@ -252,6 +252,13 @@ function show_one_tad_evaluation($evaluation_sn = "")
     $xoopsTpl->assign('pass_count', $_SESSION['pass_count']);
     $xoopsTpl->assign('jquery', get_jquery(true));
 
+    if (!file_exists(XOOPS_ROOT_PATH . "/modules/tadtools/fancybox.php")) {
+        redirect_header("index.php", 3, _MA_NEED_TADTOOLS);
+    }
+    include_once XOOPS_ROOT_PATH . "/modules/tadtools/fancybox.php";
+    $fancybox      = new fancybox(".evaluation_fancy_{$evaluation_sn}");
+    $fancybox_code = $fancybox->render();
+    $xoopsTpl->assign('fancybox_code', $fancybox_code);
 }
 
 //把陣列轉為目錄
@@ -284,12 +291,12 @@ function array_to_dir($all_files, $of_cate_sn = 0, $level = 0)
             $_SESSION['dir_count']++;
 
             $all .= "
-      <div style='margin-left:{$left}px'>
-      <label class='checkbox inline'>
-        <i class=\"icon-folder-open\"></i>
-        {$dir_name}
-      </label>
-      </div>";
+              <div style='margin-left:{$left}px'>
+              <label class='checkbox inline'>
+                <i class=\"icon-folder-open\"></i>
+                {$dir_name}
+              </label>
+              </div>";
             $all .= array_to_dir($files, $_SESSION['cate_sn'], $level);
         } else {
 
@@ -307,12 +314,12 @@ function array_to_dir($all_files, $of_cate_sn = 0, $level = 0)
             }
 
             $all .= "
-      <div style='margin-left:{$left}px;color:blue'>
-      <label class='checkbox inline'>
-      <i class=\"icon-file\"></i>
-      {$files}
-      </label>
-      </div>";
+              <div style='margin-left:{$left}px;color:blue'>
+              <label class='checkbox inline'>
+              <i class=\"icon-file\"></i>
+              {$files}
+              </label>
+              </div>";
         }
     }
     return $all;
@@ -603,10 +610,11 @@ if (!function_exists('mime_content_type')) {
     }
 }
 /*-----------執行動作判斷區----------*/
-$op            = empty($_REQUEST['op']) ? "" : $_REQUEST['op'];
-$evaluation_sn = empty($_REQUEST['evaluation_sn']) ? "" : intval($_REQUEST['evaluation_sn']);
-$file_sn       = empty($_REQUEST['file_sn']) ? "" : intval($_REQUEST['file_sn']);
-$cate_sn       = empty($_REQUEST['cate_sn']) ? "" : intval($_REQUEST['cate_sn']);
+include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
+$op            = system_CleanVars($_REQUEST, 'op', '', 'string');
+$evaluation_sn = system_CleanVars($_REQUEST, 'evaluation_sn', 0, 'int');
+$file_sn       = system_CleanVars($_REQUEST, 'file_sn', 0, 'int');
+$cate_sn       = system_CleanVars($_REQUEST, 'cate_sn', 0, 'int');
 
 switch ($op) {
     /*---判斷動作請貼在下方---*/
@@ -615,18 +623,21 @@ switch ($op) {
     case "replace_tad_evaluation":
         replace_tad_evaluation();
         header("location: {$_SERVER['PHP_SELF']}");
+        exit;
         break;
 
     //新增資料
     case "insert_tad_evaluation":
         $evaluation_sn = insert_tad_evaluation();
         header("location: {$_SERVER['PHP_SELF']}?evaluation_sn=$evaluation_sn");
+        exit;
         break;
 
     //更新資料
     case "update_tad_evaluation":
         update_tad_evaluation($evaluation_sn);
         header("location: {$_SERVER['PHP_SELF']}?evaluation_sn=$evaluation_sn");
+        exit;
         break;
 
     //更新資料
@@ -638,12 +649,14 @@ switch ($op) {
     case "delete_tad_evaluation":
         delete_tad_evaluation($evaluation_sn);
         header("location: {$_SERVER['PHP_SELF']}");
+        exit;
         break;
 
     //匯入檔案
     case "tad_evaluation_import":
         tad_evaluation_import($evaluation_sn);
         header("location: {$_SERVER['PHP_SELF']}?evaluation_sn=$evaluation_sn");
+        exit;
         break;
 
     //預設動作

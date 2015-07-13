@@ -1,3 +1,9 @@
+"Tad_evaluation 1.8 Version 2015-07-11 release"
+=================================================
+ 1.Thank Michael Beck in English language
+ 2.Modify PHP code to conform to specifications PSR2
+ 3.Add Bootstrap3 templates
+
 "Tad_evaluation 1.71 Version 2014-09-25 release"
 =================================================
 1. Modify the program so that it conforms with WCAG

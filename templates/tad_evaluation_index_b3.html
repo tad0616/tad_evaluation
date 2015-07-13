@@ -17,7 +17,7 @@
   <{/if}>
 
   <{foreach from=$all_content item=data}>
-    <div class="row-fluid">
+    <div class="row">
       <div class="well">
         <h2><a href='index.php?evaluation_sn=<{$data.evaluation_sn}>'><{$data.evaluation_title}></a></h2>
         <div style="font-size:12px;color:gray;text-align:right;">
@@ -37,7 +37,7 @@
   <{/if}>
 
 <{elseif $now_op=="list_tad_evaluation"}>
-  <div class="hero-unit">
+  <div class="jumbotron">
     <{if $isAdmin}>
       <a href="admin/main.php?op=tad_evaluation_form" class="btn btn-info"><{$smarty.const._TAD_ADD}></a>
     <{/if}>
@@ -52,16 +52,16 @@
 
   <h1><{$evaluation_title}></h1>
   <div class="well">
-    <a href="#" onclick="jQuery('#treetbl<{$evaluation_sn}>').treetable('expandAll'); return false;" class="btn btn-mini"><{$smarty.const._MD_TADEVALUA_EXPAND_ALL}></a>
-    <a href="#" onclick="jQuery('#treetbl<{$evaluation_sn}>').treetable('collapseAll'); return false;" class="btn btn-mini"><{$smarty.const._MD_TADEVALUA_COLLAPSE_ALL}></a>
-    <div class="row-fluid">
+    <a href="#" onclick="jQuery('#treetbl<{$evaluation_sn}>').treetable('expandAll'); return false;" class="btn btn-default btn-xs"><{$smarty.const._MD_TADEVALUA_EXPAND_ALL}></a>
+    <a href="#" onclick="jQuery('#treetbl<{$evaluation_sn}>').treetable('collapseAll'); return false;" class="btn btn-default btn-xs"><{$smarty.const._MD_TADEVALUA_COLLAPSE_ALL}></a>
+    <div class="row">
 
       <{if $db_files}>
-        <div class="span12">
+        <div class="col-md-12">
           <{$db_files}>
         </div>
       <{else}>
-        <div class="hero-unit">
+        <div class="jumbotron">
           <{$smarty.const._MD_TADEVALUA_EVALUATION_EMPTY}>
         </div>
       <{/if}>
@@ -70,7 +70,7 @@
 
 
   <{if $isAdmin}>
-  <div class="row-fluid text-right">
+  <div class="row text-right">
     <a href="admin/main.php?evaluation_sn=<{$evaluation_sn}>" class="btn btn-warning"><{$smarty.const._TAD_EDIT}></a>
   </div>
   <{/if}>

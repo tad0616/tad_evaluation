@@ -1,7 +1,7 @@
 <?php
 /*-----------引入檔案區--------------*/
 include "header.php";
-$xoopsOption['template_main'] = "tad_evaluation_index.html";
+$xoopsOption['template_main'] = set_bootstrap("tad_evaluation_index.html");
 include_once XOOPS_ROOT_PATH . "/header.php";
 
 /*-----------功能函數區--------------*/
@@ -89,6 +89,14 @@ function show_one_tad_evaluation($evaluation_sn = "")
     $xoopsTpl->assign('db_files', db_files(false, false, 'show', $evaluation_sn));
     $xoopsTpl->assign('level_css', $xoopsModuleConfig['css_setup']);
 
+    if (!file_exists(XOOPS_ROOT_PATH . "/modules/tadtools/fancybox.php")) {
+        redirect_header("index.php", 3, _MA_NEED_TADTOOLS);
+    }
+    include_once XOOPS_ROOT_PATH . "/modules/tadtools/fancybox.php";
+    $fancybox      = new fancybox(".evaluation_fancy_{$evaluation_sn}");
+    $fancybox_code = $fancybox->render();
+    $xoopsTpl->assign('fancybox_code', $fancybox_code);
+
 }
 
 //顯示檔案內容
@@ -106,10 +114,11 @@ function show_file($evaluation_sn, $cate_sn, $file_sn)
 }
 
 /*-----------執行動作判斷區----------*/
-$op            = empty($_REQUEST['op']) ? "" : $_REQUEST['op'];
-$evaluation_sn = empty($_REQUEST['evaluation_sn']) ? "" : intval($_REQUEST['evaluation_sn']);
-$file_sn       = empty($_REQUEST['file_sn']) ? "" : intval($_REQUEST['file_sn']);
-$cate_sn       = empty($_REQUEST['cate_sn']) ? "" : intval($_REQUEST['cate_sn']);
+include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
+$op            = system_CleanVars($_REQUEST, 'op', '', 'string');
+$evaluation_sn = system_CleanVars($_REQUEST, 'evaluation_sn', 0, 'int');
+$file_sn       = system_CleanVars($_REQUEST, 'file_sn', 0, 'int');
+$cate_sn       = system_CleanVars($_REQUEST, 'cate_sn', 0, 'int');
 
 switch ($op) {
 
@@ -122,6 +131,7 @@ switch ($op) {
     case "delete_tad_evaluation":
         delete_tad_evaluation($evaluation_sn);
         header("location: {$_SERVER['PHP_SELF']}");
+        exit;
         break;
 
     //預設動作

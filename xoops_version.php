@@ -4,7 +4,7 @@ $modversion = array();
 
 //---模組基本資訊---//
 $modversion['name']        = _MI_TADEVALUA_NAME;
-$modversion['version']     = '1.71';
+$modversion['version']     = '1.8';
 $modversion['description'] = _MI_TADEVALUA_DESC;
 $modversion['author']      = _MI_TADEVALUA_AUTHOR;
 $modversion['credits']     = _MI_TADEVALUA_CREDITS;
@@ -14,7 +14,7 @@ $modversion['image']       = "images/logo.png";
 $modversion['dirname']     = basename(dirname(__FILE__));
 
 //---模組狀態資訊---//
-$modversion['release_date']        = '2014-09-25';
+$modversion['release_date']        = '2015-07-11';
 $modversion['module_website_url']  = 'http://tad0616.net';
 $modversion['module_website_name'] = _MI_TADEVALUA_AUTHOR_WEB;
 $modversion['module_status']       = 'release';
@@ -61,8 +61,16 @@ $modversion['templates'][$i]['file']        = 'tad_evaluation_adm_main.html';
 $modversion['templates'][$i]['description'] = 'tad_evaluation_adm_main.html';
 
 $i++;
+$modversion['templates'][$i]['file']        = 'tad_evaluation_adm_main_b3.html';
+$modversion['templates'][$i]['description'] = 'tad_evaluation_adm_main_b3.html';
+
+$i++;
 $modversion['templates'][$i]['file']        = 'tad_evaluation_index.html';
 $modversion['templates'][$i]['description'] = 'tad_evaluation_index.html';
+
+$i++;
+$modversion['templates'][$i]['file']        = 'tad_evaluation_index_b3.html';
+$modversion['templates'][$i]['description'] = 'tad_evaluation_index_b3.html';
 
 //---區塊設定---//
 $i                                       = 0;
@@ -70,7 +78,7 @@ $modversion['blocks'][$i]['file']        = "tad_evaluation_list.php";
 $modversion['blocks'][$i]['name']        = _MI_TADEVALUA_BNAME1;
 $modversion['blocks'][$i]['description'] = _MI_TADEVALUA_BDESC1;
 $modversion['blocks'][$i]['show_func']   = "tad_evaluation_list";
-$modversion['blocks'][$i]['template']    = "tad_evaluation_block_tad_evaluation_list.html";
+$modversion['blocks'][$i]['template']    = "tad_evaluation_block_list.html";
 
 $modversion['config'][1]['name']        = 'ignored';
 $modversion['config'][1]['title']       = '_MI_TADEVALUA_IGNORED';
@@ -92,7 +100,7 @@ $modversion['config'][3]['title']       = '_MI_TADEVALUA_USE_GOOGLE_DOC';
 $modversion['config'][3]['description'] = '_MI_TADEVALUA_USE_GOOGLE_DOC_DESC';
 $modversion['config'][3]['formtype']    = 'yesno';
 $modversion['config'][3]['valuetype']   = 'int';
-$modversion['config'][3]['default']     = '1';
+$modversion['config'][3]['default']     = '0';
 
 $modversion['config'][4]['name']        = 'css_setup';
 $modversion['config'][4]['title']       = '_MI_TADEVALUA_CSS_SETUP';
