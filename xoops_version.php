@@ -4,7 +4,7 @@ $modversion = array();
 
 //---模組基本資訊---//
 $modversion['name']        = _MI_TADEVALUA_NAME;
-$modversion['version']     = '1.81';
+$modversion['version']     = '1.9';
 $modversion['description'] = _MI_TADEVALUA_DESC;
 $modversion['author']      = _MI_TADEVALUA_AUTHOR;
 $modversion['credits']     = _MI_TADEVALUA_CREDITS;
@@ -14,7 +14,7 @@ $modversion['image']       = "images/logo.png";
 $modversion['dirname']     = basename(dirname(__FILE__));
 
 //---模組狀態資訊---//
-$modversion['release_date']        = '2015-07-12';
+$modversion['release_date']        = '2016-05-22';
 $modversion['module_website_url']  = 'http://tad0616.net';
 $modversion['module_website_name'] = _MI_TADEVALUA_AUTHOR_WEB;
 $modversion['module_status']       = 'release';
@@ -57,16 +57,8 @@ $modversion['hasMain'] = 1;
 
 //---樣板設定---//
 $i                                          = 0;
-$modversion['templates'][$i]['file']        = 'tad_evaluation_adm_main.html';
-$modversion['templates'][$i]['description'] = 'tad_evaluation_adm_main.html';
-
-$i++;
 $modversion['templates'][$i]['file']        = 'tad_evaluation_adm_main_b3.html';
 $modversion['templates'][$i]['description'] = 'tad_evaluation_adm_main_b3.html';
-
-$i++;
-$modversion['templates'][$i]['file']        = 'tad_evaluation_index.html';
-$modversion['templates'][$i]['description'] = 'tad_evaluation_index.html';
 
 $i++;
 $modversion['templates'][$i]['file']        = 'tad_evaluation_index_b3.html';

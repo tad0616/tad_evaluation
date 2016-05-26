@@ -1,7 +1,7 @@
 <?php
 //引入TadTools的函式庫
 if (!file_exists(XOOPS_ROOT_PATH . "/modules/tadtools/tad_function.php")) {
-    redirect_header("http://www.tad0616.net/modules/tad_uploader/index.php?of_cat_sn=50", 3, _TAD_NEED_TADTOOLS);
+    redirect_header("http://campus-xoops.tn.edu.tw/modules/tad_modules/index.php?module_sn=1", 3, _TAD_NEED_TADTOOLS);
 }
 include_once XOOPS_ROOT_PATH . "/modules/tadtools/tad_function.php";
 
@@ -36,7 +36,7 @@ function get_tad_evaluation($evaluation_sn = "")
     }
 
     $sql    = "select * from `" . $xoopsDB->prefix("tad_evaluation") . "` where `evaluation_sn` = '{$evaluation_sn}'";
-    $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $result = $xoopsDB->query($sql) or web_error($sql);
     $data   = $xoopsDB->fetchArray($result);
     return $data;
 }
@@ -52,7 +52,7 @@ function get_tad_evaluation_files($evaluation_sn = "", $cate_sn = "", $file_sn =
     //
     //`file_sn`, `cate_sn`, `evaluation_sn`, `file_name`, `file_size`, `file_type`, `file_desc`, `file_enable`, `file_sort`
     $sql    = "select * from `" . $xoopsDB->prefix("tad_evaluation_files") . "` where `evaluation_sn` = '{$evaluation_sn}' and `cate_sn` = '{$cate_sn}' and `file_sn` = '{$file_sn}'";
-    $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $result = $xoopsDB->query($sql) or web_error($sql);
     $data   = $xoopsDB->fetchArray($result);
     return $data;
 }
@@ -67,7 +67,7 @@ function get_tad_evaluation_cate_path($evaluation_sn = "", $cate_sn = "")
 
     //`cate_sn`, `of_cate_sn`, `cate_title`, `cate_desc`, `cate_sort`, `cate_enable`, `evaluation_sn`
     $sql                           = "select cate_title,of_cate_sn from `" . $xoopsDB->prefix("tad_evaluation_cate") . "` where `evaluation_sn` = '{$evaluation_sn}' and `cate_sn` = '{$cate_sn}'";
-    $result                        = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $result                        = $xoopsDB->query($sql) or web_error($sql);
     list($cate_title, $of_cate_sn) = $xoopsDB->fetchRow($result);
     if (!empty($of_cate_sn)) {
         $cate_title = get_tad_evaluation_cate_path($evaluation_sn, $of_cate_sn) . "/{$cate_title}";
@@ -84,7 +84,7 @@ function db_files($admin_tool = false, $icon = true, $mode = 'show', $evaluation
         return;
     }
 
-    $myts      = &MyTextSanitizer::getInstance();
+    $myts      = MyTextSanitizer::getInstance();
     $old_level = $level;
 
     $start  = 0;
@@ -137,7 +137,7 @@ function db_files($admin_tool = false, $icon = true, $mode = 'show', $evaluation
 
     $sql = "select * from `" . $xoopsDB->prefix("tad_evaluation_cate") . "` where `evaluation_sn` = '{$evaluation_sn}' and `of_cate_sn`='$of_cate_sn' order by cate_sort";
     //die($sql);
-    $result = $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $result = $xoopsDB->queryF($sql) or web_error($sql);
 
     //`cate_sn`, `of_cate_sn`, `cate_title`, `cate_desc`, `cate_sort`, `cate_enable`, `evaluation_sn`
     while ($all = $xoopsDB->fetchArray($result)) {
@@ -180,7 +180,7 @@ function get_cate_files($evaluation_sn = "", $cate_sn = "")
 {
     global $xoopsDB, $xoopsModuleConfig;
 
-    $myts = &MyTextSanitizer::getInstance();
+    $myts = MyTextSanitizer::getInstance();
 
     $evaluation = get_tad_evaluation($evaluation_sn);
     $img_ext    = array("png", "jpg", "jpeg", "gif");
@@ -192,7 +192,7 @@ function get_cate_files($evaluation_sn = "", $cate_sn = "")
     $sql = "select * from `" . $xoopsDB->prefix("tad_evaluation_files") . "` where `evaluation_sn` = '{$evaluation_sn}' and `cate_sn`='$cate_sn' order by file_sort";
 //die($sql);
     $data   = "";
-    $result = $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $result = $xoopsDB->queryF($sql) or web_error($sql);
 
     while ($all = $xoopsDB->fetchArray($result)) {
         foreach ($all as $k => $v) {
@@ -253,7 +253,7 @@ function get_evaluation_count($evaluation_sn, $tbl)
     }
 
     $sql         = "select count(*) from `" . $xoopsDB->prefix($tbl) . "` where `evaluation_sn` = '{$evaluation_sn}' ";
-    $result      = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $result      = $xoopsDB->query($sql) or web_error($sql);
     list($count) = $xoopsDB->fetchRow($result);
     return $count;
 }

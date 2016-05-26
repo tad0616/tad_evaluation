@@ -13,7 +13,7 @@ function list_tad_evaluation()
 
     $sql = "select * from `" . $xoopsDB->prefix("tad_evaluation") . "` where evaluation_enable='1' order by evaluation_date desc";
 
-    $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $result = $xoopsDB->query($sql) or web_error($sql);
 
     $all_content = "";
     $i           = 0;
@@ -59,7 +59,7 @@ function show_one_tad_evaluation($evaluation_sn = "")
     }
 
     $sql    = "select * from `" . $xoopsDB->prefix("tad_evaluation") . "` where `evaluation_sn` = '{$evaluation_sn}' ";
-    $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $result = $xoopsDB->query($sql) or web_error($sql);
     $all    = $xoopsDB->fetchArray($result);
 
     //以下會產生這些變數： $evaluation_sn , $evaluation_title , $evaluation_description , $evaluation_enable , $evaluation_uid , $evaluation_date
@@ -93,8 +93,8 @@ function show_one_tad_evaluation($evaluation_sn = "")
         redirect_header("index.php", 3, _MA_NEED_TADTOOLS);
     }
     include_once XOOPS_ROOT_PATH . "/modules/tadtools/fancybox.php";
-    $fancybox      = new fancybox(".evaluation_fancy_{$evaluation_sn}");
-    $fancybox_code = $fancybox->render();
+    $fancybox      = new fancybox(".evaluation_fancy_{$evaluation_sn}", '800', '600');
+    $fancybox_code = $fancybox->render(false);
     $xoopsTpl->assign('fancybox_code', $fancybox_code);
 
 }

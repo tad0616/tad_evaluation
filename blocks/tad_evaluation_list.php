@@ -6,7 +6,7 @@ function tad_evaluation_list()
 
     $sql = "select * from `" . $xoopsDB->prefix("tad_evaluation") . "` where evaluation_enable='1' order by evaluation_date desc limit 0,10";
 
-    $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $result = $xoopsDB->query($sql) or web_error($sql);
 
     $all_content = "";
     $i           = 0;
