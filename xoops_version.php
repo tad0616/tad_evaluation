@@ -4,7 +4,7 @@ $modversion = array();
 
 //---模組基本資訊---//
 $modversion['name']        = _MI_TADEVALUA_NAME;
-$modversion['version']     = '1.9';
+$modversion['version']     = '1.91';
 $modversion['description'] = _MI_TADEVALUA_DESC;
 $modversion['author']      = _MI_TADEVALUA_AUTHOR;
 $modversion['credits']     = _MI_TADEVALUA_CREDITS;
@@ -14,7 +14,7 @@ $modversion['image']       = "images/logo.png";
 $modversion['dirname']     = basename(dirname(__FILE__));
 
 //---模組狀態資訊---//
-$modversion['release_date']        = '2016-05-22';
+$modversion['release_date']        = '2017-01-08';
 $modversion['module_website_url']  = 'http://tad0616.net';
 $modversion['module_website_name'] = _MI_TADEVALUA_AUTHOR_WEB;
 $modversion['module_status']       = 'release';
@@ -57,12 +57,12 @@ $modversion['hasMain'] = 1;
 
 //---樣板設定---//
 $i                                          = 0;
-$modversion['templates'][$i]['file']        = 'tad_evaluation_adm_main_b3.html';
-$modversion['templates'][$i]['description'] = 'tad_evaluation_adm_main_b3.html';
+$modversion['templates'][$i]['file']        = 'tad_evaluation_adm_main.tpl';
+$modversion['templates'][$i]['description'] = 'tad_evaluation_adm_main.tpl';
 
 $i++;
-$modversion['templates'][$i]['file']        = 'tad_evaluation_index_b3.html';
-$modversion['templates'][$i]['description'] = 'tad_evaluation_index_b3.html';
+$modversion['templates'][$i]['file']        = 'tad_evaluation_index.tpl';
+$modversion['templates'][$i]['description'] = 'tad_evaluation_index.tpl';
 
 //---區塊設定---//
 $i                                       = 0;
@@ -70,7 +70,7 @@ $modversion['blocks'][$i]['file']        = "tad_evaluation_list.php";
 $modversion['blocks'][$i]['name']        = _MI_TADEVALUA_BNAME1;
 $modversion['blocks'][$i]['description'] = _MI_TADEVALUA_BDESC1;
 $modversion['blocks'][$i]['show_func']   = "tad_evaluation_list";
-$modversion['blocks'][$i]['template']    = "tad_evaluation_block_list.html";
+$modversion['blocks'][$i]['template']    = "tad_evaluation_block_list.tpl";
 
 $modversion['config'][1]['name']        = 'ignored';
 $modversion['config'][1]['title']       = '_MI_TADEVALUA_IGNORED';

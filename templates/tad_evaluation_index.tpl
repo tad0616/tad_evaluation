@@ -57,7 +57,7 @@
     <div class="row">
 
       <{if $db_files}>
-        <div class="col-md-12">
+        <div class="col-sm-12">
           <{$db_files}>
         </div>
       <{else}>

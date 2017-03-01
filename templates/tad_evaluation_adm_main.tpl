@@ -93,19 +93,19 @@
 
     <{$formValidator_code}>
     <div class="row">
-      <div class="col-md-12">
+      <div class="col-sm-12">
         <form action="<{$action}>" method="post" id="myForm" enctype="multipart/form-data" class="form-horizontal" role="form">
           <div class="form-group">
-            <label class="col-md-2 control-label">
+            <label class="col-sm-2 control-label">
             <{$smarty.const._MA_TADEVALUA_EVALUATION_TITLE}>
             </label>
-            <div class="col-md-4">
+            <div class="col-sm-4">
               <input type="text" name="evaluation_title" id="evaluation_title" class="form-control" value="<{$evaluation_title}>" placeholder="<{$smarty.const._MA_TADEVALUA_EVALUATION_TITLE}>">
             </div>
-            <label class="col-md-2 control-label">
+            <label class="col-sm-2 control-label">
             <{$smarty.const._MA_TADEVALUA_EVALUATION_ENABLE}>
             </label>
-            <div class="col-md-4">
+            <div class="col-sm-4">
               <label class="radio-inline">
                 <input type="radio" name="evaluation_enable" id="evaluation_enable_1" value="1" <{if $evaluation_enable == "1"}>checked="checked"<{/if}>><{$smarty.const._YES}>
               </label>
@@ -116,7 +116,7 @@
           </div>
 
           <div class="form-group">
-            <div class="col-md-12">
+            <div class="col-sm-12">
               <{$evaluation_description_editor}>
             </div>
           </div>
@@ -143,7 +143,7 @@
 
             <input type="hidden" name="op" value="tad_evaluation_import">
             <input type="hidden" name="evaluation_sn" value="<{$evaluation_sn}>">
-            <div class="col-md-6">
+            <div class="col-sm-6">
               <i class="fa fa-folder-open"></i> <{$dir_count}>
               <i class="fa fa-file-text-o"></i> <{$file_count}>
               <i class="fa fa-trash-o"></i> <{$pass_count}>
@@ -156,7 +156,7 @@
             </div>
           </form>
           <{else}>
-            <div class="col-md-6 jumbotron text-center">
+            <div class="col-sm-6 jumbotron text-center">
               <{$smarty.const._MA_TADEVALUA_EVALUATION_IMPORT_PATH}><br>
               <div style="color:blue;"><{$evaluation_path}></div>
             </div>
@@ -164,7 +164,7 @@
 
           <{if $all_files}>
             <form action="<{$action}>" method="post" id="myForm" enctype="multipart/form-data">
-              <div class="col-md-6" id='sort'>
+              <div class="col-sm-6" id='sort'>
               <i class="fa fa-folder-open"></i> <{$dir_count2}>
               <i class="fa fa-file-text-o"></i> <{$file_count2}>
                 <{$db_files}>
@@ -177,7 +177,7 @@
               </div>
             </form>
           <{else}>
-            <div class="col-md-6 jumbotron text-center">
+            <div class="col-sm-6 jumbotron text-center">
               <{$smarty.const._MA_TADEVALUA_EVALUATION_IMPORT_FILES}>
             </div>
           <{/if}>
