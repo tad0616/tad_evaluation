@@ -71,7 +71,6 @@ function tad_evaluation_form($evaluation_sn = "")
     $xoopsTpl->assign('formValidator_code', $formValidator_code);
     $xoopsTpl->assign('now_op', 'tad_evaluation_form');
     $xoopsTpl->assign('next_op', $op);
-
 }
 
 //新增資料到tad_evaluation中
@@ -141,7 +140,7 @@ function list_tad_evaluation()
 {
     global $xoopsDB, $xoopsTpl, $isAdmin;
 
-    $sql = "select * from `" . $xoopsDB->prefix("tad_evaluation") . "` order by evaluation_date desc";
+    $sql = "SELECT * FROM `" . $xoopsDB->prefix("tad_evaluation") . "` ORDER BY evaluation_date DESC";
 
     //getPageBar($原sql語法, 每頁顯示幾筆資料, 最多顯示幾個頁數選項);
     $PageBar = getPageBar($sql, 20, 10);
@@ -206,9 +205,9 @@ function show_one_tad_evaluation($evaluation_sn = "")
         $evaluation_sn = intval($evaluation_sn);
     }
 
-    $sql    = "select * from `" . $xoopsDB->prefix("tad_evaluation") . "` where `evaluation_sn` = '{$evaluation_sn}' ";
+    $sql = "select * from `" . $xoopsDB->prefix("tad_evaluation") . "` where `evaluation_sn` = '{$evaluation_sn}' ";
     $result = $xoopsDB->query($sql) or web_error($sql);
-    $all    = $xoopsDB->fetchArray($result);
+    $all = $xoopsDB->fetchArray($result);
 
     //以下會產生這些變數： $evaluation_sn , $evaluation_title , $evaluation_description , $evaluation_enable , $evaluation_uid , $evaluation_date
     foreach ($all as $k => $v) {
@@ -284,7 +283,6 @@ function array_to_dir($all_files, $of_cate_sn = 0, $level = 0)
         $_SESSION['i']++;
         $i = $_SESSION['i'];
         if (is_array($files)) {
-
             $dir_name = change_charset($dir_name, true);
             $dir_name = in_array($dir_name, $ignored) ? "<del>{$dir_name}</del>" : $dir_name;
 
@@ -299,7 +297,6 @@ function array_to_dir($all_files, $of_cate_sn = 0, $level = 0)
               </div>";
             $all .= array_to_dir($files, $_SESSION['cate_sn'], $level);
         } else {
-
             $files = change_charset($files, true);
 
             if (!empty($level)) {
@@ -332,7 +329,7 @@ global $xoopsDB , $xoopsTpl , $isAdmin;
 
 delete_tad_evaluation_cate($evaluation_sn,false);
 
-$myts =& MyTextSanitizer::getInstance();
+$myts = MyTextSanitizer::getInstance();
 
 foreach($_POST['cates'] as $i=>$cate_data){
 list($cate_sn,$of_cate_sn,$cate_title)=explode(";", $cate_data);
@@ -385,19 +382,15 @@ function dir_to_db($evaluation_sn = "", $all_files, $of_cate_sn = 0, $level = 0)
     $level++;
 
     foreach ($all_files as $dir_name => $files) {
-
         if (is_array($files)) {
-
             $dir_name = change_charset($dir_name, true);
             if (!in_array($dir_name, $ignored)) {
-
                 $cate_title = $myts->addSlashes($dir_name);
                 save_tad_evaluation_cate($evaluation_sn, $cate_title, $_SESSION['cate_sn'], $of_cate_sn);
 
                 dir_to_db($evaluation_sn, $files, $_SESSION['cate_sn'], $level);
             }
         } else {
-
             $files = change_charset($files, true);
 
             if (!empty($level)) {
@@ -448,7 +441,6 @@ function save_tad_evaluation_files($evaluation_sn, $file_name, $file_sn, $cate_s
   (`file_sn` , `cate_sn` , `evaluation_sn` , `file_name` , `file_size` , `file_type` , `file_desc` , `file_enable` , `file_sort`)
   values('{$file_sn}' , '{$cate_sn}' , '{$evaluation_sn}' , '{$file_name}' , '{$size}' , '{$type}' , '{$file_desc}' , '1' , '{$file_sn}')";
     $xoopsDB->query($sql) or web_error($sql);
-
 }
 
 //刪除某評鑑的所有分類
@@ -491,7 +483,6 @@ function delete_directory($dirname)
             } else {
                 delete_directory($dirname . '/' . $file);
             }
-
         }
     }
     closedir($dir_handle);
@@ -502,7 +493,6 @@ function delete_directory($dirname)
 //列出目錄檔案
 function directory_list($directory_base_path = "")
 {
-
     $myts = MyTextSanitizer::getInstance();
 
     $directory_base_path = $myts->addSlashes($directory_base_path);
@@ -520,7 +510,6 @@ function directory_list($directory_base_path = "")
         if (is_dir($filename)) {
             $result_list[$basefilename] = directory_list($filename);
         } else {
-
             $ext = strtolower(array_pop(explode('.', $filename)));
             $len = strlen($ext);
             if ($len > 0 and $len <= 4) {
@@ -532,14 +521,11 @@ function directory_list($directory_base_path = "")
     }
 
     return $result_list;
-
 }
 
 if (!function_exists('mime_content_type')) {
-
     function mime_content_type($filename)
     {
-
         $mime_types = array(
 
             'txt'  => 'text/plain',
@@ -669,7 +655,7 @@ switch ($op) {
         }
         break;
 
-        /*---判斷動作請貼在上方---*/
+    /*---判斷動作請貼在上方---*/
 }
 
 /*-----------秀出結果區--------------*/
