@@ -4,7 +4,7 @@ $modversion = array();
 
 //---模組基本資訊---//
 $modversion['name']        = _MI_TADEVALUA_NAME;
-$modversion['version']     = '1.91';
+$modversion['version']     = '2.0';
 $modversion['description'] = _MI_TADEVALUA_DESC;
 $modversion['author']      = _MI_TADEVALUA_AUTHOR;
 $modversion['credits']     = _MI_TADEVALUA_CREDITS;
@@ -14,7 +14,7 @@ $modversion['image']       = "images/logo.png";
 $modversion['dirname']     = basename(dirname(__FILE__));
 
 //---模組狀態資訊---//
-$modversion['release_date']        = '2017-01-08';
+$modversion['release_date']        = '2017-04-20';
 $modversion['module_website_url']  = 'http://tad0616.net';
 $modversion['module_website_name'] = _MI_TADEVALUA_AUTHOR_WEB;
 $modversion['module_status']       = 'release';
