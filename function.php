@@ -249,7 +249,7 @@ function get_evaluation_count($evaluation_sn, $tbl)
     if (empty($evaluation_sn)) {
         return;
     } else {
-        $evaluation_sn = intval($evaluation_sn);
+        $evaluation_sn = (int)$evaluation_sn;
     }
 
     $sql         = "select count(*) from `" . $xoopsDB->prefix($tbl) . "` where `evaluation_sn` = '{$evaluation_sn}' ";
