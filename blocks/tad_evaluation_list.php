@@ -4,7 +4,7 @@ function tad_evaluation_list()
 {
     global $xoopsDB, $xoopsTpl;
 
-    $sql = "select * from `" . $xoopsDB->prefix("tad_evaluation") . "` where evaluation_enable='1' order by evaluation_date desc limit 0,10";
+    $sql = "SELECT * FROM `" . $xoopsDB->prefix("tad_evaluation") . "` WHERE evaluation_enable='1' ORDER BY evaluation_date DESC LIMIT 0,10";
 
     $result = $xoopsDB->query($sql) or web_error($sql);
 
