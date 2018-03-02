@@ -55,7 +55,7 @@ function show_one_tad_evaluation($evaluation_sn = "")
     if (empty($evaluation_sn)) {
         return;
     } else {
-        $evaluation_sn = intval($evaluation_sn);
+        $evaluation_sn = (int)$evaluation_sn;
     }
 
     $sql = "select * from `" . $xoopsDB->prefix("tad_evaluation") . "` where `evaluation_sn` = '{$evaluation_sn}' ";

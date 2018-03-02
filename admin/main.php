@@ -202,7 +202,7 @@ function show_one_tad_evaluation($evaluation_sn = "")
     if (empty($evaluation_sn)) {
         return;
     } else {
-        $evaluation_sn = intval($evaluation_sn);
+        $evaluation_sn = (int)$evaluation_sn;
     }
 
     $sql = "select * from `" . $xoopsDB->prefix("tad_evaluation") . "` where `evaluation_sn` = '{$evaluation_sn}' ";
@@ -427,7 +427,7 @@ function save_tad_evaluation_files($evaluation_sn, $file_name, $file_sn, $cate_s
     $file_src = XOOPS_ROOT_PATH . "/uploads/tad_evaluation/{$real_evaluation_title}/{$real_file_name}";
 
     $type = mime_content_type($file_src);
-    $size = intval(filesize($file_src));
+    $size = (int)filesize($file_src);
 
     $filepart = explode('.', $file_name);
     foreach ($filepart as $ff) {
