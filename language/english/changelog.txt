@@ -1,3 +1,10 @@
+Tad Evaluation 2.0 (2017-04-20 released)
+=================================================
+1. Fixed no directory will cause jquery implementation error.
+2. Hide the "Expand" and "Close" buttons when there is no directory
+3. Join the Office File Format Online View tool
+
+
 Tad Evaluation 1.9.1 (2017-01-08 released)
 =================================================
 1.Change the col-md of boootstrap to col-sm

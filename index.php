@@ -93,7 +93,7 @@ function show_one_tad_evaluation($evaluation_sn = "")
         redirect_header("index.php", 3, _MA_NEED_TADTOOLS);
     }
     include_once XOOPS_ROOT_PATH . "/modules/tadtools/fancybox.php";
-    $fancybox      = new fancybox(".evaluation_fancy_{$evaluation_sn}", '800', '600');
+    $fancybox      = new fancybox(".evaluation_fancy_{$evaluation_sn}");
     $fancybox_code = $fancybox->render(false);
     $xoopsTpl->assign('fancybox_code', $fancybox_code);
 }
@@ -148,7 +148,5 @@ switch ($op) {
 
 /*-----------秀出結果區--------------*/
 $xoopsTpl->assign("toolbar", toolbar_bootstrap($interface_menu));
-$xoopsTpl->assign("bootstrap", get_bootstrap());
-$xoopsTpl->assign("jquery", get_jquery(true));
 $xoopsTpl->assign("isAdmin", $isAdmin);
 include_once XOOPS_ROOT_PATH . '/footer.php';

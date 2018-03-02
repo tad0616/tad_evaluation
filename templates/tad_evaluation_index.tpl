@@ -4,6 +4,7 @@
     <{$level_css}>
   </style>
 <{/if}>
+
 <!--列出所有資料-->
 <{if $all_content}>
   <{if $isAdmin}>
@@ -52,8 +53,10 @@
 
   <h1><{$evaluation_title}></h1>
   <div class="well">
-    <a href="#" onclick="jQuery('#treetbl<{$evaluation_sn}>').treetable('expandAll'); return false;" onkeypress="jQuery('#treetbl<{$evaluation_sn}>').treetable('expandAll'); return false;" class="btn btn-default btn-xs"><{$smarty.const._MD_TADEVALUA_EXPAND_ALL}></a>
-    <a href="#" onclick="jQuery('#treetbl<{$evaluation_sn}>').treetable('collapseAll'); return false;" onkeypress="jQuery('#treetbl<{$evaluation_sn}>').treetable('collapseAll'); return false;" class="btn btn-default btn-xs"><{$smarty.const._MD_TADEVALUA_COLLAPSE_ALL}></a>
+    <{if $cate_count}>
+      <a href="#" onclick="jQuery('#treetbl<{$evaluation_sn}>').treetable('expandAll'); return false;" onkeypress="jQuery('#treetbl<{$evaluation_sn}>').treetable('expandAll'); return false;" class="btn btn-default btn-xs"><{$smarty.const._MD_TADEVALUA_EXPAND_ALL}></a>
+      <a href="#" onclick="jQuery('#treetbl<{$evaluation_sn}>').treetable('collapseAll'); return false;" onkeypress="jQuery('#treetbl<{$evaluation_sn}>').treetable('collapseAll'); return false;" class="btn btn-default btn-xs"><{$smarty.const._MD_TADEVALUA_COLLAPSE_ALL}></a>
+    <{/if}>
     <div class="row">
 
       <{if $db_files}>
