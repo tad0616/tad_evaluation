@@ -121,7 +121,7 @@
             </div>
           </div>
 
-          <div class="text-center">
+          <div class="text-center" style="margin: 30px auto;">
             <!--評鑑編號-->
             <input type='hidden' name="evaluation_sn" value="<{$evaluation_sn}>">
             <input type="hidden" name="op" value="<{$next_op}>">

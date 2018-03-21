@@ -4,7 +4,7 @@ $modversion = array();
 
 //---模組基本資訊---//
 $modversion['name']        = _MI_TADEVALUA_NAME;
-$modversion['version']     = '2.0';
+$modversion['version']     = '2.1';
 $modversion['description'] = _MI_TADEVALUA_DESC;
 $modversion['author']      = _MI_TADEVALUA_AUTHOR;
 $modversion['credits']     = _MI_TADEVALUA_CREDITS;
@@ -14,7 +14,7 @@ $modversion['image']       = "images/logo.png";
 $modversion['dirname']     = basename(__DIR__);
 
 //---模組狀態資訊---//
-$modversion['release_date']        = '2017-04-20';
+$modversion['release_date']        = '2018-03-21';
 $modversion['module_website_url']  = 'http://tad0616.net';
 $modversion['module_website_name'] = _MI_TADEVALUA_AUTHOR_WEB;
 $modversion['module_status']       = 'release';
@@ -72,35 +72,47 @@ $modversion['blocks'][$i]['description'] = _MI_TADEVALUA_BDESC1;
 $modversion['blocks'][$i]['show_func']   = "tad_evaluation_list";
 $modversion['blocks'][$i]['template']    = "tad_evaluation_block_list.tpl";
 
-$modversion['config'][1]['name']        = 'ignored';
-$modversion['config'][1]['title']       = '_MI_TADEVALUA_IGNORED';
-$modversion['config'][1]['description'] = '_MI_TADEVALUA_IGNORED_DESC';
-$modversion['config'][1]['formtype']    = 'textarea';
-$modversion['config'][1]['valuetype']   = 'text';
-$modversion['config'][1]['default']     = 'Thumbs.db';
+$i                                       = 1;
+$modversion['config'][$i]['name']        = 'ignored';
+$modversion['config'][$i]['title']       = '_MI_TADEVALUA_IGNORED';
+$modversion['config'][$i]['description'] = '_MI_TADEVALUA_IGNORED_DESC';
+$modversion['config'][$i]['formtype']    = 'textarea';
+$modversion['config'][$i]['valuetype']   = 'text';
+$modversion['config'][$i]['default']     = 'Thumbs.db';
 
-$modversion['config'][2]['name']        = 'os_charset';
-$modversion['config'][2]['title']       = '_MI_TADEVALUA_OS_CHARSET';
-$modversion['config'][2]['description'] = '_MI_TADEVALUA_OS_CHARSET_DESC';
-$modversion['config'][2]['formtype']    = 'select';
-$modversion['config'][2]['valuetype']   = 'text';
-$modversion['config'][2]['default']     = 'Auto';
-$modversion['config'][2]['options']     = array('Auto' => 'Auto', 'UTF-8' => 'UTF-8', 'Big5' => 'Big5');
+$i++;
+$modversion['config'][$i]['name']        = 'os_charset';
+$modversion['config'][$i]['title']       = '_MI_TADEVALUA_OS_CHARSET';
+$modversion['config'][$i]['description'] = '_MI_TADEVALUA_OS_CHARSET_DESC';
+$modversion['config'][$i]['formtype']    = 'select';
+$modversion['config'][$i]['valuetype']   = 'text';
+$modversion['config'][$i]['default']     = 'Auto';
+$modversion['config'][$i]['options']     = array('Auto' => 'Auto', 'UTF-8' => 'UTF-8', 'Big5' => 'Big5');
 
-$modversion['config'][3]['name']        = 'use_google_doc';
-$modversion['config'][3]['title']       = '_MI_TADEVALUA_USE_GOOGLE_DOC';
-$modversion['config'][3]['description'] = '_MI_TADEVALUA_USE_GOOGLE_DOC_DESC';
-$modversion['config'][3]['formtype']    = 'yesno';
-$modversion['config'][3]['valuetype']   = 'int';
-$modversion['config'][3]['default']     = '0';
+$i++;
+$modversion['config'][$i]['name']        = 'use_google_doc';
+$modversion['config'][$i]['title']       = '_MI_TADEVALUA_USE_GOOGLE_DOC';
+$modversion['config'][$i]['description'] = '_MI_TADEVALUA_USE_GOOGLE_DOC_DESC';
+$modversion['config'][$i]['formtype']    = 'yesno';
+$modversion['config'][$i]['valuetype']   = 'int';
+$modversion['config'][$i]['default']     = '0';
 
-$modversion['config'][4]['name']        = 'css_setup';
-$modversion['config'][4]['title']       = '_MI_TADEVALUA_CSS_SETUP';
-$modversion['config'][4]['description'] = '_MI_TADEVALUA_CSS_SETUP_DESC';
-$modversion['config'][4]['formtype']    = 'textarea';
-$modversion['config'][4]['valuetype']   = 'text';
-$modversion['config'][4]['default']     = '.level1{font-size:20px;color:#800040;line-height:150%;}
+$i++;
+$modversion['config'][$i]['name']        = 'css_setup';
+$modversion['config'][$i]['title']       = '_MI_TADEVALUA_CSS_SETUP';
+$modversion['config'][$i]['description'] = '_MI_TADEVALUA_CSS_SETUP_DESC';
+$modversion['config'][$i]['formtype']    = 'textarea';
+$modversion['config'][$i]['valuetype']   = 'text';
+$modversion['config'][$i]['default']     = '.level1{font-size:20px;color:#800040;line-height:150%;}
 .level2{font-size:18px;color:#00274F;line-height:150%;}
 .level3{font-size:16px;color:#003737;line-height:150%;}
 .level4{font-size:14px;color:#542929;line-height:150%;}
 .level5{font-size:12px;color:#000000;line-height:150%;}';
+
+$i++;
+$modversion['config'][$i]['name']        = 'use_office_viewer';
+$modversion['config'][$i]['title']       = '_MI_TADEVALUA_USE_OFFICE_VIEWER';
+$modversion['config'][$i]['description'] = '_MI_TADEVALUA_USE_OFFICE_VIEWER_DESC';
+$modversion['config'][$i]['formtype']    = 'yesno';
+$modversion['config'][$i]['valuetype']   = 'int';
+$modversion['config'][$i]['default']     = '1';

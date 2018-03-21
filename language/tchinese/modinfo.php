@@ -27,3 +27,6 @@ define('_MI_TADEVALUA_BACK_2_ADMIN', '管理');
 
 //help
 define('_MI_TADEVALUA_HELP_OVERVIEW', '概要');
+
+define('_MI_TADEVALUA_USE_OFFICE_VIEWER', 'MS Office文件使用線上檢視器');
+define('_MI_TADEVALUA_USE_OFFICE_VIEWER_DESC', '是否針對MS Office文件格式使用線上檢視器');

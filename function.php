@@ -239,7 +239,8 @@ function get_cate_files($evaluation_sn = "", $cate_sn = "")
                 $max_size = 5242880;
             }
             $filesize = filesize(XOOPS_ROOT_PATH . "/uploads/tad_evaluation/{$evaluation['evaluation_title']}/{$cate_path}/{$file_name}");
-            if ($filesize < $max_size) {
+
+            if ($xoopsModuleConfig['use_office_viewer'] == '1' and $filesize < $max_size and XOOPS_URL != 'http://127.0.0.1' and XOOPS_URL != 'http://localhost') {
                 $other = "data-fancybox-type=\"iframe\"";
                 $file  = urlencode(XOOPS_URL . "/uploads/tad_evaluation/{$evaluation['evaluation_title']}/{$cate_path}/{$file_name}");
                 $href  = "https://view.officeapps.live.com/op/view.aspx?src={$file}";
@@ -279,7 +280,7 @@ function get_evaluation_count($evaluation_sn, $tbl)
     if (empty($evaluation_sn)) {
         return;
     } else {
-        $evaluation_sn = (int)$evaluation_sn;
+        $evaluation_sn = (int) $evaluation_sn;
     }
 
     $sql         = "select count(*) from `" . $xoopsDB->prefix($tbl) . "` where `evaluation_sn` = '{$evaluation_sn}' ";

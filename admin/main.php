@@ -63,7 +63,7 @@ function tad_evaluation_form($evaluation_sn = "")
     }
     include_once XOOPS_ROOT_PATH . "/modules/tadtools/ck.php";
     $ck = new CKEditor("tad_evaluation", "evaluation_description", $evaluation_description);
-    $ck->setHeight(400);
+    $ck->setHeight(100);
     $editor = $ck->render();
 
     $xoopsTpl->assign('evaluation_description_editor', $editor);
@@ -150,7 +150,7 @@ function list_tad_evaluation()
 
     $result = $xoopsDB->query($sql) or web_error($sql);
 
-    $all_content = "";
+    $all_content = array();
     $i           = 0;
     while ($all = $xoopsDB->fetchArray($result)) {
         //以下會產生這些變數： $evaluation_sn , $evaluation_title , $evaluation_description , $evaluation_enable , $evaluation_uid , $evaluation_date
