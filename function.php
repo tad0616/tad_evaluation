@@ -11,10 +11,11 @@ include_once XOOPS_ROOT_PATH . "/modules/tadtools/tad_function.php";
 function change_charset($str, $OS2Web = true)
 {
     global $xoopsModuleConfig;
-    if ($xoopsModuleConfig['os_charset'] == "Auto") {
-        $os_charset = (PATH_SEPARATOR == ':') ? "UTF-8" : "Big5";
-    } else {
+
+    if ($xoopsModuleConfig['os_charset'] != "Auto" and $xoopsModuleConfig['os_charset'] != "") {
         $os_charset = $xoopsModuleConfig['os_charset'];
+    } else {
+        $os_charset = (PATH_SEPARATOR == ':') ? "UTF-8" : "Big5";
     }
 
     if ($os_charset != _CHARSET) {

@@ -236,10 +236,10 @@ function show_one_tad_evaluation($evaluation_sn = "")
     $xoopsTpl->assign('title', $evaluation_title);
     $xoopsTpl->assign('evaluation_path', XOOPS_ROOT_PATH . "/uploads/tad_evaluation/{$evaluation_title}/");
 
-    $evaluation_title = change_charset($evaluation_title, false);
+    // $evaluation_title = change_charset($evaluation_title, false);
 
     $dir = XOOPS_ROOT_PATH . "/uploads/tad_evaluation/{$evaluation_title}/";
-
+// die($dir);
     $all_files = directory_list($dir);
 
     $_SESSION['dir_count'] = $_SESSION['file_count'] = $_SESSION['pass_count'] = 0;
@@ -494,7 +494,7 @@ function delete_directory($dirname)
 function directory_list($directory_base_path = "")
 {
     $myts = MyTextSanitizer::getInstance();
-
+ 
     $directory_base_path = $myts->addSlashes($directory_base_path);
 
     $directory_base_path = rtrim($directory_base_path, "/") . "/";
@@ -502,7 +502,7 @@ function directory_list($directory_base_path = "")
     $result_list = array();
 
     $allfile = glob($directory_base_path . "*");
-
+// die(var_export($allfile));
     foreach ($allfile as $filename) {
         $filename     = $myts->addSlashes($filename);
         $basefilename = str_replace($directory_base_path, '', $filename);
@@ -610,21 +610,18 @@ switch ($op) {
         replace_tad_evaluation();
         header("location: {$_SERVER['PHP_SELF']}");
         exit;
-        break;
 
     //新增資料
     case "insert_tad_evaluation":
         $evaluation_sn = insert_tad_evaluation();
         header("location: {$_SERVER['PHP_SELF']}?evaluation_sn=$evaluation_sn");
         exit;
-        break;
 
     //更新資料
     case "update_tad_evaluation":
         update_tad_evaluation($evaluation_sn);
         header("location: {$_SERVER['PHP_SELF']}?evaluation_sn=$evaluation_sn");
         exit;
-        break;
 
     //更新資料
     case "tad_evaluation_form":
@@ -636,14 +633,12 @@ switch ($op) {
         delete_tad_evaluation($evaluation_sn);
         header("location: {$_SERVER['PHP_SELF']}");
         exit;
-        break;
 
     //匯入檔案
     case "tad_evaluation_import":
         tad_evaluation_import($evaluation_sn);
         header("location: {$_SERVER['PHP_SELF']}?evaluation_sn=$evaluation_sn");
         exit;
-        break;
 
     //預設動作
     default:
