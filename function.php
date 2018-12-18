@@ -167,9 +167,9 @@ function db_files($admin_tool = false, $icon = true, $mode = 'show', $evaluation
         $_SESSION['dir_count2']++;
         $data .= "
         <tr data-tt-id='{$cate_sn}' $parent id='cate_sn-_{$cate_sn}' $class style='letter-spacing: 0em;'>
-          <td style='padding:5px 0px;' class='level{$level}'>
-            {$pull}{$cate_icon}{$title}
-          </td>
+            <td style='padding:5px 0px;' class='level{$level}'>
+                {$pull}{$cate_icon}{$title}
+            </td>
         </tr>";
 
         $data .= get_cate_files($evaluation_sn, $cate_sn);

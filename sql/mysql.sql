@@ -4,9 +4,9 @@ CREATE TABLE `tad_evaluation` (
   `evaluation_description` text NOT NULL COMMENT '評鑑說明',
   `evaluation_enable` enum('1','0') NOT NULL COMMENT '是否啟用',
   `evaluation_uid` mediumint(8) unsigned NOT NULL default '0' COMMENT '建立者',
-  `evaluation_date` datetime NOT NULL default '0000-00-00 00:00:00' COMMENT '建立日期',
+  `evaluation_date` datetime NOT NULL COMMENT '建立日期',
 PRIMARY KEY (`evaluation_sn`)
-) ENGINE=MyISAM;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 
 CREATE TABLE `tad_evaluation_cate` (
@@ -18,7 +18,7 @@ CREATE TABLE `tad_evaluation_cate` (
   `cate_sort` smallint(6) unsigned NOT NULL DEFAULT '0' COMMENT '分類排序',
   `cate_enable` enum('1','0') NOT NULL COMMENT '開放觀看',
   PRIMARY KEY (`cate_sn`,`evaluation_sn`)
-) ENGINE=MyISAM;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 CREATE TABLE `tad_evaluation_files` (
   `file_sn` mediumint(9) unsigned NOT NULL COMMENT '檔案編號',
@@ -31,4 +31,4 @@ CREATE TABLE `tad_evaluation_files` (
   `file_enable` enum('1','0') NOT NULL COMMENT '開放觀看',
   `file_sort` smallint(6) unsigned NOT NULL DEFAULT '0' COMMENT '順序',
   PRIMARY KEY (`file_sn`,`cate_sn`,`evaluation_sn`)
-) ENGINE=MyISAM;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;

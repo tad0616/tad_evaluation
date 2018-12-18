@@ -1,9 +1,2 @@
-<{if $block}>
-  <ul>
-    <{foreach from=$block item=evaluation}>
-      <li>
-        <a href="<{$xoops_url}>/modules/tad_evaluation/index.php?evaluation_sn=<{$evaluation.evaluation_sn}>"><{$evaluation.evaluation_title}></a>
-      </li>
-    <{/foreach}>
-  </ul>
-<{/if}>
+<{assign var=this_file value=$smarty.template|basename|replace:'db:':''}>
+<{includeq file="$xoops_rootpath/modules/tad_evaluation/templates/blocks/b4.tpl"}>

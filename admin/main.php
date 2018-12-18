@@ -236,10 +236,10 @@ function show_one_tad_evaluation($evaluation_sn = "")
     $xoopsTpl->assign('title', $evaluation_title);
     $xoopsTpl->assign('evaluation_path', XOOPS_ROOT_PATH . "/uploads/tad_evaluation/{$evaluation_title}/");
 
-    // $evaluation_title = change_charset($evaluation_title, false);
+    $evaluation_title = change_charset($evaluation_title, false);
 
     $dir = XOOPS_ROOT_PATH . "/uploads/tad_evaluation/{$evaluation_title}/";
-// die($dir);
+
     $all_files = directory_list($dir);
 
     $_SESSION['dir_count'] = $_SESSION['file_count'] = $_SESSION['pass_count'] = 0;
