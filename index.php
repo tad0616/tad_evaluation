@@ -13,7 +13,7 @@ function list_tad_evaluation()
 
     $sql = "SELECT * FROM `" . $xoopsDB->prefix("tad_evaluation") . "` WHERE evaluation_enable='1' ORDER BY evaluation_date DESC";
 
-    $result = $xoopsDB->query($sql) or web_error($sql);
+    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, _LINE__);
 
     $all_content = array();
     $i           = 0;
@@ -59,7 +59,7 @@ function show_one_tad_evaluation($evaluation_sn = "")
     }
 
     $sql    = "select * from `" . $xoopsDB->prefix("tad_evaluation") . "` where `evaluation_sn` = '{$evaluation_sn}' ";
-    $result = $xoopsDB->query($sql) or web_error($sql);
+    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, _LINE__);
     $all    = $xoopsDB->fetchArray($result);
 
     //以下會產生這些變數： $evaluation_sn , $evaluation_title , $evaluation_description , $evaluation_enable , $evaluation_uid , $evaluation_date

@@ -88,7 +88,7 @@ function insert_tad_evaluation()
     $sql = "insert into `" . $xoopsDB->prefix("tad_evaluation") . "`
   (`evaluation_title` , `evaluation_description` , `evaluation_enable` , `evaluation_uid` , `evaluation_date`)
   values('{$_POST['evaluation_title']}' , '{$_POST['evaluation_description']}' , '{$_POST['evaluation_enable']}' , '{$uid}' , '" . date("Y-m-d H:i:s", xoops_getUserTimestamp(time())) . "')";
-    $xoopsDB->query($sql) or web_error($sql);
+    $xoopsDB->query($sql) or web_error($sql, __FILE__, _LINE__);
 
     //取得最後新增資料的流水編號
     $evaluation_sn = $xoopsDB->getInsertId();
@@ -120,7 +120,7 @@ function update_tad_evaluation($evaluation_sn = "")
    `evaluation_uid` = '{$uid}' ,
    `evaluation_date` = '" . date("Y-m-d H:i:s", xoops_getUserTimestamp(time())) . "'
   where `evaluation_sn` = '$evaluation_sn'";
-    $xoopsDB->queryF($sql) or web_error($sql);
+    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, _LINE__);
 
     $_POST['evaluation_title']      = change_charset($_POST['evaluation_title'], false);
     $evaluation['evaluation_title'] = change_charset($evaluation['evaluation_title'], false);
@@ -148,7 +148,7 @@ function list_tad_evaluation()
     $sql     = $PageBar['sql'];
     $total   = $PageBar['total'];
 
-    $result = $xoopsDB->query($sql) or web_error($sql);
+    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, _LINE__);
 
     $all_content = array();
     $i           = 0;
@@ -191,7 +191,7 @@ function delete_tad_evaluation($evaluation_sn = "")
     global $xoopsDB, $isAdmin;
     delete_tad_evaluation_cate($evaluation_sn, true);
     $sql = "delete from `" . $xoopsDB->prefix("tad_evaluation") . "` where `evaluation_sn` = '{$evaluation_sn}'";
-    $xoopsDB->queryF($sql) or web_error($sql);
+    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, _LINE__);
 }
 
 //以流水號秀出某筆tad_evaluation資料內容
@@ -206,7 +206,7 @@ function show_one_tad_evaluation($evaluation_sn = "")
     }
 
     $sql = "select * from `" . $xoopsDB->prefix("tad_evaluation") . "` where `evaluation_sn` = '{$evaluation_sn}' ";
-    $result = $xoopsDB->query($sql) or web_error($sql);
+    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, _LINE__);
     $all = $xoopsDB->fetchArray($result);
 
     //以下會產生這些變數： $evaluation_sn , $evaluation_title , $evaluation_description , $evaluation_enable , $evaluation_uid , $evaluation_date
@@ -412,7 +412,7 @@ function save_tad_evaluation_cate($evaluation_sn, $cate_title, $cate_sn, $of_cat
     $sql = "insert into `" . $xoopsDB->prefix("tad_evaluation_cate") . "`
   (`cate_sn` , `of_cate_sn` , `cate_title` , `cate_desc` , `cate_sort` , `cate_enable` , `evaluation_sn`)
   values('{$cate_sn}','{$of_cate_sn}' , '{$cate_title}' , '' , '{$cate_sn}' , '1' , '{$evaluation_sn}')";
-    $xoopsDB->query($sql) or web_error($sql);
+    $xoopsDB->query($sql) or web_error($sql, __FILE__, _LINE__);
 }
 
 //新增資料到tad_evaluation_files中
@@ -440,7 +440,7 @@ function save_tad_evaluation_files($evaluation_sn, $file_name, $file_sn, $cate_s
     $sql = "insert into `" . $xoopsDB->prefix("tad_evaluation_files") . "`
   (`file_sn` , `cate_sn` , `evaluation_sn` , `file_name` , `file_size` , `file_type` , `file_desc` , `file_enable` , `file_sort`)
   values('{$file_sn}' , '{$cate_sn}' , '{$evaluation_sn}' , '{$file_name}' , '{$size}' , '{$type}' , '{$file_desc}' , '1' , '{$file_sn}')";
-    $xoopsDB->query($sql) or web_error($sql);
+    $xoopsDB->query($sql) or web_error($sql, __FILE__, _LINE__);
 }
 
 //刪除某評鑑的所有分類
@@ -459,10 +459,10 @@ function delete_tad_evaluation_cate($evaluation_sn = "", $del_file = false)
     }
 
     $sql = "delete from `" . $xoopsDB->prefix("tad_evaluation_cate") . "` where `evaluation_sn` = '{$evaluation_sn}'";
-    $xoopsDB->queryF($sql) or web_error($sql);
+    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, _LINE__);
 
     $sql = "delete from `" . $xoopsDB->prefix("tad_evaluation_files") . "` where `evaluation_sn` = '{$evaluation_sn}'";
-    $xoopsDB->queryF($sql) or web_error($sql);
+    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, _LINE__);
 }
 
 //刪除目錄
