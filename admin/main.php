@@ -197,17 +197,17 @@ function delete_tad_evaluation($evaluation_sn = "")
 //以流水號秀出某筆tad_evaluation資料內容
 function show_one_tad_evaluation($evaluation_sn = "")
 {
-    global $xoopsDB, $xoopsTpl, $isAdmin, $xoopsModuleConfig;
+    global $xoopsDB, $xoopsTpl, $isAdmin, $xoopsModuleConfig, $xoTheme;
 
     if (empty($evaluation_sn)) {
         return;
     } else {
-        $evaluation_sn = (int)$evaluation_sn;
+        $evaluation_sn = (int) $evaluation_sn;
     }
 
-    $sql = "select * from `" . $xoopsDB->prefix("tad_evaluation") . "` where `evaluation_sn` = '{$evaluation_sn}' ";
+    $sql    = "select * from `" . $xoopsDB->prefix("tad_evaluation") . "` where `evaluation_sn` = '{$evaluation_sn}' ";
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
-    $all = $xoopsDB->fetchArray($result);
+    $all    = $xoopsDB->fetchArray($result);
 
     //以下會產生這些變數： $evaluation_sn , $evaluation_title , $evaluation_description , $evaluation_enable , $evaluation_uid , $evaluation_date
     foreach ($all as $k => $v) {
@@ -249,15 +249,14 @@ function show_one_tad_evaluation($evaluation_sn = "")
     $xoopsTpl->assign('dir_count', $_SESSION['dir_count']);
     $xoopsTpl->assign('file_count', $_SESSION['file_count']);
     $xoopsTpl->assign('pass_count', $_SESSION['pass_count']);
-    $xoopsTpl->assign('jquery', get_jquery(true));
 
     if (!file_exists(XOOPS_ROOT_PATH . "/modules/tadtools/fancybox.php")) {
         redirect_header("index.php", 3, _MA_NEED_TADTOOLS);
     }
     include_once XOOPS_ROOT_PATH . "/modules/tadtools/fancybox.php";
-    $fancybox      = new fancybox(".evaluation_fancy_{$evaluation_sn}");
-    $fancybox_code = $fancybox->render();
-    $xoopsTpl->assign('fancybox_code', $fancybox_code);
+    $fancybox = new fancybox(".evaluation_fancy_{$evaluation_sn}");
+    $fancybox->render();
+
 }
 
 //把陣列轉為目錄
@@ -427,7 +426,7 @@ function save_tad_evaluation_files($evaluation_sn, $file_name, $file_sn, $cate_s
     $file_src = XOOPS_ROOT_PATH . "/uploads/tad_evaluation/{$real_evaluation_title}/{$real_file_name}";
 
     $type = mime_content_type($file_src);
-    $size = (int)filesize($file_src);
+    $size = (int) filesize($file_src);
 
     $filepart = explode('.', $file_name);
     foreach ($filepart as $ff) {
@@ -494,7 +493,7 @@ function delete_directory($dirname)
 function directory_list($directory_base_path = "")
 {
     $myts = MyTextSanitizer::getInstance();
- 
+
     $directory_base_path = $myts->addSlashes($directory_base_path);
 
     $directory_base_path = rtrim($directory_base_path, "/") . "/";
@@ -650,9 +649,11 @@ switch ($op) {
         }
         break;
 
-    /*---判斷動作請貼在上方---*/
+        /*---判斷動作請貼在上方---*/
 }
 
 /*-----------秀出結果區--------------*/
 $xoopsTpl->assign("isAdmin", true);
+$xoTheme->addStylesheet('modules/tadtools/css/font-awesome/css/font-awesome.css');
+
 include_once 'footer.php';

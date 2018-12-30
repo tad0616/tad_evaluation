@@ -85,6 +85,8 @@ function db_files($admin_tool = false, $icon = true, $mode = 'show', $evaluation
         return;
     }
 
+    get_jquery(true);
+
     $myts      = MyTextSanitizer::getInstance();
     $old_level = $level;
 

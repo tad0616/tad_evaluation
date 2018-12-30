@@ -47,31 +47,30 @@
 
 <!--顯示某一筆資料-->
 <{if $now_op=="show_one_tad_evaluation"}>
-  <link rel="stylesheet" href="<{$xoops_url}>/modules/tadtools/css/iconize.css" type="text/css" media="all" />
-  <{$fancybox_code}>
+    <{$fancybox_code}>
 
-  <h1><{$evaluation_title}></h1>
-  <{if $cate_count}>
-    <a href="#" onclick="jQuery('#treetbl<{$evaluation_sn}>').treetable('expandAll'); return false;" onkeypress="jQuery('#treetbl<{$evaluation_sn}>').treetable('expandAll'); return false;" class="btn btn-outline-info btn-sm"><{$smarty.const._MD_TADEVALUA_EXPAND_ALL}></a>
-    <a href="#" onclick="jQuery('#treetbl<{$evaluation_sn}>').treetable('collapseAll'); return false;" onkeypress="jQuery('#treetbl<{$evaluation_sn}>').treetable('collapseAll'); return false;" class="btn btn-outline-info btn-sm"><{$smarty.const._MD_TADEVALUA_COLLAPSE_ALL}></a>
-  <{/if}>
-  <div class="card card-body bg-light m-1">
+    <h1><{$evaluation_title}></h1>
+    <{if $cate_count}>
+        <a href="#" onclick="jQuery('#treetbl<{$evaluation_sn}>').treetable('expandAll'); return false;" onkeypress="jQuery('#treetbl<{$evaluation_sn}>').treetable('expandAll'); return false;" class="btn btn-outline-info btn-sm"><{$smarty.const._MD_TADEVALUA_EXPAND_ALL}></a>
+        <a href="#" onclick="jQuery('#treetbl<{$evaluation_sn}>').treetable('collapseAll'); return false;" onkeypress="jQuery('#treetbl<{$evaluation_sn}>').treetable('collapseAll'); return false;" class="btn btn-outline-info btn-sm"><{$smarty.const._MD_TADEVALUA_COLLAPSE_ALL}></a>
+    <{/if}>
+    <div class="card card-body bg-light m-1">
 
-      <{if $db_files}>
-        <div>
-          <{$db_files}>
-        </div>
-      <{else}>
-        <div class="jumbotron">
-          <{$smarty.const._MD_TADEVALUA_EVALUATION_EMPTY}>
-        </div>
-      <{/if}>
-  </div>
+        <{if $db_files}>
+            <div>
+            <{$db_files}>
+            </div>
+        <{else}>
+            <div class="jumbotron">
+            <{$smarty.const._MD_TADEVALUA_EVALUATION_EMPTY}>
+            </div>
+        <{/if}>
+    </div>
 
 
-  <{if $isAdmin}>
-  <div class="text-right">
-    <a href="admin/main.php?evaluation_sn=<{$evaluation_sn}>" class="btn btn-warning"><{$smarty.const._TAD_EDIT}></a>
-  </div>
-  <{/if}>
+    <{if $isAdmin}>
+    <div class="text-right">
+        <a href="admin/main.php?evaluation_sn=<{$evaluation_sn}>" class="btn btn-warning"><{$smarty.const._TAD_EDIT}></a>
+    </div>
+    <{/if}>
 <{/if}>

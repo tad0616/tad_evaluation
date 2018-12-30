@@ -50,7 +50,7 @@ function list_tad_evaluation()
 //以流水號秀出某筆tad_evaluation資料內容
 function show_one_tad_evaluation($evaluation_sn = "")
 {
-    global $xoopsDB, $xoopsTpl, $isAdmin, $xoopsModuleConfig;
+    global $xoopsDB, $xoopsTpl, $isAdmin, $xoopsModuleConfig, $xoTheme;
 
     if (empty($evaluation_sn)) {
         return;
@@ -93,9 +93,11 @@ function show_one_tad_evaluation($evaluation_sn = "")
         redirect_header("index.php", 3, _MA_NEED_TADTOOLS);
     }
     include_once XOOPS_ROOT_PATH . "/modules/tadtools/fancybox.php";
-    $fancybox      = new fancybox(".evaluation_fancy_{$evaluation_sn}");
-    $fancybox_code = $fancybox->render(false);
-    $xoopsTpl->assign('fancybox_code', $fancybox_code);
+    $fancybox = new fancybox(".evaluation_fancy_{$evaluation_sn}");
+    $fancybox->render(false);
+
+    $xoTheme->addStylesheet('modules/tadtools/css/iconize.css');
+
 }
 
 //顯示檔案內容
