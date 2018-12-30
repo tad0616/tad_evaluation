@@ -2,7 +2,8 @@
 //區塊主函式 (評鑑列表(tad_evaluation_list))
 function tad_evaluation_list()
 {
-    global $xoopsDB, $xoopsTpl;
+    global $xoopsDB, $xoopsTpl, $xoTheme;
+    $xoTheme->addStylesheet('modules/tadtools/css/vertical_menu.css');
 
     $sql = "SELECT * FROM `" . $xoopsDB->prefix("tad_evaluation") . "` WHERE evaluation_enable='1' ORDER BY evaluation_date DESC LIMIT 0,10";
 
