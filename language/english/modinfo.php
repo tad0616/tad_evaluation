@@ -27,3 +27,6 @@ define('_MI_TADEVALUA_BACK_2_ADMIN', 'Back to Administration of ');
 
 //help
 define('_MI_TADEVALUA_HELP_OVERVIEW', 'Overview');
+
+define('_MI_TADEVALUA_USE_OFFICE_VIEWER', 'MS Office Files Using Online Viewer');
+define('_MI_TADEVALUA_USE_OFFICE_VIEWER_DESC', 'Use online viewer for MS Office file format');

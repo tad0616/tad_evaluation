@@ -10,7 +10,7 @@ function tad_evaluation_search($queryarray, $andor, $limit, $offset, $userid)
         }
         $queryarray = $arr;
     }
-    $sql = "SELECT a.`file_sn`,a.`evaluation_sn`,a.`file_name`,b.`evaluation_date`, b.`evaluation_uid` FROM " . $xoopsDB->prefix("tad_evaluation_files") . " as a left join " . $xoopsDB->prefix("tad_evaluation") . " as b on a.evaluation_sn = b.evaluation_sn WHERE b.evaluation_enable='1'";
+    $sql = "SELECT a.`file_sn`,a.`evaluation_sn`,a.`file_name`,b.`evaluation_date`, b.`evaluation_uid` FROM " . $xoopsDB->prefix("tad_evaluation_files") . " AS a LEFT JOIN " . $xoopsDB->prefix("tad_evaluation") . " AS b ON a.evaluation_sn = b.evaluation_sn WHERE b.evaluation_enable='1'";
     if ($userid != 0) {
         $sql .= " AND b.evaluation_uid=" . $userid . " ";
     }
@@ -22,7 +22,7 @@ function tad_evaluation_search($queryarray, $andor, $limit, $offset, $userid)
         }
         $sql .= ") ";
     }
-    $sql .= "ORDER BY  b.`evaluation_date` DESC";
+    $sql    .= "ORDER BY  b.`evaluation_date` DESC";
     $result = $xoopsDB->query($sql, $limit, $offset);
     $ret    = array();
     $i      = 0;

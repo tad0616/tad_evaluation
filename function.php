@@ -11,10 +11,11 @@ include_once XOOPS_ROOT_PATH . "/modules/tadtools/tad_function.php";
 function change_charset($str, $OS2Web = true)
 {
     global $xoopsModuleConfig;
-    if ($xoopsModuleConfig['os_charset'] == "Auto") {
-        $os_charset = (PATH_SEPARATOR == ':') ? "UTF-8" : "Big5";
-    } else {
+
+    if ($xoopsModuleConfig['os_charset'] != "Auto" and $xoopsModuleConfig['os_charset'] != "") {
         $os_charset = $xoopsModuleConfig['os_charset'];
+    } else {
+        $os_charset = (PATH_SEPARATOR == ':') ? "UTF-8" : "Big5";
     }
 
     if ($os_charset != _CHARSET) {
@@ -36,7 +37,7 @@ function get_tad_evaluation($evaluation_sn = "")
     }
 
     $sql    = "select * from `" . $xoopsDB->prefix("tad_evaluation") . "` where `evaluation_sn` = '{$evaluation_sn}'";
-    $result = $xoopsDB->query($sql) or web_error($sql);
+    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
     $data   = $xoopsDB->fetchArray($result);
     return $data;
 }
@@ -52,7 +53,7 @@ function get_tad_evaluation_files($evaluation_sn = "", $cate_sn = "", $file_sn =
     //
     //`file_sn`, `cate_sn`, `evaluation_sn`, `file_name`, `file_size`, `file_type`, `file_desc`, `file_enable`, `file_sort`
     $sql    = "select * from `" . $xoopsDB->prefix("tad_evaluation_files") . "` where `evaluation_sn` = '{$evaluation_sn}' and `cate_sn` = '{$cate_sn}' and `file_sn` = '{$file_sn}'";
-    $result = $xoopsDB->query($sql) or web_error($sql);
+    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
     $data   = $xoopsDB->fetchArray($result);
     return $data;
 }
@@ -67,7 +68,7 @@ function get_tad_evaluation_cate_path($evaluation_sn = "", $cate_sn = "")
 
     //`cate_sn`, `of_cate_sn`, `cate_title`, `cate_desc`, `cate_sort`, `cate_enable`, `evaluation_sn`
     $sql                           = "select cate_title,of_cate_sn from `" . $xoopsDB->prefix("tad_evaluation_cate") . "` where `evaluation_sn` = '{$evaluation_sn}' and `cate_sn` = '{$cate_sn}'";
-    $result                        = $xoopsDB->query($sql) or web_error($sql);
+    $result                        = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
     list($cate_title, $of_cate_sn) = $xoopsDB->fetchRow($result);
     if (!empty($of_cate_sn)) {
         $cate_title = get_tad_evaluation_cate_path($evaluation_sn, $of_cate_sn) . "/{$cate_title}";
@@ -84,40 +85,52 @@ function db_files($admin_tool = false, $icon = true, $mode = 'show', $evaluation
         return;
     }
 
+    get_jquery(true);
+
     $myts      = MyTextSanitizer::getInstance();
     $old_level = $level;
 
     $start  = 0;
     $treeID = $evaluation_sn;
 
+    //檢查有無目錄，沒目錄的話，不要套用treetable
+    $sql              = "select count(*) from `" . $xoopsDB->prefix("tad_evaluation_cate") . "` where `evaluation_sn` = '{$evaluation_sn}'";
+    $result           = $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
+    list($cate_count) = $xoopsDB->fetchRow($result);
+    $xoopsTpl->assign('cate_count', $cate_count);
+
+    $treetable_code = '';
     if ($old_level == $start and $mode == "edit") {
 
         //後台編輯模式
-        if (!file_exists(XOOPS_ROOT_PATH . "/modules/tadtools/treetable.php")) {
-            redirect_header("index.php", 3, _MA_NEED_TADTOOLS);
+        if ($cate_count) {
+            if (!file_exists(XOOPS_ROOT_PATH . "/modules/tadtools/treetable.php")) {
+                redirect_header("index.php", 3, _MA_NEED_TADTOOLS);
+            }
+            include_once XOOPS_ROOT_PATH . "/modules/tadtools/treetable.php";
+            $treetable      = new treetable(false, "cate_sn", "of_cate_sn", "#treetbl{$treeID}", "save_drag.php", ".folder", "#save_msg", true, ".sort", "save_sort.php", "#save_msg");
+            $treetable_code = $treetable->render();
         }
-        include_once XOOPS_ROOT_PATH . "/modules/tadtools/treetable.php";
-        $treetable      = new treetable(false, "cate_sn", "of_cate_sn", "#treetbl{$treeID}", "save_drag.php", ".folder", "#save_msg", true, ".sort", "save_sort.php", "#save_msg");
-        $treetable_code = $treetable->render();
-
         $data = "
-    $treetable_code
-    <div id='save_msg' style='float:right;'></div>
-    <table id='treetbl{$treeID}'>
-    <tbody class='sort'>";
+        $treetable_code
+        <div id='save_msg' style='float:right;'></div>
+        <table id='treetbl{$treeID}'>
+        <tbody class='sort'>";
     } elseif ($old_level == $start and $mode == "show") {
         //前台編輯模式
-        if (!file_exists(XOOPS_ROOT_PATH . "/modules/tadtools/treetable.php")) {
-            redirect_header("index.php", 3, _MA_NEED_TADTOOLS);
+        if ($cate_count) {
+            if (!file_exists(XOOPS_ROOT_PATH . "/modules/tadtools/treetable.php")) {
+                redirect_header("index.php", 3, _MA_NEED_TADTOOLS);
+            }
+            include_once XOOPS_ROOT_PATH . "/modules/tadtools/treetable.php";
+            $treetable      = new treetable(true, "cate_sn", "of_cate_sn", "#treetbl{$treeID}", null, null, null, false);
+            $treetable_code = $treetable->render();
         }
-        include_once XOOPS_ROOT_PATH . "/modules/tadtools/treetable.php";
-        $treetable      = new treetable(true, "cate_sn", "of_cate_sn", "#treetbl{$treeID}", null, null, null, false);
-        $treetable_code = $treetable->render();
 
         $data = "
-    $treetable_code
-    <table id='treetbl{$treeID}'>
-    <tbody class='sort'>";
+        $treetable_code
+        <table id='treetbl{$treeID}'>
+        <tbody class='sort'>";
     } else {
         $data = "";
     }
@@ -137,7 +150,7 @@ function db_files($admin_tool = false, $icon = true, $mode = 'show', $evaluation
 
     $sql = "select * from `" . $xoopsDB->prefix("tad_evaluation_cate") . "` where `evaluation_sn` = '{$evaluation_sn}' and `of_cate_sn`='$of_cate_sn' order by cate_sort";
     //die($sql);
-    $result = $xoopsDB->queryF($sql) or web_error($sql);
+    $result = $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
 
     //`cate_sn`, `of_cate_sn`, `cate_title`, `cate_desc`, `cate_sort`, `cate_enable`, `evaluation_sn`
     while ($all = $xoopsDB->fetchArray($result)) {
@@ -155,11 +168,11 @@ function db_files($admin_tool = false, $icon = true, $mode = 'show', $evaluation
 
         $_SESSION['dir_count2']++;
         $data .= "
-    <tr data-tt-id='{$cate_sn}' $parent id='cate_sn-_{$cate_sn}' $class style='letter-spacing: 0em;'>
-      <td style='padding:5px 0px;' class='level{$level}'>
-        {$pull}{$cate_icon}{$title}
-      </td>
-    </tr>";
+        <tr data-tt-id='{$cate_sn}' $parent id='cate_sn-_{$cate_sn}' $class style='letter-spacing: 0em;'>
+            <td style='padding:5px 0px;' class='level{$level}'>
+                {$pull}{$cate_icon}{$title}
+            </td>
+        </tr>";
 
         $data .= get_cate_files($evaluation_sn, $cate_sn);
 
@@ -187,12 +200,17 @@ function get_cate_files($evaluation_sn = "", $cate_sn = "")
     $iframe_ext = array("svg", "swf");
     $video_ext  = array("3gp", "mp3", "mp4", "flv");
 
+    $doc_ext    = array("docx", "docm", "dotm", "dotx");
+    $ppt_ext    = array("pptx", "ppsx", "ppt", "pps", "pptm", "potm", "ppam", "potx", "ppsm");
+    $xls_ext    = array("xls", "xlsx", "xlsb", "xlsm");
+    $office_ext = array_merge($doc_ext, $ppt_ext, $xls_ext);
+
     $cate_path = get_tad_evaluation_cate_path($evaluation_sn, $cate_sn);
 
     $sql = "select * from `" . $xoopsDB->prefix("tad_evaluation_files") . "` where `evaluation_sn` = '{$evaluation_sn}' and `cate_sn`='$cate_sn' order by file_sort";
 //die($sql);
     $data   = "";
-    $result = $xoopsDB->queryF($sql) or web_error($sql);
+    $result = $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
 
     while ($all = $xoopsDB->fetchArray($result)) {
         foreach ($all as $k => $v) {
@@ -217,6 +235,22 @@ function get_cate_files($evaluation_sn = "", $cate_sn = "")
         } elseif (in_array($ext, $iframe_ext)) {
             $other = "data-fancybox-type=\"iframe\"";
             $href  = XOOPS_URL . "/uploads/tad_evaluation/{$evaluation['evaluation_title']}/{$cate_path}/{$file_name}#.{$ext}";
+        } elseif (in_array($ext, $office_ext)) {
+            if (in_array($ext, $ppt_ext)) {
+                $max_size = 10485760;
+            } elseif (in_array($ext, $doc_ext) or in_array($ext, $xls_ext)) {
+                $max_size = 5242880;
+            }
+            $filesize = filesize(XOOPS_ROOT_PATH . "/uploads/tad_evaluation/{$evaluation['evaluation_title']}/{$cate_path}/{$file_name}");
+
+            if ($xoopsModuleConfig['use_office_viewer'] == '1' and $filesize < $max_size and XOOPS_URL != 'http://127.0.0.1' and XOOPS_URL != 'http://localhost') {
+                $other = "data-fancybox-type=\"iframe\"";
+                $file  = urlencode(XOOPS_URL . "/uploads/tad_evaluation/{$evaluation['evaluation_title']}/{$cate_path}/{$file_name}");
+                $href  = "https://view.officeapps.live.com/op/view.aspx?src={$file}";
+            } else {
+                $other = "target='_blank'";
+                $href  = XOOPS_URL . "/uploads/tad_evaluation/{$evaluation['evaluation_title']}/{$cate_path}/{$file_name}#.{$ext}";
+            }
         } elseif ($xoopsModuleConfig['use_google_doc'] == 0) {
             $other = "target='_blank'";
             $href  = XOOPS_URL . "/uploads/tad_evaluation/{$evaluation['evaluation_title']}/{$cate_path}/{$file_name}#.{$ext}";
@@ -231,11 +265,11 @@ function get_cate_files($evaluation_sn = "", $cate_sn = "")
         $file_desc = $myts->addSlashes($file_desc);
         $_SESSION['file_count2']++;
         $data .= "
-    <tr data-tt-id='file_{$file_sn}' data-tt-parent-id='$cate_sn' id='file_sn-_{$file_sn}' $class style='letter-spacing: 0em;'>
-      <td style='font-size:11pt;padding:5px 0px;'>
-        <a class=\"evaluation_fancy_{$evaluation_sn} iconize\" $other href=\"{$href}\" style='font-weight:normal;'>{$file_desc}</a>
-      </td>
-    </tr>";
+        <tr data-tt-id='file_{$file_sn}' data-tt-parent-id='$cate_sn' id='file_sn-_{$file_sn}' $class style='letter-spacing: 0em;'>
+          <td style='font-size:11pt;padding:5px 0px;'>
+            <a class=\"evaluation_fancy_{$evaluation_sn} iconize\" $other href=\"{$href}\" style='font-weight:normal;'>{$file_desc}</a>
+          </td>
+        </tr>";
     }
 
     return $data;
@@ -249,11 +283,11 @@ function get_evaluation_count($evaluation_sn, $tbl)
     if (empty($evaluation_sn)) {
         return;
     } else {
-        $evaluation_sn = intval($evaluation_sn);
+        $evaluation_sn = (int) $evaluation_sn;
     }
 
     $sql         = "select count(*) from `" . $xoopsDB->prefix($tbl) . "` where `evaluation_sn` = '{$evaluation_sn}' ";
-    $result      = $xoopsDB->query($sql) or web_error($sql);
+    $result      = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
     list($count) = $xoopsDB->fetchRow($result);
     return $count;
 }
