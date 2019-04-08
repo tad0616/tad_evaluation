@@ -30,7 +30,7 @@ class ModuleAdmin
     public function __construct()
     {
         global $xoopsModule;
-        $this->_obj =& $xoopsModule;
+        $this->_obj = &$xoopsModule;
         echo "<style type=\"text/css\" media=\"screen\">@import \"" . XOOPS_URL . "/modules/" . $xoopsModule->getVar('dirname', 'e') . "/css/admin.css\";</style>";
     }
 
@@ -92,15 +92,15 @@ class ModuleAdmin
             case "module":
                 $date         = explode('/', $this->_obj->getInfo('release_date'));
                 $release_date = formatTimestamp(mktime(0, 0, 0, $date[1], $date[2], $date[0]), 's');
-                $line         .= "<table>\n<tr>\n<td width=\"100px\">\n";
-                $line         .= "<img src='" . XOOPS_URL . "/modules/" . $this->_obj->getVar('dirname') . "/" . $this->_obj->getInfo('image') . "' alt='" . $this->_obj->getVar('name') . "' style='float: left; margin-right: 10px;' />\n";
-                $line         .= "</td><td>\n";
-                $line         .= "<div style='margin-top: 1px; margin-bottom: 4px; font-size: 18px; line-height: 18px; color: #2F5376; font-weight: bold;'>\n";
-                $line         .= $this->_obj->getInfo('name') . " " . $this->_obj->getInfo('version') . " " . $this->_obj->getInfo('status_version');
-                $line         .= "<br />\n";
-                $line         .= "</div>\n";
-                $line         .= "<div style='line-height: 16px; font-weight: bold;'>\n";
-                $line         .= "by " . $this->_obj->getInfo('author');
+                $line .= "<table>\n<tr>\n<td width=\"100px\">\n";
+                $line .= "<img src='" . XOOPS_URL . "/modules/" . $this->_obj->getVar('dirname') . "/" . $this->_obj->getInfo('image') . "' alt='" . $this->_obj->getVar('name') . "' style='float: left; margin-right: 10px;' />\n";
+                $line .= "</td><td>\n";
+                $line .= "<div style='margin-top: 1px; margin-bottom: 4px; font-size: 18px; line-height: 18px; color: #2F5376; font-weight: bold;'>\n";
+                $line .= $this->_obj->getInfo('name') . " " . $this->_obj->getInfo('version') . " " . $this->_obj->getInfo('status_version');
+                $line .= "<br />\n";
+                $line .= "</div>\n";
+                $line .= "<div style='line-height: 16px; font-weight: bold;'>\n";
+                $line .= "by " . $this->_obj->getInfo('author');
                 if ($this->_obj->getInfo('pseudo') != '') {
                     $line .= " (" . $this->_obj->getInfo('pseudo') . ")\n";
                 }
@@ -120,10 +120,10 @@ class ModuleAdmin
                 if ($value != '') {
                     $line .= '<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
                               <input type="hidden" name="cmd" value="_s-xclick">
-                              <input type="hidden" name="hosted_button_id" value="' . $value . '">
+                              <input type="hidden" name="hosted_button_id" value="'     . $value . '">
                               <input type="image" src="https://www.paypal.com/en_US/i/btn/btn_donate_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
                               <img alt="" border="0" src="https://www.paypal.com/fr_FR/i/scr/pixel.gif" width="1" height="1">
-                              </form>';
+                              </form>'    ;
                 }
                 $line .= "</div>\n";
                 $line .= "</td>\n</tr>\n</table>\n";
@@ -213,10 +213,10 @@ class ModuleAdmin
 
     public function addChangelogLabel($title)
     {
-        $line     = "<fieldset><legend class=\"label\">\n";
-        $line     .= $title;
-        $line     .= "</legend><br/>\n";
-        $line     .= "<div class=\"txtchangelog\">\n";
+        $line = "<fieldset><legend class=\"label\">\n";
+        $line .= $title;
+        $line .= "</legend><br/>\n";
+        $line .= "<div class=\"txtchangelog\">\n";
         $language = $GLOBALS['xoopsConfig']['language'];
         if (!is_file(XOOPS_ROOT_PATH . "/modules/" . $this->_obj->getVar("dirname") . "/language/" . $language . "/changelog.txt")) {
             $language = 'english';
@@ -226,8 +226,8 @@ class ModuleAdmin
         if (is_readable($file)) {
             $line .= implode("<br />", file($file)) . "\n";
         }
-        $line                      .= "</div>\n";
-        $line                      .= "</fieldset>\n";
+        $line .= "</div>\n";
+        $line .= "</fieldset>\n";
         $this->_itemChangelogLabel = $line;
         return true;
     }
@@ -276,13 +276,13 @@ class ModuleAdmin
     {
         $path = XOOPS_URL . "/modules/" . $this->_obj->getVar('dirname') . "/images/admin/";
         $ret  = "<table>\n<tr>\n";
-        $ret  .= "<td width=\"40%\">\n";
-        $ret  .= $this->renderMenuIndex();
-        $ret  .= "</td>\n";
-        $ret  .= "<td width=\"60%\">\n";
-        $ret  .= $this->renderLabel();
-        $ret  .= "</td>\n";
-        $ret  .= "</tr>\n";
+        $ret .= "<td width=\"40%\">\n";
+        $ret .= $this->renderMenuIndex();
+        $ret .= "</td>\n";
+        $ret .= "<td width=\"60%\">\n";
+        $ret .= $this->renderLabel();
+        $ret .= "</td>\n";
+        $ret .= "</tr>\n";
         // If you use a config label
         if ($this->_itemConfigLabel != '') {
             $ret .= "<tr>\n";
@@ -300,7 +300,7 @@ class ModuleAdmin
         }
         $ret .= "</table>\n";
 
-        //        $ret .= "<div align=\"center\">";
+//        $ret .= "<div align=\"center\">";
         //        $ret .= "<a href=\"https://xoops.org\" target=\"_blank\"><img src=\"" . $path . "xoopsmicrobutton.gif\" alt=\"XOOPS\" title=\"XOOPS\"></a>";
         //        $ret .= "</div>";
 
@@ -311,8 +311,8 @@ class ModuleAdmin
     {
         $path = XOOPS_URL . "/modules/" . $this->_obj->getVar('dirname') . "/images/admin/";
         $ret  = "<table>\n<tr>\n";
-        $ret  .= "<td width=\"50%\">\n";
-        $ret  .= $this->renderLabel();
+        $ret .= "<td width=\"50%\">\n";
+        $ret .= $this->renderLabel();
         if ($type == 'line') {
             $ret .= $this->_itemChangelogLabel;
         } else {
