@@ -22,7 +22,7 @@ define('_MI_TADEVALUA_CSS_SETUP', '各階層的外觀樣式設定');
 define('_MI_TADEVALUA_CSS_SETUP_DESC', '一行是一組設定，每一行格式為：「.level1{font-size:12pt;color:blue;....}」，第一層為「.level1」，第二層為「.level2」...依此類推。');
 
 define('_MI_TADEVALUA_DIRNAME', basename(dirname(dirname(__DIR__))));
-define('_MI_TADEVALUA_HELP_HEADER', __DIR__ . '/help/helpheader.html');
+define('_MI_TADEVALUA_HELP_HEADER', __DIR__ . '/help/helpheader.tpl');
 define('_MI_TADEVALUA_BACK_2_ADMIN', '管理');
 
 //help

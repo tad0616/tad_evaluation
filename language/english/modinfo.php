@@ -22,7 +22,7 @@ define('_MI_TADEVALUA_CSS_SETUP', 'All style settings');
 define('_MI_TADEVALUA_CSS_SETUP_DESC', "Line is a group setting, each line in the format:'level1 {font-size: 12pt; color: blue; ....}. ', the first layer is '\$level1', second layer '\$level2' ... and so on ");
 
 define('_MI_TADEVALUA_DIRNAME', basename(dirname(dirname(__DIR__))));
-define('_MI_TADEVALUA_HELP_HEADER', __DIR__ . '/help/helpheader.html');
+define('_MI_TADEVALUA_HELP_HEADER', __DIR__ . '/help/helpheader.tpl');
 define('_MI_TADEVALUA_BACK_2_ADMIN', 'Back to Administration of ');
 
 //help
