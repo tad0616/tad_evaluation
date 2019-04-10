@@ -3,13 +3,13 @@
 function xoops_module_install_tad_evaluation(&$module)
 {
 
-    mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_evaluation");
+    tad_evaluation_mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_evaluation");
 
     return true;
 }
 
 //建立目錄
-function mk_dir($dir = "")
+function tad_evaluation_mk_dir($dir = "")
 {
     //若無目錄名稱秀出警告訊息
     if (empty($dir)) {
