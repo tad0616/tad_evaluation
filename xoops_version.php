@@ -1,6 +1,6 @@
 <?php
 
-$modversion = array();
+$modversion = [];
 
 //---模組基本資訊---//
 $modversion['name']        = _MI_TADEVALUA_NAME;
@@ -24,7 +24,7 @@ $modversion['min_php']             = 5.4;
 $modversion['min_xoops']           = '2.5';
 
 //---paypal資訊---//
-$modversion['paypal']                  = array();
+$modversion['paypal']                  = [];
 $modversion['paypal']['business']      = 'tad0616@gmail.com';
 $modversion['paypal']['item_name']     = 'Donation :' . _MI_TADEVALUA_AUTHOR;
 $modversion['paypal']['amount']        = 0;
@@ -87,7 +87,7 @@ $modversion['config'][$i]['description'] = '_MI_TADEVALUA_OS_CHARSET_DESC';
 $modversion['config'][$i]['formtype']    = 'select';
 $modversion['config'][$i]['valuetype']   = 'text';
 $modversion['config'][$i]['default']     = 'Auto';
-$modversion['config'][$i]['options']     = array('Auto' => 'Auto', 'UTF-8' => 'UTF-8', 'Big5' => 'Big5');
+$modversion['config'][$i]['options']     = ['Auto' => 'Auto', 'UTF-8' => 'UTF-8', 'Big5' => 'Big5'];
 
 $i++;
 $modversion['config'][$i]['name']        = 'use_google_doc';

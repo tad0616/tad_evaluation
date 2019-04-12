@@ -17,7 +17,7 @@ function tad_evaluation_form($evaluation_sn = "")
     if (!empty($evaluation_sn)) {
         $DBV = get_tad_evaluation($evaluation_sn);
     } else {
-        $DBV = array();
+        $DBV = [];
     }
 
     //預設值設定
@@ -150,7 +150,7 @@ function list_tad_evaluation()
 
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
 
-    $all_content = array();
+    $all_content = [];
     $i           = 0;
     while ($all = $xoopsDB->fetchArray($result)) {
         //以下會產生這些變數： $evaluation_sn , $evaluation_title , $evaluation_description , $evaluation_enable , $evaluation_uid , $evaluation_date
@@ -498,7 +498,7 @@ function directory_list($directory_base_path = "")
 
     $directory_base_path = rtrim($directory_base_path, "/") . "/";
 
-    $result_list = array();
+    $result_list = [];
 
     $allfile = glob($directory_base_path . "*");
 // die(var_export($allfile));
@@ -525,7 +525,7 @@ function directory_list($directory_base_path = "")
 if (!function_exists('mime_content_type')) {
     function mime_content_type($filename)
     {
-        $mime_types = array(
+        $mime_types = [
 
             'txt'  => 'text/plain',
             'htm'  => 'text/html',
@@ -579,7 +579,7 @@ if (!function_exists('mime_content_type')) {
             // open office
             'odt'  => 'application/vnd.oasis.opendocument.text',
             'ods'  => 'application/vnd.oasis.opendocument.spreadsheet',
-        );
+        ];
 
         $ext = strtolower(array_pop(explode('.', $filename)));
         if (array_key_exists($ext, $mime_types)) {

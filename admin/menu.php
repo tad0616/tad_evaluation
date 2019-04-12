@@ -5,7 +5,7 @@
 // $Id:$
 // ------------------------------------------------------------------------- //
 
-$adminmenu = array();
+$adminmenu = [];
 $i         = 1;
 $icon_dir  = substr(XOOPS_VERSION, 6, 3) == '2.6' ? "" : "images/admin/";
 

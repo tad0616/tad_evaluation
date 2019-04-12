@@ -196,13 +196,13 @@ function get_cate_files($evaluation_sn = "", $cate_sn = "")
     $myts = MyTextSanitizer::getInstance();
 
     $evaluation = get_tad_evaluation($evaluation_sn);
-    $img_ext    = array("png", "jpg", "jpeg", "gif");
-    $iframe_ext = array("svg", "swf");
-    $video_ext  = array("3gp", "mp3", "mp4", "flv");
+    $img_ext    = ["png", "jpg", "jpeg", "gif"];
+    $iframe_ext = ["svg", "swf"];
+    $video_ext  = ["3gp", "mp3", "mp4", "flv"];
 
-    $doc_ext    = array("docx", "docm", "dotm", "dotx");
-    $ppt_ext    = array("pptx", "ppsx", "ppt", "pps", "pptm", "potm", "ppam", "potx", "ppsm");
-    $xls_ext    = array("xls", "xlsx", "xlsb", "xlsm");
+    $doc_ext    = ["docx", "docm", "dotm", "dotx"];
+    $ppt_ext    = ["pptx", "ppsx", "ppt", "pps", "pptm", "potm", "ppam", "potx", "ppsm"];
+    $xls_ext    = ["xls", "xlsx", "xlsb", "xlsm"];
     $office_ext = array_merge($doc_ext, $ppt_ext, $xls_ext);
 
     $cate_path = get_tad_evaluation_cate_path($evaluation_sn, $cate_sn);
