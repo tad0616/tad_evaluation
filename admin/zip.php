@@ -2,7 +2,7 @@
 include_once "header.php";
 include_once "../function.php";
 
-$evaluation_sn = intval($_GET['evaluation_sn']);
+$evaluation_sn = (int)$_GET['evaluation_sn'];
 $evaluation    = get_tad_evaluation($evaluation_sn);
 $dirname       = $evaluation['evaluation_title'];
 $dirname       = change_charset($dirname, false);
