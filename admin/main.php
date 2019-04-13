@@ -265,7 +265,7 @@ function array_to_dir($all_files, $of_cate_sn = 0, $level = 0)
     //忽略不匯入的檔案
     $ignored = explode(';', $xoopsModuleConfig['ignored']);
 
-    $os = (PATH_SEPARATOR == ':') ? 'linux' : 'win';
+    $os = (PATH_SEPARATOR === ':') ? 'linux' : 'win';
     $all = '';
     $left = $level * 20;
     if (empty($level)) {
@@ -301,7 +301,7 @@ function array_to_dir($all_files, $of_cate_sn = 0, $level = 0)
                 $_SESSION['file_sn']++;
             }
 
-            if (in_array($files, $ignored, true) or '~$' == mb_substr($files, 0, 2)) {
+            if (in_array($files, $ignored, true) or '~$' === mb_substr($files, 0, 2)) {
                 $files = "<del>{$files}</del>";
                 $_SESSION['pass_count']++;
             } else {
@@ -369,7 +369,7 @@ function dir_to_db($evaluation_sn, $all_files, $of_cate_sn = 0, $level = 0)
     //忽略不匯入的檔案
     $ignored = explode(';', $xoopsModuleConfig['ignored']);
 
-    $os = (PATH_SEPARATOR == ':') ? 'linux' : 'win';
+    $os = (PATH_SEPARATOR === ':') ? 'linux' : 'win';
     $all = '';
     $left = $level * 20;
     if (empty($level)) {
@@ -396,7 +396,7 @@ function dir_to_db($evaluation_sn, $all_files, $of_cate_sn = 0, $level = 0)
                 $_SESSION['file_sn']++;
             }
 
-            if (!in_array($files, $ignored, true) and '~$' != mb_substr($files, 0, 2)) {
+            if (!in_array($files, $ignored, true) and '~$' !== mb_substr($files, 0, 2)) {
                 $file_name = $myts->addSlashes($files);
                 save_tad_evaluation_files($evaluation_sn, $file_name, $_SESSION['file_sn'], $of_cate_sn);
             }
@@ -476,7 +476,7 @@ function delete_directory($dirname)
     }
 
     while ($file = readdir($dir_handle)) {
-        if ('.' != $file && '..' != $file) {
+        if ('.' !== $file && '..' !== $file) {
             if (!is_dir($dirname . '/' . $file)) {
                 unlink($dirname . '/' . $file);
             } else {

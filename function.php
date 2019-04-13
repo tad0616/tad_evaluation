@@ -12,17 +12,17 @@ function change_charset($str, $OS2Web = true)
 {
     global $xoopsModuleConfig;
 
-    if ('Auto' != $xoopsModuleConfig['os_charset'] and '' != $xoopsModuleConfig['os_charset']) {
+    if ('Auto' !== $xoopsModuleConfig['os_charset'] and '' != $xoopsModuleConfig['os_charset']) {
         $os_charset = $xoopsModuleConfig['os_charset'];
     } else {
-        $os_charset = (PATH_SEPARATOR == ':') ? 'UTF-8' : 'Big5';
+        $os_charset = (PATH_SEPARATOR === ':') ? 'UTF-8' : 'Big5';
     }
 
     if (_CHARSET != $os_charset) {
         $str = $OS2Web ? iconv($os_charset, _CHARSET, $str) : iconv(_CHARSET, $os_charset, $str);
     }
 
-    if ($OS2Web and 'Big5' == $os_charset and _CHARSET == 'UTF-8') {
+    if ($OS2Web and 'Big5' === $os_charset and _CHARSET === 'UTF-8') {
         $str = stripslashes($str);
     }
 
@@ -104,7 +104,7 @@ function db_files($admin_tool, $icon, $mode, $evaluation_sn, $of_cate_sn = 0, $l
     $xoopsTpl->assign('cate_count', $cate_count);
 
     $treetable_code = '';
-    if ($old_level == $start and 'edit' == $mode) {
+    if ($old_level == $start and 'edit' === $mode) {
         //後台編輯模式
         if ($cate_count) {
             if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/treetable.php')) {
@@ -119,7 +119,7 @@ function db_files($admin_tool, $icon, $mode, $evaluation_sn, $of_cate_sn = 0, $l
         <div id='save_msg' style='float:right;'></div>
         <table id='treetbl{$treeID}'>
         <tbody class='sort'>";
-    } elseif ($old_level == $start and 'show' == $mode) {
+    } elseif ($old_level == $start and 'show' === $mode) {
         //前台編輯模式
         if ($cate_count) {
             if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/treetable.php')) {
@@ -246,7 +246,7 @@ function get_cate_files($evaluation_sn = '', $cate_sn = '')
             }
             $filesize = filesize(XOOPS_ROOT_PATH . "/uploads/tad_evaluation/{$evaluation['evaluation_title']}/{$cate_path}/{$file_name}");
 
-            if ('1' == $xoopsModuleConfig['use_office_viewer'] and $filesize < $max_size and XOOPS_URL != 'http://127.0.0.1' and XOOPS_URL != 'http://localhost') {
+            if ('1' == $xoopsModuleConfig['use_office_viewer'] and $filesize < $max_size and XOOPS_URL !== 'http://127.0.0.1' and XOOPS_URL !== 'http://localhost') {
                 $other = 'data-fancybox-type="iframe"';
                 $file = urlencode(XOOPS_URL . "/uploads/tad_evaluation/{$evaluation['evaluation_title']}/{$cate_path}/{$file_name}");
                 $href = "https://view.officeapps.live.com/op/view.aspx?src={$file}";
