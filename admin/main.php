@@ -1,8 +1,8 @@
 <?php
 /*-----------引入檔案區--------------*/
-$xoopsOption['template_main'] = 'tad_evaluation_adm_main.tpl';
-include_once 'header.php';
-include_once '../function.php';
+$GLOBALS['xoopsOption']['template_main'] = 'tad_evaluation_adm_main.tpl';
+require_once __DIR__ . '/header.php';
+require_once dirname(__DIR__) . '/function.php';
 //die(var_export($_POST));
 /*-----------功能函數區--------------*/
 
@@ -53,7 +53,7 @@ function tad_evaluation_form($evaluation_sn = '')
     if (!file_exists(TADTOOLS_PATH . '/formValidator.php')) {
         redirect_header('index.php', 3, _MA_NEED_TADTOOLS);
     }
-    include_once TADTOOLS_PATH . '/formValidator.php';
+    require_once TADTOOLS_PATH . '/formValidator.php';
     $formValidator = new formValidator('#myForm', true);
     $formValidator_code = $formValidator->render();
 
@@ -61,7 +61,7 @@ function tad_evaluation_form($evaluation_sn = '')
     if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/ck.php')) {
         redirect_header('http://campus-xoops.tn.edu.tw/modules/tad_modules/index.php?module_sn=1', 3, _TAD_NEED_TADTOOLS);
     }
-    include_once XOOPS_ROOT_PATH . '/modules/tadtools/ck.php';
+    require_once XOOPS_ROOT_PATH . '/modules/tadtools/ck.php';
     $ck = new CKEditor('tad_evaluation', 'evaluation_description', $evaluation_description);
     $ck->setHeight(100);
     $editor = $ck->render();
@@ -153,7 +153,7 @@ function list_tad_evaluation()
 
     $all_content = [];
     $i = 0;
-    while ($all = $xoopsDB->fetchArray($result)) {
+    while (false !== ($all = $xoopsDB->fetchArray($result))) {
         //以下會產生這些變數： $evaluation_sn , $evaluation_title , $evaluation_description , $evaluation_enable , $evaluation_uid , $evaluation_date
         foreach ($all as $k => $v) {
             $$k = $v;
@@ -253,7 +253,7 @@ function show_one_tad_evaluation($evaluation_sn = '')
     if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/fancybox.php')) {
         redirect_header('index.php', 3, _MA_NEED_TADTOOLS);
     }
-    include_once XOOPS_ROOT_PATH . '/modules/tadtools/fancybox.php';
+    require_once XOOPS_ROOT_PATH . '/modules/tadtools/fancybox.php';
     $fancybox = new fancybox(".evaluation_fancy_{$evaluation_sn}");
     $fancybox->render();
 }
@@ -596,7 +596,7 @@ if (!function_exists('mime_content_type')) {
     }
 }
 /*-----------執行動作判斷區----------*/
-include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
+require_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
 $op = system_CleanVars($_REQUEST, 'op', '', 'string');
 $evaluation_sn = system_CleanVars($_REQUEST, 'evaluation_sn', 0, 'int');
 $file_sn = system_CleanVars($_REQUEST, 'file_sn', 0, 'int');
@@ -655,4 +655,4 @@ switch ($op) {
 $xoopsTpl->assign('isAdmin', true);
 $xoTheme->addStylesheet('modules/tadtools/css/font-awesome/css/font-awesome.css');
 
-include_once 'footer.php';
+require_once __DIR__ . '/footer.php';

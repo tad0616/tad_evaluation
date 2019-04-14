@@ -99,10 +99,10 @@
                 </label>
                 <div class="col-sm-4">
                     <label class="radio-inline">
-                    <input type="radio" name="evaluation_enable" id="evaluation_enable_1" value="1" <{if $evaluation_enable == "1"}>checked="checked"<{/if}>><{$smarty.const._YES}>
+                    <input type="radio" name="evaluation_enable" id="evaluation_enable_1" value="1" <{if $evaluation_enable == "1"}>checked<{/if}>><{$smarty.const._YES}>
                     </label>
                     <label class="radio-inline">
-                    <input type="radio" name="evaluation_enable" id="evaluation_enable_0" value="0" <{if $evaluation_enable == "0"}>checked="checked"<{/if}>><{$smarty.const._NO}>
+                    <input type="radio" name="evaluation_enable" id="evaluation_enable_0" value="0" <{if $evaluation_enable == "0"}>checked<{/if}>><{$smarty.const._NO}>
                     </label>
                 </div>
             </div>

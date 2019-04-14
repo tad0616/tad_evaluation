@@ -98,11 +98,11 @@
                 </label>
                 <div class="col-sm-4">
                     <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="evaluation_enable" id="evaluation_enable_1" value="1" <{if $evaluation_enable == "1"}>checked="checked"<{/if}>>
+                    <input class="form-check-input" type="radio" name="evaluation_enable" id="evaluation_enable_1" value="1" <{if $evaluation_enable == "1"}>checked<{/if}>>
                     <label class="form-check-label" for="evaluation_enable_1"><{$smarty.const._YES}></label>
                     </div>
                     <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="evaluation_enable" id="evaluation_enable_0" value="0" <{if $evaluation_enable != "1"}>checked="checked"<{/if}>>
+                    <input class="form-check-input" type="radio" name="evaluation_enable" id="evaluation_enable_0" value="0" <{if $evaluation_enable != "1"}>checked<{/if}>>
                     <label class="form-check-label" for="evaluation_enable_0"><{$smarty.const._NO}></label>
                     </div>
                 </div>

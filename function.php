@@ -3,7 +3,7 @@
 if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/tad_function.php')) {
     redirect_header('http://campus-xoops.tn.edu.tw/modules/tad_modules/index.php?module_sn=1', 3, _TAD_NEED_TADTOOLS);
 }
-include_once XOOPS_ROOT_PATH . '/modules/tadtools/tad_function.php';
+require_once XOOPS_ROOT_PATH . '/modules/tadtools/tad_function.php';
 
 /********************* 自訂函數 *********************/
 
@@ -110,7 +110,7 @@ function db_files($admin_tool, $icon, $mode, $evaluation_sn, $of_cate_sn = 0, $l
             if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/treetable.php')) {
                 redirect_header('index.php', 3, _MA_NEED_TADTOOLS);
             }
-            include_once XOOPS_ROOT_PATH . '/modules/tadtools/treetable.php';
+            require_once XOOPS_ROOT_PATH . '/modules/tadtools/treetable.php';
             $treetable = new treetable(false, 'cate_sn', 'of_cate_sn', "#treetbl{$treeID}", 'save_drag.php', '.folder', '#save_msg', true, '.sort', 'save_sort.php', '#save_msg');
             $treetable_code = $treetable->render();
         }
@@ -125,7 +125,7 @@ function db_files($admin_tool, $icon, $mode, $evaluation_sn, $of_cate_sn = 0, $l
             if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/treetable.php')) {
                 redirect_header('index.php', 3, _MA_NEED_TADTOOLS);
             }
-            include_once XOOPS_ROOT_PATH . '/modules/tadtools/treetable.php';
+            require_once XOOPS_ROOT_PATH . '/modules/tadtools/treetable.php';
             $treetable = new treetable(true, 'cate_sn', 'of_cate_sn', "#treetbl{$treeID}", null, null, null, false);
             $treetable_code = $treetable->render();
         }
@@ -156,7 +156,7 @@ function db_files($admin_tool, $icon, $mode, $evaluation_sn, $of_cate_sn = 0, $l
     $result = $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
 
     //`cate_sn`, `of_cate_sn`, `cate_title`, `cate_desc`, `cate_sort`, `cate_enable`, `evaluation_sn`
-    while ($all = $xoopsDB->fetchArray($result)) {
+    while (false !== ($all = $xoopsDB->fetchArray($result))) {
         foreach ($all as $k => $v) {
             $$k = $v;
         }
@@ -215,7 +215,7 @@ function get_cate_files($evaluation_sn = '', $cate_sn = '')
     $data = '';
     $result = $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
 
-    while ($all = $xoopsDB->fetchArray($result)) {
+    while (false !== ($all = $xoopsDB->fetchArray($result))) {
         foreach ($all as $k => $v) {
             $$k = $v;
         }

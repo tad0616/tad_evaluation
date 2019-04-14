@@ -115,7 +115,7 @@ class Utility
     {
         global $xoopsDB;
         $sql = 'INSERT INTO ' . $xoopsDB->prefix('tadtools_setup') . " (`tt_theme`, `tt_use_bootstrap`, `tt_bootstrap_color`, `tt_theme_kind`) VALUES ('for_tad_embed_theme', '0',  'bootstrap3', 'html'),";
-        $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL, 3, mysql_error());
+        $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL, 3, $GLOBALS['xoopsDB']->error());
 
         return true;
     }
@@ -140,7 +140,7 @@ class Utility
     {
         global $xoopsDB;
         //die(var_export($xoopsConfig));
-        include XOOPS_ROOT_PATH . '/modules/tad_evaluation/xoops_version.php';
+        require XOOPS_ROOT_PATH . '/modules/tad_evaluation/xoops_version.php';
 
         //先找出該有的區塊以及對應樣板
         foreach ($modversion['blocks'] as $i => $block) {
@@ -153,7 +153,7 @@ class Utility
         $sql = 'SELECT bid,name,visible,show_func,template FROM `' . $xoopsDB->prefix('newblocks') . "`
     WHERE `dirname` = 'tad_evaluation' ORDER BY `func_num`";
         $result = $xoopsDB->query($sql);
-        while (list($bid, $name, $visible, $show_func, $template) = $xoopsDB->fetchRow($result)) {
+        while (false !== (list($bid, $name, $visible, $show_func, $template) = $xoopsDB->fetchRow($result))) {
             //假如現有的區塊和樣板對不上就刪掉
             if ($template != $tpl_file_arr[$show_func]) {
                 $sql = 'delete from ' . $xoopsDB->prefix('newblocks') . " where bid='{$bid}'";

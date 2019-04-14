@@ -1,5 +1,5 @@
 <?php
-include '../../../include/cp_header.php';
+require dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
 $cate_sn_Array = $_REQUEST['cate_sn-'];
 $sort = 1;
 foreach ($cate_sn_Array as $cate_sn) {
