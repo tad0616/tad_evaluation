@@ -1,4 +1,7 @@
 <?php
+
+use XoopsModules\Tadtools\Utility;
+
 /*-----------引入檔案區--------------*/
 $GLOBALS['xoopsOption']['template_main'] = 'tad_evaluation_adm_main.tpl';
 require_once __DIR__ . '/header.php';
@@ -95,7 +98,7 @@ function insert_tad_evaluation()
 
     $_POST['evaluation_title'] = change_charset($_POST['evaluation_title'], false);
 
-    mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_evaluation/{$_POST['evaluation_title']}");
+    Utility::mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_evaluation/{$_POST['evaluation_title']}");
 
     return $evaluation_sn;
 }
@@ -130,7 +133,7 @@ function update_tad_evaluation($evaluation_sn = '')
             rename(XOOPS_ROOT_PATH . "/uploads/tad_evaluation/{$evaluation['evaluation_title']}", XOOPS_ROOT_PATH . "/uploads/tad_evaluation/{$_POST['evaluation_title']}");
         }
     } else {
-        mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_evaluation/{$_POST['evaluation_title']}");
+        Utility::mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_evaluation/{$_POST['evaluation_title']}");
     }
 
     return $evaluation_sn;
