@@ -228,20 +228,20 @@ function get_cate_files($evaluation_sn = '', $cate_sn = '')
         $cate_path = $myts->addSlashes($cate_path);
         $file_name = $myts->addSlashes($file_name);
 
-        if (in_array($ext, $img_ext, true)) {
+        if (in_array($ext, $img_ext)) {
             $other = "rel=\"gallery{$cate_sn}\" target='_blank'";
             $href = XOOPS_URL . "/uploads/tad_evaluation/{$evaluation['evaluation_title']}/{$cate_path}/{$file_name}#.{$ext}";
-        } elseif (in_array($ext, $video_ext, true)) {
+        } elseif (in_array($ext, $video_ext)) {
             $other = 'data-fancybox-type="iframe"';
             $url = XOOPS_URL . "/uploads/tad_evaluation/{$evaluation['evaluation_title']}/{$cate_path}/{$file_name}";
             $href = "player.php?id=evaluation_player_{$evaluation_sn}&file={$url}&ext=.{$ext}";
-        } elseif (in_array($ext, $iframe_ext, true)) {
+        } elseif (in_array($ext, $iframe_ext)) {
             $other = 'data-fancybox-type="iframe"';
             $href = XOOPS_URL . "/uploads/tad_evaluation/{$evaluation['evaluation_title']}/{$cate_path}/{$file_name}#.{$ext}";
-        } elseif (in_array($ext, $office_ext, true)) {
-            if (in_array($ext, $ppt_ext, true)) {
+        } elseif (in_array($ext, $office_ext)) {
+            if (in_array($ext, $ppt_ext)) {
                 $max_size = 10485760;
-            } elseif (in_array($ext, $doc_ext, true) or in_array($ext, $xls_ext, true)) {
+            } elseif (in_array($ext, $doc_ext) or in_array($ext, $xls_ext)) {
                 $max_size = 5242880;
             }
             $filesize = filesize(XOOPS_ROOT_PATH . "/uploads/tad_evaluation/{$evaluation['evaluation_title']}/{$cate_path}/{$file_name}");
