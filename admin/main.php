@@ -285,7 +285,7 @@ function array_to_dir($all_files, $of_cate_sn = 0, $level = 0)
         $i = $_SESSION['i'];
         if (is_array($files)) {
             $dir_name = change_charset($dir_name, true);
-            $dir_name = in_array($dir_name, $ignored, true) ? "<del>{$dir_name}</del>" : $dir_name;
+            $dir_name = in_array($dir_name, $ignored) ? "<del>{$dir_name}</del>" : $dir_name;
 
             $_SESSION['dir_count']++;
 
@@ -304,7 +304,7 @@ function array_to_dir($all_files, $of_cate_sn = 0, $level = 0)
                 $_SESSION['file_sn']++;
             }
 
-            if (in_array($files, $ignored, true) or '~$' === mb_substr($files, 0, 2)) {
+            if (in_array($files, $ignored) or '~$' === mb_substr($files, 0, 2)) {
                 $files = "<del>{$files}</del>";
                 $_SESSION['pass_count']++;
             } else {
@@ -386,7 +386,7 @@ function dir_to_db($evaluation_sn, $all_files, $of_cate_sn = 0, $level = 0)
     foreach ($all_files as $dir_name => $files) {
         if (is_array($files)) {
             $dir_name = change_charset($dir_name, true);
-            if (!in_array($dir_name, $ignored, true)) {
+            if (!in_array($dir_name, $ignored)) {
                 $cate_title = $myts->addSlashes($dir_name);
                 save_tad_evaluation_cate($evaluation_sn, $cate_title, $_SESSION['cate_sn'], $of_cate_sn);
 
@@ -399,7 +399,7 @@ function dir_to_db($evaluation_sn, $all_files, $of_cate_sn = 0, $level = 0)
                 $_SESSION['file_sn']++;
             }
 
-            if (!in_array($files, $ignored, true) and '~$' !== mb_substr($files, 0, 2)) {
+            if (!in_array($files, $ignored) and '~$' !== mb_substr($files, 0, 2)) {
                 $file_name = $myts->addSlashes($files);
                 save_tad_evaluation_files($evaluation_sn, $file_name, $_SESSION['file_sn'], $of_cate_sn);
             }
