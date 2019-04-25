@@ -1,9 +1,6 @@
 <?php
-//引入TadTools的函式庫
-if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/tad_function.php')) {
-    redirect_header('http://campus-xoops.tn.edu.tw/modules/tad_modules/index.php?module_sn=1', 3, _TAD_NEED_TADTOOLS);
-}
-include_once XOOPS_ROOT_PATH . '/modules/tadtools/tad_function.php';
+use XoopsModules\Tadtools\Utility;
+xoops_loadLanguage('main', 'tadtools');
 
 /********************* 自訂函數 *********************/
 
@@ -38,7 +35,7 @@ function get_tad_evaluation($evaluation_sn = '')
     }
 
     $sql = 'select * from `' . $xoopsDB->prefix('tad_evaluation') . "` where `evaluation_sn` = '{$evaluation_sn}'";
-    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     $data = $xoopsDB->fetchArray($result);
 
     return $data;
@@ -55,7 +52,7 @@ function get_tad_evaluation_files($evaluation_sn = '', $cate_sn = '', $file_sn =
     //
     //`file_sn`, `cate_sn`, `evaluation_sn`, `file_name`, `file_size`, `file_type`, `file_desc`, `file_enable`, `file_sort`
     $sql = 'select * from `' . $xoopsDB->prefix('tad_evaluation_files') . "` where `evaluation_sn` = '{$evaluation_sn}' and `cate_sn` = '{$cate_sn}' and `file_sn` = '{$file_sn}'";
-    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     $data = $xoopsDB->fetchArray($result);
 
     return $data;
@@ -71,7 +68,7 @@ function get_tad_evaluation_cate_path($evaluation_sn = '', $cate_sn = '')
 
     //`cate_sn`, `of_cate_sn`, `cate_title`, `cate_desc`, `cate_sort`, `cate_enable`, `evaluation_sn`
     $sql = 'select cate_title,of_cate_sn from `' . $xoopsDB->prefix('tad_evaluation_cate') . "` where `evaluation_sn` = '{$evaluation_sn}' and `cate_sn` = '{$cate_sn}'";
-    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     list($cate_title, $of_cate_sn) = $xoopsDB->fetchRow($result);
     if (!empty($of_cate_sn)) {
         $cate_title = get_tad_evaluation_cate_path($evaluation_sn, $of_cate_sn) . "/{$cate_title}";
@@ -89,7 +86,7 @@ function db_files($admin_tool, $icon, $mode, $evaluation_sn, $of_cate_sn = 0, $l
         return;
     }
 
-    get_jquery(true);
+    Utility::get_jquery(true);
 
     $myts = MyTextSanitizer::getInstance();
     $old_level = $level;
@@ -99,7 +96,7 @@ function db_files($admin_tool, $icon, $mode, $evaluation_sn, $of_cate_sn = 0, $l
 
     //檢查有無目錄，沒目錄的話，不要套用treetable
     $sql = 'select count(*) from `' . $xoopsDB->prefix('tad_evaluation_cate') . "` where `evaluation_sn` = '{$evaluation_sn}'";
-    $result = $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
+    $result = $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     list($cate_count) = $xoopsDB->fetchRow($result);
     $xoopsTpl->assign('cate_count', $cate_count);
 
@@ -153,7 +150,7 @@ function db_files($admin_tool, $icon, $mode, $evaluation_sn, $of_cate_sn = 0, $l
 
     $sql = 'select * from `' . $xoopsDB->prefix('tad_evaluation_cate') . "` where `evaluation_sn` = '{$evaluation_sn}' and `of_cate_sn`='$of_cate_sn' order by cate_sort";
     //die($sql);
-    $result = $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
+    $result = $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     //`cate_sn`, `of_cate_sn`, `cate_title`, `cate_desc`, `cate_sort`, `cate_enable`, `evaluation_sn`
     while ($all = $xoopsDB->fetchArray($result)) {
@@ -213,7 +210,7 @@ function get_cate_files($evaluation_sn = '', $cate_sn = '')
     $sql = 'select * from `' . $xoopsDB->prefix('tad_evaluation_files') . "` where `evaluation_sn` = '{$evaluation_sn}' and `cate_sn`='$cate_sn' order by file_sort";
     //die($sql);
     $data = '';
-    $result = $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
+    $result = $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     while ($all = $xoopsDB->fetchArray($result)) {
         foreach ($all as $k => $v) {
@@ -289,7 +286,7 @@ function get_evaluation_count($evaluation_sn, $tbl)
     $evaluation_sn = (int) $evaluation_sn;
 
     $sql = 'select count(*) from `' . $xoopsDB->prefix($tbl) . "` where `evaluation_sn` = '{$evaluation_sn}' ";
-    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     list($count) = $xoopsDB->fetchRow($result);
 
     return $count;

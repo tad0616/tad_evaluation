@@ -1,4 +1,6 @@
 <?php
+use XoopsModules\Tadtools\Utility;
+
 /*-----------引入檔案區--------------*/
 include 'header.php';
 $xoopsOption['template_main'] = 'tad_evaluation_index.tpl';
@@ -11,9 +13,9 @@ function list_tad_evaluation()
 {
     global $xoopsDB, $xoopsTpl, $isAdmin;
 
-    $sql = 'SELECT * FROM `' . $xoopsDB->prefix('tad_evaluation') . "` WHERE evaluation_enable='1' ORDER BY evaluation_date DESC";
+    $sql = "SELECT * FROM `" . $xoopsDB->prefix('tad_evaluation') . "` WHERE evaluation_enable='1' ORDER BY evaluation_date DESC";
 
-    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     $all_content = [];
     $i = 0;
@@ -58,7 +60,7 @@ function show_one_tad_evaluation($evaluation_sn = '')
     $evaluation_sn = (int) $evaluation_sn;
 
     $sql = 'select * from `' . $xoopsDB->prefix('tad_evaluation') . "` where `evaluation_sn` = '{$evaluation_sn}' ";
-    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     $all = $xoopsDB->fetchArray($result);
 
     //以下會產生這些變數： $evaluation_sn , $evaluation_title , $evaluation_description , $evaluation_enable , $evaluation_uid , $evaluation_date
@@ -143,6 +145,6 @@ switch ($op) {
 }
 
 /*-----------秀出結果區--------------*/
-$xoopsTpl->assign('toolbar', toolbar_bootstrap($interface_menu));
+$xoopsTpl->assign('toolbar', Utility::toolbar_bootstrap($interface_menu));
 $xoopsTpl->assign('isAdmin', $isAdmin);
 include_once XOOPS_ROOT_PATH . '/footer.php';

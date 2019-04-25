@@ -1,6 +1,8 @@
 <?php
+use XoopsModules\Tadtools\Utility;
+
 include 'header.php';
-$jquery = get_jquery();
+$jquery = Utility::get_jquery();
 if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/jwplayer_new.php')) {
     redirect_header('index.php', 3, _MA_NEED_TADTOOLS);
 }
