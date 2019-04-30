@@ -1,6 +1,5 @@
 <?php
-include_once XOOPS_ROOT_PATH . '/modules/tadtools/language/' . $xoopsConfig['language'] . '/modinfo_common.php';
-
+xoops_loadLanguage('modinfo_common', 'tadtools');
 define('_MI_TADEVALUA_NAME', '評鑑檔案管理');
 define('_MI_TADEVALUA_AUTHOR', 'tad');
 define('_MI_TADEVALUA_CREDITS', 'Michael Beck');

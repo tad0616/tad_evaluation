@@ -1,6 +1,6 @@
 <?php
+use XoopsModules\Tadtools\FancyBox;
 use XoopsModules\Tadtools\Utility;
-
 /*-----------引入檔案區--------------*/
 include 'header.php';
 $xoopsOption['template_main'] = 'tad_evaluation_index.tpl';
@@ -90,12 +90,8 @@ function show_one_tad_evaluation($evaluation_sn = '')
     $xoopsTpl->assign('db_files', db_files(false, false, 'show', $evaluation_sn));
     $xoopsTpl->assign('level_css', $xoopsModuleConfig['css_setup']);
 
-    if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/fancybox.php')) {
-        redirect_header('index.php', 3, _MA_NEED_TADTOOLS);
-    }
-    include_once XOOPS_ROOT_PATH . '/modules/tadtools/fancybox.php';
-    $fancybox = new fancybox(".evaluation_fancy_{$evaluation_sn}");
-    $fancybox->render(false);
+    $FancyBox = new FancyBox(".evaluation_fancy_{$evaluation_sn}");
+    $FancyBox->render(false);
 
     $xoTheme->addStylesheet('modules/tadtools/css/iconize.css');
 }

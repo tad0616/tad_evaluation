@@ -1,6 +1,8 @@
 <?php
+use XoopsModules\Tadtools\CkEditor;
+use XoopsModules\Tadtools\FancyBox;
+use XoopsModules\Tadtools\FormValidator;
 use XoopsModules\Tadtools\Utility;
-
 /*-----------引入檔案區--------------*/
 $xoopsOption['template_main'] = 'tad_evaluation_adm_main.tpl';
 include_once 'header.php';
@@ -51,25 +53,16 @@ function tad_evaluation_form($evaluation_sn = '')
     $op = (empty($evaluation_sn)) ? 'insert_tad_evaluation' : 'update_tad_evaluation';
     //$op="replace_tad_evaluation";
 
-    if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/formValidator.php')) {
-        redirect_header('index.php', 3, _MA_NEED_TADTOOLS);
-    }
-    include_once XOOPS_ROOT_PATH . '/modules/tadtools/formValidator.php';
-    $formValidator = new formValidator('#myForm', true);
-    $formValidator_code = $formValidator->render();
+    $FormValidator = new FormValidator('#myForm', true);
+    $FormValidator->render();
 
     //評鑑說明
-    if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/ck.php')) {
-        redirect_header('http://campus-xoops.tn.edu.tw/modules/tad_modules/index.php?module_sn=1', 3, _TAD_NEED_TADTOOLS);
-    }
-    include_once XOOPS_ROOT_PATH . '/modules/tadtools/ck.php';
-    $ck = new CKEditor('tad_evaluation', 'evaluation_description', $evaluation_description);
+    $ck = new CkEditor('tad_evaluation', 'evaluation_description', $evaluation_description);
     $ck->setHeight(100);
     $editor = $ck->render();
 
     $xoopsTpl->assign('evaluation_description_editor', $editor);
     $xoopsTpl->assign('action', $_SERVER['PHP_SELF']);
-    $xoopsTpl->assign('formValidator_code', $formValidator_code);
     $xoopsTpl->assign('now_op', 'tad_evaluation_form');
     $xoopsTpl->assign('next_op', $op);
 }
@@ -82,7 +75,7 @@ function insert_tad_evaluation()
     //取得使用者編號
     $uid = ($xoopsUser) ? $xoopsUser->getVar('uid') : '';
 
-    $myts = MyTextSanitizer::getInstance();
+    $myts = \MyTextSanitizer::getInstance();
     $_POST['evaluation_title'] = $myts->addSlashes($_POST['evaluation_title']);
     $_POST['evaluation_description'] = $myts->addSlashes($_POST['evaluation_description']);
 
@@ -110,7 +103,7 @@ function update_tad_evaluation($evaluation_sn = '')
     //取得使用者編號
     $uid = ($xoopsUser) ? $xoopsUser->getVar('uid') : '';
 
-    $myts = MyTextSanitizer::getInstance();
+    $myts = \MyTextSanitizer::getInstance();
     $_POST['evaluation_title'] = $myts->addSlashes($_POST['evaluation_title']);
     $_POST['evaluation_description'] = $myts->addSlashes($_POST['evaluation_description']);
 
@@ -251,12 +244,8 @@ function show_one_tad_evaluation($evaluation_sn = '')
     $xoopsTpl->assign('file_count', $_SESSION['file_count']);
     $xoopsTpl->assign('pass_count', $_SESSION['pass_count']);
 
-    if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/fancybox.php')) {
-        redirect_header('index.php', 3, _MA_NEED_TADTOOLS);
-    }
-    include_once XOOPS_ROOT_PATH . '/modules/tadtools/fancybox.php';
-    $fancybox = new fancybox(".evaluation_fancy_{$evaluation_sn}");
-    $fancybox->render();
+    $FancyBox = new FancyBox(".evaluation_fancy_{$evaluation_sn}");
+    $FancyBox->render();
 }
 
 //把陣列轉為目錄
@@ -329,7 +318,7 @@ global $xoopsDB , $xoopsTpl , $isAdmin;
 
 delete_tad_evaluation_cate($evaluation_sn,false);
 
-$myts = MyTextSanitizer::getInstance();
+$myts = \MyTextSanitizer::getInstance();
 
 foreach($_POST['cates'] as $i=>$cate_data){
 list($cate_sn,$of_cate_sn,$cate_title)=explode(";", $cate_data);
@@ -366,7 +355,7 @@ function dir_to_db($evaluation_sn, $all_files, $of_cate_sn = 0, $level = 0)
 {
     global $xoopsModuleConfig;
 
-    $myts = MyTextSanitizer::getInstance();
+    $myts = \MyTextSanitizer::getInstance();
     //忽略不匯入的檔案
     $ignored = explode(';', $xoopsModuleConfig['ignored']);
 
@@ -468,7 +457,7 @@ function delete_tad_evaluation_cate($evaluation_sn = '', $del_file = false)
 //列出目錄檔案
 function directory_list($directory_base_path = '')
 {
-    $myts = MyTextSanitizer::getInstance();
+    $myts = \MyTextSanitizer::getInstance();
 
     $directory_base_path = $myts->addSlashes($directory_base_path);
 

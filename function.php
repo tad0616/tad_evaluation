@@ -1,4 +1,5 @@
 <?php
+use XoopsModules\Tadtools\TreeTable;
 use XoopsModules\Tadtools\Utility;
 xoops_loadLanguage('main', 'tadtools');
 
@@ -88,7 +89,7 @@ function db_files($admin_tool, $icon, $mode, $evaluation_sn, $of_cate_sn = 0, $l
 
     Utility::get_jquery(true);
 
-    $myts = MyTextSanitizer::getInstance();
+    $myts = \MyTextSanitizer::getInstance();
     $old_level = $level;
 
     $start = 0;
@@ -104,31 +105,21 @@ function db_files($admin_tool, $icon, $mode, $evaluation_sn, $of_cate_sn = 0, $l
     if ($old_level == $start and 'edit' === $mode) {
         //後台編輯模式
         if ($cate_count) {
-            if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/treetable.php')) {
-                redirect_header('index.php', 3, _MA_NEED_TADTOOLS);
-            }
-            include_once XOOPS_ROOT_PATH . '/modules/tadtools/treetable.php';
-            $treetable = new treetable(false, 'cate_sn', 'of_cate_sn', "#treetbl{$treeID}", 'save_drag.php', '.folder', '#save_msg', true, '.sort', 'save_sort.php', '#save_msg');
-            $treetable_code = $treetable->render();
+            $TreeTable = new TreeTable(false, 'cate_sn', 'of_cate_sn', "#treetbl{$treeID}", 'save_drag.php', '.folder', '#save_msg', true, '.sort', 'save_sort.php', '#save_msg');
+            $TreeTable->render();
         }
         $data = "
-        $treetable_code
         <div id='save_msg' style='float:right;'></div>
         <table id='treetbl{$treeID}'>
         <tbody class='sort'>";
     } elseif ($old_level == $start and 'show' === $mode) {
         //前台編輯模式
         if ($cate_count) {
-            if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/treetable.php')) {
-                redirect_header('index.php', 3, _MA_NEED_TADTOOLS);
-            }
-            include_once XOOPS_ROOT_PATH . '/modules/tadtools/treetable.php';
-            $treetable = new treetable(true, 'cate_sn', 'of_cate_sn', "#treetbl{$treeID}", null, null, null, false);
-            $treetable_code = $treetable->render();
+            $TreeTable = new TreeTable(true, 'cate_sn', 'of_cate_sn', "#treetbl{$treeID}", null, null, null, false);
+            $TreeTable->render();
         }
 
         $data = "
-        $treetable_code
         <table id='treetbl{$treeID}'>
         <tbody class='sort'>";
     } else {
@@ -193,7 +184,7 @@ function get_cate_files($evaluation_sn = '', $cate_sn = '')
 {
     global $xoopsDB, $xoopsModuleConfig;
 
-    $myts = MyTextSanitizer::getInstance();
+    $myts = \MyTextSanitizer::getInstance();
 
     $evaluation = get_tad_evaluation($evaluation_sn);
     $img_ext = ['png', 'jpg', 'jpeg', 'gif'];
