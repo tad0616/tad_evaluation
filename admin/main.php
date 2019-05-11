@@ -54,7 +54,7 @@ function tad_evaluation_form($evaluation_sn = '')
     //$op="replace_tad_evaluation";
 
     if (!file_exists(TADTOOLS_PATH . '/formValidator.php')) {
-        redirect_header('index.php', 3, _MA_NEED_TADTOOLS);
+        redirect_header('index.php', 3, _TAD_NEED_TADTOOLS);
     }
     require_once TADTOOLS_PATH . '/formValidator.php';
     $formValidator = new formValidator('#myForm', true);
@@ -162,9 +162,9 @@ function list_tad_evaluation()
             $$k = $v;
         }
 
-        $uid_name = XoopsUser::getUnameFromId($evaluation_uid, 1);
+        $uid_name = \XoopsUser::getUnameFromId($evaluation_uid, 1);
         if (empty($uid_name)) {
-            $uid_name = XoopsUser::getUnameFromId($evaluation_uid, 0);
+            $uid_name = \XoopsUser::getUnameFromId($evaluation_uid, 0);
         }
 
         $all_content[$i]['evaluation_sn'] = $evaluation_sn;
@@ -217,9 +217,9 @@ function show_one_tad_evaluation($evaluation_sn = '')
         $$k = $v;
     }
 
-    $uid_name = XoopsUser::getUnameFromId($evaluation_uid, 1);
+    $uid_name = \XoopsUser::getUnameFromId($evaluation_uid, 1);
     if (empty($uid_name)) {
-        $uid_name = XoopsUser::getUnameFromId($evaluation_uid, 0);
+        $uid_name = \XoopsUser::getUnameFromId($evaluation_uid, 0);
     }
 
     $_SESSION['dir_count2'] = $_SESSION['file_count2'] = 0;
@@ -254,7 +254,7 @@ function show_one_tad_evaluation($evaluation_sn = '')
     $xoopsTpl->assign('pass_count', $_SESSION['pass_count']);
 
     if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/fancybox.php')) {
-        redirect_header('index.php', 3, _MA_NEED_TADTOOLS);
+        redirect_header('index.php', 3, _TAD_NEED_TADTOOLS);
     }
     require_once XOOPS_ROOT_PATH . '/modules/tadtools/fancybox.php';
     $fancybox = new fancybox(".evaluation_fancy_{$evaluation_sn}");

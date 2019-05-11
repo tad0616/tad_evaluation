@@ -24,9 +24,9 @@ function list_tad_evaluation()
         }
 
         $evaluation_enable = (1 == $evaluation_enable) ? _YES : _NO;
-        $uid_name = XoopsUser::getUnameFromId($evaluation_uid, 1);
+        $uid_name = \XoopsUser::getUnameFromId($evaluation_uid, 1);
         if (empty($uid_name)) {
-            $uid_name = XoopsUser::getUnameFromId($evaluation_uid, 0);
+            $uid_name = \XoopsUser::getUnameFromId($evaluation_uid, 0);
         }
 
         $all_content[$i]['evaluation_sn'] = $evaluation_sn;
@@ -67,9 +67,9 @@ function show_one_tad_evaluation($evaluation_sn = '')
     }
 
     $evaluation_enable = (1 == $evaluation_enable) ? _YES : _NO;
-    $uid_name = XoopsUser::getUnameFromId($evaluation_uid, 1);
+    $uid_name = \XoopsUser::getUnameFromId($evaluation_uid, 1);
     if (empty($uid_name)) {
-        $uid_name = XoopsUser::getUnameFromId($evaluation_uid, 0);
+        $uid_name = \XoopsUser::getUnameFromId($evaluation_uid, 0);
     }
 
     $xoopsTpl->assign('evaluation_sn', $evaluation_sn);
@@ -89,7 +89,7 @@ function show_one_tad_evaluation($evaluation_sn = '')
     $xoopsTpl->assign('level_css', $xoopsModuleConfig['css_setup']);
 
     if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/fancybox.php')) {
-        redirect_header('index.php', 3, _MA_NEED_TADTOOLS);
+        redirect_header('index.php', 3, _TAD_NEED_TADTOOLS);
     }
     require_once XOOPS_ROOT_PATH . '/modules/tadtools/fancybox.php';
     $fancybox = new fancybox(".evaluation_fancy_{$evaluation_sn}");

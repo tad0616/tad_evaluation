@@ -108,7 +108,7 @@ function db_files($admin_tool, $icon, $mode, $evaluation_sn, $of_cate_sn = 0, $l
         //後台編輯模式
         if ($cate_count) {
             if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/treetable.php')) {
-                redirect_header('index.php', 3, _MA_NEED_TADTOOLS);
+                redirect_header('index.php', 3, _TAD_NEED_TADTOOLS);
             }
             require_once XOOPS_ROOT_PATH . '/modules/tadtools/treetable.php';
             $treetable = new treetable(false, 'cate_sn', 'of_cate_sn', "#treetbl{$treeID}", 'save_drag.php', '.folder', '#save_msg', true, '.sort', 'save_sort.php', '#save_msg');
@@ -123,7 +123,7 @@ function db_files($admin_tool, $icon, $mode, $evaluation_sn, $of_cate_sn = 0, $l
         //前台編輯模式
         if ($cate_count) {
             if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/treetable.php')) {
-                redirect_header('index.php', 3, _MA_NEED_TADTOOLS);
+                redirect_header('index.php', 3, _TAD_NEED_TADTOOLS);
             }
             require_once XOOPS_ROOT_PATH . '/modules/tadtools/treetable.php';
             $treetable = new treetable(true, 'cate_sn', 'of_cate_sn', "#treetbl{$treeID}", null, null, null, false);
