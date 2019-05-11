@@ -1,6 +1,5 @@
 <?php
 xoops_loadLanguage('modinfo_common', 'tadtools');
-
 define('_MI_TADEVALUA_NAME', 'Tad Evaluation');
 define('_MI_TADEVALUA_AUTHOR', 'Tad');
 define('_MI_TADEVALUA_CREDITS', '');

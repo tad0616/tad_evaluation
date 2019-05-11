@@ -47,7 +47,6 @@
 
 <!--顯示某一筆資料-->
 <{if $now_op=="show_one_tad_evaluation"}>
-    <{$fancybox_code}>
 
     <h1><{$evaluation_title}></h1>
     <{if $cate_count}>
