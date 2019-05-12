@@ -2,9 +2,9 @@
 use XoopsModules\Tadtools\FancyBox;
 use XoopsModules\Tadtools\Utility;
 /*-----------引入檔案區--------------*/
-include 'header.php';
+require __DIR__ . '/header.php';
 $xoopsOption['template_main'] = 'tad_evaluation_index.tpl';
-include_once XOOPS_ROOT_PATH . '/header.php';
+require_once XOOPS_ROOT_PATH . '/header.php';
 
 /*-----------功能函數區--------------*/
 
@@ -13,22 +13,22 @@ function list_tad_evaluation()
 {
     global $xoopsDB, $xoopsTpl, $isAdmin;
 
-    $sql = "SELECT * FROM `" . $xoopsDB->prefix('tad_evaluation') . "` WHERE evaluation_enable='1' ORDER BY evaluation_date DESC";
+    $sql = 'SELECT * FROM `' . $xoopsDB->prefix('tad_evaluation') . "` WHERE evaluation_enable='1' ORDER BY evaluation_date DESC";
 
     $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     $all_content = [];
     $i = 0;
-    while ($all = $xoopsDB->fetchArray($result)) {
+    while (false !== ($all = $xoopsDB->fetchArray($result))) {
         //以下會產生這些變數： $evaluation_sn , $evaluation_title , $evaluation_description , $evaluation_enable , $evaluation_uid , $evaluation_date
         foreach ($all as $k => $v) {
             $$k = $v;
         }
 
         $evaluation_enable = (1 == $evaluation_enable) ? _YES : _NO;
-        $uid_name = XoopsUser::getUnameFromId($evaluation_uid, 1);
+        $uid_name = \XoopsUser::getUnameFromId($evaluation_uid, 1);
         if (empty($uid_name)) {
-            $uid_name = XoopsUser::getUnameFromId($evaluation_uid, 0);
+            $uid_name = \XoopsUser::getUnameFromId($evaluation_uid, 0);
         }
 
         $all_content[$i]['evaluation_sn'] = $evaluation_sn;
@@ -69,9 +69,9 @@ function show_one_tad_evaluation($evaluation_sn = '')
     }
 
     $evaluation_enable = (1 == $evaluation_enable) ? _YES : _NO;
-    $uid_name = XoopsUser::getUnameFromId($evaluation_uid, 1);
+    $uid_name = \XoopsUser::getUnameFromId($evaluation_uid, 1);
     if (empty($uid_name)) {
-        $uid_name = XoopsUser::getUnameFromId($evaluation_uid, 0);
+        $uid_name = \XoopsUser::getUnameFromId($evaluation_uid, 0);
     }
 
     $xoopsTpl->assign('evaluation_sn', $evaluation_sn);
@@ -111,7 +111,7 @@ function show_file($evaluation_sn, $cate_sn, $file_sn)
 }
 
 /*-----------執行動作判斷區----------*/
-include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
+require_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
 $op = system_CleanVars($_REQUEST, 'op', '', 'string');
 $evaluation_sn = system_CleanVars($_REQUEST, 'evaluation_sn', 0, 'int');
 $file_sn = system_CleanVars($_REQUEST, 'file_sn', 0, 'int');
@@ -143,4 +143,4 @@ switch ($op) {
 /*-----------秀出結果區--------------*/
 $xoopsTpl->assign('toolbar', Utility::toolbar_bootstrap($interface_menu));
 $xoopsTpl->assign('isAdmin', $isAdmin);
-include_once XOOPS_ROOT_PATH . '/footer.php';
+require_once XOOPS_ROOT_PATH . '/footer.php';

@@ -5,8 +5,8 @@ use XoopsModules\Tadtools\FormValidator;
 use XoopsModules\Tadtools\Utility;
 /*-----------引入檔案區--------------*/
 $xoopsOption['template_main'] = 'tad_evaluation_adm_main.tpl';
-include_once 'header.php';
-include_once '../function.php';
+require_once __DIR__ . '/header.php';
+require_once dirname(__DIR__) . '/function.php';
 /*-----------功能函數區--------------*/
 
 ////tad_evaluation編輯表單
@@ -147,15 +147,15 @@ function list_tad_evaluation()
 
     $all_content = [];
     $i = 0;
-    while ($all = $xoopsDB->fetchArray($result)) {
+    while (false !== ($all = $xoopsDB->fetchArray($result))) {
         //以下會產生這些變數： $evaluation_sn , $evaluation_title , $evaluation_description , $evaluation_enable , $evaluation_uid , $evaluation_date
         foreach ($all as $k => $v) {
             $$k = $v;
         }
 
-        $uid_name = XoopsUser::getUnameFromId($evaluation_uid, 1);
+        $uid_name = \XoopsUser::getUnameFromId($evaluation_uid, 1);
         if (empty($uid_name)) {
-            $uid_name = XoopsUser::getUnameFromId($evaluation_uid, 0);
+            $uid_name = \XoopsUser::getUnameFromId($evaluation_uid, 0);
         }
 
         $all_content[$i]['evaluation_sn'] = $evaluation_sn;
@@ -208,9 +208,9 @@ function show_one_tad_evaluation($evaluation_sn = '')
         $$k = $v;
     }
 
-    $uid_name = XoopsUser::getUnameFromId($evaluation_uid, 1);
+    $uid_name = \XoopsUser::getUnameFromId($evaluation_uid, 1);
     if (empty($uid_name)) {
-        $uid_name = XoopsUser::getUnameFromId($evaluation_uid, 0);
+        $uid_name = \XoopsUser::getUnameFromId($evaluation_uid, 0);
     }
 
     $_SESSION['dir_count2'] = $_SESSION['file_count2'] = 0;
@@ -560,7 +560,7 @@ if (!function_exists('mime_content_type')) {
     }
 }
 /*-----------執行動作判斷區----------*/
-include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
+require_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
 $op = system_CleanVars($_REQUEST, 'op', '', 'string');
 $evaluation_sn = system_CleanVars($_REQUEST, 'evaluation_sn', 0, 'int');
 $file_sn = system_CleanVars($_REQUEST, 'file_sn', 0, 'int');
@@ -619,4 +619,4 @@ switch ($op) {
 $xoopsTpl->assign('isAdmin', true);
 $xoTheme->addStylesheet('modules/tadtools/css/font-awesome/css/font-awesome.css');
 
-include_once 'footer.php';
+require_once __DIR__ . '/footer.php';

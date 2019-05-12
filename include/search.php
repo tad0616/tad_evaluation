@@ -26,7 +26,7 @@ function tad_evaluation_search($queryarray, $andor, $limit, $offset, $userid)
     $result = $xoopsDB->query($sql, $limit, $offset);
     $ret = [];
     $i = 0;
-    while ($myrow = $xoopsDB->fetchArray($result)) {
+    while (false !== ($myrow = $xoopsDB->fetchArray($result))) {
         $ret[$i]['image'] = 'images/application_form_edit.png';
         $ret[$i]['link'] = 'index.php?evaluation_sn=' . $myrow['evaluation_sn'];
         $ret[$i]['title'] = $myrow['file_name'];

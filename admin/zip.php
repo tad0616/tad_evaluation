@@ -1,6 +1,6 @@
 <?php
-include_once 'header.php';
-include_once '../function.php';
+require_once __DIR__ . '/header.php';
+require_once dirname(__DIR__) . '/function.php';
 
 $evaluation_sn = (int)$_GET['evaluation_sn'];
 $evaluation = get_tad_evaluation($evaluation_sn);
@@ -17,7 +17,7 @@ $msg = shell_exec('zip -r -j ' . XOOPS_ROOT_PATH . "/uploads/tad_evaluation/{$di
 if (file_exists(XOOPS_ROOT_PATH . "/uploads/tad_evaluation/{$dirname}.zip")) {
     header('location:' . XOOPS_URL . "/uploads/tad_evaluation/{$dirname}.zip");
 } else {
-    include_once '../class/pclzip.lib.php';
+    require_once dirname(__DIR__) . '/class/pclzip.lib.php';
     $zipfile = new PclZip(XOOPS_ROOT_PATH . "/uploads/tad_evaluation/{$dirname}.zip");
     $v_list = $zipfile->create($FromDir, PCLZIP_OPT_REMOVE_PATH, XOOPS_ROOT_PATH . '/uploads/tad_evaluation');
 
