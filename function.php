@@ -3,7 +3,11 @@ use XoopsModules\Tadtools\TreeTable;
 use XoopsModules\Tadtools\Utility;
 xoops_loadLanguage('main', 'tadtools');
 
-/********************* 自訂函數 *********************/
+/********************* 自訂函數 ********************
+ * @param      $str
+ * @param bool $OS2Web
+ * @return bool|false|string
+ */
 
 //轉換編碼 （_CHARSET在後面時，$OS2Web為true，預設）
 function change_charset($str, $OS2Web = true)
