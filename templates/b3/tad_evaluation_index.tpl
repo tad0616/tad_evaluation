@@ -21,7 +21,7 @@
 
       <div class="well">
         <h2><a href='index.php?evaluation_sn=<{$data.evaluation_sn}>'><{$data.evaluation_title}></a></h2>
-        <div style="font-size:12px;color:gray;text-align:right;">
+        <div style="font-size:75%;color:gray;text-align:right;">
           <{$data.evaluation_date}>
           <i class="icon-folder-open"></i> <{$data.evaluation_cates}>
           <i class="icon-file"></i> <{$data.evaluation_files}>
@@ -72,4 +72,3 @@
         </div>
     <{/if}>
 <{/if}>
-

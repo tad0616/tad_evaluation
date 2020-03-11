@@ -103,11 +103,11 @@ $modversion['config'][$i]['title'] = '_MI_TADEVALUA_CSS_SETUP';
 $modversion['config'][$i]['description'] = '_MI_TADEVALUA_CSS_SETUP_DESC';
 $modversion['config'][$i]['formtype'] = 'textarea';
 $modversion['config'][$i]['valuetype'] = 'text';
-$modversion['config'][$i]['default'] = '.level1{font-size:20px;color:#800040;line-height:150%;}
-.level2{font-size:18px;color:#00274F;line-height:150%;}
-.level3{font-size:16px;color:#003737;line-height:150%;}
-.level4{font-size:14px;color:#542929;line-height:150%;}
-.level5{font-size:12px;color:#000000;line-height:150%;}';
+$modversion['config'][$i]['default'] = '.level1{font-size:1.25%;color:#800040;line-height:150%;}
+.level2{font-size:112.5%;color:#00274F;line-height:150%;}
+.level3{font-size:100%;color:#003737;line-height:150%;}
+.level4{font-size:87.5%;color:#542929;line-height:150%;}
+.level5{font-size:75%;color:#000000;line-height:150%;}';
 
 $i++;
 $modversion['config'][$i]['name'] = 'use_office_viewer';

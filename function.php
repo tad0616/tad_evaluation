@@ -261,7 +261,7 @@ function get_cate_files($evaluation_sn = '', $cate_sn = '')
         $_SESSION['file_count2']++;
         $data .= "
         <tr data-tt-id='file_{$file_sn}' data-tt-parent-id='$cate_sn' id='file_sn-_{$file_sn}' $class style='letter-spacing: 0em;'>
-          <td style='font-size:11pt;padding:5px 0px;'>
+          <td style='font-size: 92%;padding:5px 0px;'>
             <a class=\"evaluation_fancy_{$evaluation_sn} iconize\" $other href=\"{$href}\" style='font-weight:normal;'>{$file_desc}</a>
           </td>
         </tr>";

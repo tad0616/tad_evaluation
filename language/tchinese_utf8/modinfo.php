@@ -18,7 +18,7 @@ define('_MI_TADEVALUA_OS_CHARSET_DESC', '一般來說，Windows為Big5，Linux�
 define('_MI_TADEVALUA_USE_GOOGLE_DOC', '使用Google閱讀器直接開啟檔案');
 define('_MI_TADEVALUA_USE_GOOGLE_DOC_DESC', '如此可以直接線上觀看檔案內容，無須下載');
 define('_MI_TADEVALUA_CSS_SETUP', '各階層的外觀樣式設定');
-define('_MI_TADEVALUA_CSS_SETUP_DESC', '一行是一組設定，每一行格式為：「.level1{font-size:12pt;color:blue;....}」，第一層為「.level1」，第二層為「.level2」...依此類推。');
+define('_MI_TADEVALUA_CSS_SETUP_DESC', '一行是一組設定，每一行格式為：「.level1{font-size:100%;color:blue;....}」，第一層為「.level1」，第二層為「.level2」...依此類推。');
 
 define('_MI_TADEVALUA_DIRNAME', basename(dirname(dirname(__DIR__))));
 define('_MI_TADEVALUA_HELP_HEADER', __DIR__ . '/help/helpheader.tpl');
