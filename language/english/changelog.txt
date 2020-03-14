@@ -1,14 +1,18 @@
-Tad Evaluation 2.2.2 (released from 2019-05-10)
+Tad Evaluation 2.2.3 (2020-03-14 released)
+===============================================
+1. Correction for accessibility 2.0 AA standard
+
+Tad Evaluation 2.2.2 (2019-05-10 released)
 ========================================================
 1. Support XOOPS 2.5.10
 2. No longer supports PHP 5.3
 
-Tad Evaluation 2.2.1 (released on 2019-01-01)
+Tad Evaluation 2.2.1 (2019-01-01 released)
 =================================================
 1.Support BootStrap4
 2.Support PHP 7.3
 
-Tad Evaluation 2.2 (released on 2018-05-21)
+Tad Evaluation 2.2 (2018-05-21 released)
 =================================================
 1. Modify the problem that the encoding of the preference setting may be misjudged
 2. Supports PHP 7.2
@@ -16,7 +20,7 @@ Tad Evaluation 2.2 (released on 2018-05-21)
 4. Remove the tchinese Big5 language
 
 
-Tad Evaluation 2.1 (released on 2018-03-21)
+Tad Evaluation 2.1 (2018-03-21 released)
 =================================================
 1. Support PHP 7.1
 2. The local side file does not use Office Viewer
