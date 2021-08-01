@@ -4,7 +4,7 @@ $modversion = [];
 
 //---模組基本資訊---//
 $modversion['name'] = _MI_TADEVALUA_NAME;
-$modversion['version'] = '2.23';
+$modversion['version'] = '2.3';
 $modversion['description'] = _MI_TADEVALUA_DESC;
 $modversion['author'] = _MI_TADEVALUA_AUTHOR;
 $modversion['credits'] = _MI_TADEVALUA_CREDITS;
@@ -14,7 +14,7 @@ $modversion['image'] = 'images/logo.png';
 $modversion['dirname'] = basename(__DIR__);
 
 //---模組狀態資訊---//
-$modversion['release_date'] = '2020/03/14';
+$modversion['release_date'] = '2021/07/31';
 $modversion['module_website_url'] = 'https://tad0616.net';
 $modversion['module_website_name'] = _MI_TADEVALUA_AUTHOR_WEB;
 $modversion['module_status'] = 'release';
@@ -90,14 +90,6 @@ $modversion['config'][$i]['default'] = 'Auto';
 $modversion['config'][$i]['options'] = ['Auto' => 'Auto', 'UTF-8' => 'UTF-8', 'Big5' => 'Big5'];
 
 $i++;
-$modversion['config'][$i]['name'] = 'use_google_doc';
-$modversion['config'][$i]['title'] = '_MI_TADEVALUA_USE_GOOGLE_DOC';
-$modversion['config'][$i]['description'] = '_MI_TADEVALUA_USE_GOOGLE_DOC_DESC';
-$modversion['config'][$i]['formtype'] = 'yesno';
-$modversion['config'][$i]['valuetype'] = 'int';
-$modversion['config'][$i]['default'] = '0';
-
-$i++;
 $modversion['config'][$i]['name'] = 'css_setup';
 $modversion['config'][$i]['title'] = '_MI_TADEVALUA_CSS_SETUP';
 $modversion['config'][$i]['description'] = '_MI_TADEVALUA_CSS_SETUP_DESC';
@@ -108,11 +100,3 @@ $modversion['config'][$i]['default'] = '.level1{font-size:125%;color:#800040;lin
 .level3{font-size:100%;color:#003737;line-height:150%;}
 .level4{font-size:87.5%;color:#542929;line-height:150%;}
 .level5{font-size:75%;color:#000000;line-height:150%;}';
-
-$i++;
-$modversion['config'][$i]['name'] = 'use_office_viewer';
-$modversion['config'][$i]['title'] = '_MI_TADEVALUA_USE_OFFICE_VIEWER';
-$modversion['config'][$i]['description'] = '_MI_TADEVALUA_USE_OFFICE_VIEWER_DESC';
-$modversion['config'][$i]['formtype'] = 'yesno';
-$modversion['config'][$i]['valuetype'] = 'int';
-$modversion['config'][$i]['default'] = '1';

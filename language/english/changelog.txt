@@ -1,3 +1,10 @@
+Tad Evaluation 2.3 (released on 2021-07-31)
+===============================================
+1. Comply with the new version 2021/07 AA accessibility standard
+2. Combine BootStrap3 and 4 templates
+3.Support XOOPS 2.5.11
+4. Remove Google and Microsoft's online reader settings
+
 Tad Evaluation 2.2.3 (2020-03-14 released)
 ===============================================
 1. Correction for accessibility 2.0 AA standard
