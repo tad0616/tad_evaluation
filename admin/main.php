@@ -4,6 +4,7 @@ use XoopsModules\Tadtools\CkEditor;
 use XoopsModules\Tadtools\FancyBox;
 use XoopsModules\Tadtools\FormValidator;
 use XoopsModules\Tadtools\Utility;
+use XoopsModules\Tadtools\Wcag;
 /*-----------引入檔案區--------------*/
 $xoopsOption['template_main'] = 'tad_evaluation_adm_main.tpl';
 require_once __DIR__ . '/header.php';
@@ -79,10 +80,11 @@ function insert_tad_evaluation()
     $myts = \MyTextSanitizer::getInstance();
     $_POST['evaluation_title'] = $myts->addSlashes($_POST['evaluation_title']);
     $_POST['evaluation_description'] = $myts->addSlashes($_POST['evaluation_description']);
+    $_POST['evaluation_description'] = Wcag::amend($_POST['evaluation_description']);
 
     $sql = 'insert into `' . $xoopsDB->prefix('tad_evaluation') . "`
-  (`evaluation_title` , `evaluation_description` , `evaluation_enable` , `evaluation_uid` , `evaluation_date`)
-  values('{$_POST['evaluation_title']}' , '{$_POST['evaluation_description']}' , '{$_POST['evaluation_enable']}' , '{$uid}' , '" . date('Y-m-d H:i:s', xoops_getUserTimestamp(time())) . "')";
+    (`evaluation_title` , `evaluation_description` , `evaluation_enable` , `evaluation_uid` , `evaluation_date`)
+    values('{$_POST['evaluation_title']}' , '{$_POST['evaluation_description']}' , '{$_POST['evaluation_enable']}' , '{$uid}' , '" . date('Y-m-d H:i:s', xoops_getUserTimestamp(time())) . "')";
     $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     //取得最後新增資料的流水編號
@@ -107,14 +109,15 @@ function update_tad_evaluation($evaluation_sn = '')
     $myts = \MyTextSanitizer::getInstance();
     $_POST['evaluation_title'] = $myts->addSlashes($_POST['evaluation_title']);
     $_POST['evaluation_description'] = $myts->addSlashes($_POST['evaluation_description']);
+    $_POST['evaluation_description'] = Wcag::amend($_POST['evaluation_description']);
 
     $sql = 'update `' . $xoopsDB->prefix('tad_evaluation') . "` set
-   `evaluation_title` = '{$_POST['evaluation_title']}' ,
-   `evaluation_description` = '{$_POST['evaluation_description']}' ,
-   `evaluation_enable` = '{$_POST['evaluation_enable']}' ,
-   `evaluation_uid` = '{$uid}' ,
-   `evaluation_date` = '" . date('Y-m-d H:i:s', xoops_getUserTimestamp(time())) . "'
-  where `evaluation_sn` = '$evaluation_sn'";
+    `evaluation_title` = '{$_POST['evaluation_title']}' ,
+    `evaluation_description` = '{$_POST['evaluation_description']}' ,
+    `evaluation_enable` = '{$_POST['evaluation_enable']}' ,
+    `evaluation_uid` = '{$uid}' ,
+    `evaluation_date` = '" . date('Y-m-d H:i:s', xoops_getUserTimestamp(time())) . "'
+    where `evaluation_sn` = '$evaluation_sn'";
     $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     $_POST['evaluation_title'] = change_charset($_POST['evaluation_title'], false);
