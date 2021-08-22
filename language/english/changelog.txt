@@ -1,3 +1,7 @@
+Tad Evaluation 2.4 (released 2021-08-22)
+===============================================
+1.Added Accessibility 2.1 AA auto-correct function
+
 Tad Evaluation 2.3 (released on 2021-07-31)
 ===============================================
 1. Comply with the new version 2021/07 AA accessibility standard
