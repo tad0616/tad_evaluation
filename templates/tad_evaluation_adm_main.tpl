@@ -69,7 +69,7 @@
 
 
         <{if $smarty.session.tad_evaluation_adm}>
-            <div class="text-right">
+            <div class="text-right text-end">
                 <a href="<{$action}>?op=tad_evaluation_form" class="btn btn-info"><{$smarty.const._TAD_ADD}></a>
             </div>
         <{/if}>
@@ -86,7 +86,7 @@
     <!--顯示某一筆資料-->
     <{if $now_op=="show_one_tad_evaluation" or $now_op=="tad_evaluation_form"}>
         <form action="<{$action}>" method="post" id="myForm" enctype="multipart/form-data" class="form-horizontal role="form">
-            <div class="form-group row">
+            <div class="form-group row mb-3">
                 <label class="col-sm-2 col-form-label text-sm-right control-label">
                 <{$smarty.const._MA_TADEVALUA_EVALUATION_TITLE}>
                 </label>
@@ -112,7 +112,7 @@
                 </div>
             </div>
 
-            <div class="form-group row">
+            <div class="form-group row mb-3">
                 <div class="col-sm-12">
                     <{$evaluation_description_editor}>
                 </div>

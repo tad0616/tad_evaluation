@@ -68,7 +68,7 @@
 
 
     <{if $smarty.session.tad_evaluation_adm}>
-    <div class="text-right">
+    <div class="text-right text-end">
         <a href="admin/main.php?evaluation_sn=<{$evaluation_sn}>" class="btn btn-warning"><{$smarty.const._TAD_EDIT}></a>
     </div>
     <{/if}>

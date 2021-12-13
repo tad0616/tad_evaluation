@@ -4,11 +4,14 @@
 function tad_evaluation_search($queryarray, $andor, $limit, $offset, $userid)
 {
     global $xoopsDB;
-    if (get_magic_quotes_gpc()) {
+    $myts = \MyTextSanitizer::getInstance();
+    if (is_array($queryarray)) {
         foreach ($queryarray as $k => $v) {
-            $arr[$k] = addslashes($v);
+            $arr[$k] = $myts->addSlashes($v);
         }
         $queryarray = $arr;
+    } else {
+        $queryarray = [];
     }
     $sql = 'SELECT a.`file_sn`,a.`evaluation_sn`,a.`file_name`,b.`evaluation_date`, b.`evaluation_uid` FROM ' . $xoopsDB->prefix('tad_evaluation_files') . ' AS a LEFT JOIN ' . $xoopsDB->prefix('tad_evaluation') . " AS b ON a.evaluation_sn = b.evaluation_sn WHERE b.evaluation_enable='1'";
     if (0 != $userid) {

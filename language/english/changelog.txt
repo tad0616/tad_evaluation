@@ -1,4 +1,13 @@
-Tad Evaluation 2.4 (released 2021-08-22)
+Tad Evaluation 2.6 (released on 2021-12-13)
+====================================
+1.Support BootStrap5
+
+Tad Evaluation 2.5 (released on 2021-08-24)
+====================================
+1.Search function security correction
+
+
+Tad Evaluation 2.4 (released on 2021-08-22)
 ===============================================
 1.Added Accessibility 2.1 AA auto-correct function
 
