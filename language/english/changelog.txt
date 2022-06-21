@@ -1,3 +1,7 @@
+Tad Evaluation 2.7 (released on 2022-06-21)
+====================================
+1. Change the video player to VideoJs
+
 Tad Evaluation 2.6 (released on 2021-12-13)
 ====================================
 1.Support BootStrap5
