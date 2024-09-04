@@ -72,14 +72,13 @@ function tad_evaluation_form($evaluation_sn = '')
 //新增資料到tad_evaluation中
 function insert_tad_evaluation()
 {
-    global $xoopsDB, $xoopsUser, $xoopsModuleConfig;
+    global $xoopsDB, $xoopsUser;
 
     //取得使用者編號
     $uid = ($xoopsUser) ? $xoopsUser->getVar('uid') : '';
 
-    $myts = \MyTextSanitizer::getInstance();
-    $_POST['evaluation_title'] = $myts->addSlashes($_POST['evaluation_title']);
-    $_POST['evaluation_description'] = $myts->addSlashes($_POST['evaluation_description']);
+    $_POST['evaluation_title'] = $xoopsDB->escape($_POST['evaluation_title']);
+    $_POST['evaluation_description'] = $xoopsDB->escape($_POST['evaluation_description']);
     $_POST['evaluation_description'] = Wcag::amend($_POST['evaluation_description']);
 
     $sql = 'insert into `' . $xoopsDB->prefix('tad_evaluation') . "`
@@ -100,15 +99,14 @@ function insert_tad_evaluation()
 //更新tad_evaluation某一筆資料
 function update_tad_evaluation($evaluation_sn = '')
 {
-    global $xoopsDB, $xoopsUser, $xoopsModuleConfig;
+    global $xoopsDB, $xoopsUser;
     $evaluation = get_tad_evaluation($evaluation_sn);
 
     //取得使用者編號
     $uid = ($xoopsUser) ? $xoopsUser->getVar('uid') : '';
 
-    $myts = \MyTextSanitizer::getInstance();
-    $_POST['evaluation_title'] = $myts->addSlashes($_POST['evaluation_title']);
-    $_POST['evaluation_description'] = $myts->addSlashes($_POST['evaluation_description']);
+    $_POST['evaluation_title'] = $xoopsDB->escape($_POST['evaluation_title']);
+    $_POST['evaluation_description'] = $xoopsDB->escape($_POST['evaluation_description']);
     $_POST['evaluation_description'] = Wcag::amend($_POST['evaluation_description']);
 
     $sql = 'update `' . $xoopsDB->prefix('tad_evaluation') . "` set
@@ -313,29 +311,6 @@ function array_to_dir($all_files, $of_cate_sn = 0, $level = 0)
 
     return $all;
 }
-
-/*
-//匯入檔案
-function tad_evaluation_import($evaluation_sn=""){
-global $xoopsDB , $xoopsTpl ;
-
-delete_tad_evaluation_cate($evaluation_sn,false);
-
-$myts = \MyTextSanitizer::getInstance();
-
-foreach($_POST['cates'] as $i=>$cate_data){
-list($cate_sn,$of_cate_sn,$cate_title)=explode(";", $cate_data);
-$cate_title=$myts->addSlashes($cate_title);
-save_tad_evaluation_cate($evaluation_sn,$cate_title,$cate_sn,$of_cate_sn);
-}
-
-foreach($_POST['files'] as $i=>$file_data){
-list($file_sn,$cate_sn,$file_name)=explode(";", $file_data);
-$file_name=$myts->addSlashes($file_name);
-save_tad_evaluation_files($evaluation_sn,$file_name,$file_sn,$cate_sn);
-}
-}
- */
 
 //匯入檔案
 function tad_evaluation_import($evaluation_sn = '')
