@@ -76,7 +76,7 @@
 
         <{$bar}>
     <{elseif $now_op=="list_tad_evaluation"}>
-        <div class="jumbotron text-center">
+        <div class="jumbotron bg-light p-5 rounded-lg m-3 text-center">
             <{if $smarty.session.tad_evaluation_adm}>
                 <a href="<{$action}>?op=tad_evaluation_form" class="btn btn-info"><{$smarty.const._TAD_ADD}></a>
             <{/if}>
@@ -149,9 +149,11 @@
                             </form>
                         </div>
                     <{else}>
-                        <div class="col-sm-6 jumbotron text-center">
-                            <{$smarty.const._MA_TADEVALUA_EVALUATION_IMPORT_PATH}><br>
-                            <div style="color:blue;"><{$evaluation_path}></div>
+                        <div class="col-sm-6  text-center">
+                            <div class="jumbotron bg-light p-5 rounded-lg m-3">
+                                <{$smarty.const._MA_TADEVALUA_EVALUATION_IMPORT_PATH}><br>
+                                <div style="color:blue;"><{$evaluation_path}></div>
+                            </div>
                         </div>
                     <{/if}>
 
@@ -171,8 +173,10 @@
                         </form>
                         </div>
                     <{else}>
-                        <div class="col-sm-6 jumbotron text-center">
-                        <{$smarty.const._MA_TADEVALUA_EVALUATION_IMPORT_FILES}>
+                        <div class="col-sm-6 text-center"></div>
+                            <div class="jumbotron bg-light p-5 rounded-lg m-3">
+                                <{$smarty.const._MA_TADEVALUA_EVALUATION_IMPORT_FILES}>
+                            </div>
                         </div>
                     <{/if}>
                 </div>

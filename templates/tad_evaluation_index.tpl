@@ -37,7 +37,7 @@
   <{/if}>
 
 <{elseif $now_op=="list_tad_evaluation"}>
-  <div class="jumbotron">
+  <div class="jumbotron bg-light p-5 rounded-lg m-3">
     <{if $smarty.session.tad_evaluation_adm}>
       <a href="admin/main.php?op=tad_evaluation_form" class="btn btn-info"><{$smarty.const._TAD_ADD}></a>
     <{/if}>
@@ -60,7 +60,7 @@
             <{$db_files}>
             </div>
         <{else}>
-            <div class="jumbotron">
+            <div class="jumbotron bg-light p-5 rounded-lg m-3">
             <{$smarty.const._MD_TADEVALUA_EVALUATION_EMPTY}>
             </div>
         <{/if}>
