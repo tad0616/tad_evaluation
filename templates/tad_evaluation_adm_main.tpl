@@ -1,7 +1,7 @@
 <div class="container-fluid">
     <!--列出所有資料-->
-    <{if $all_content}>
-        <{if $smarty.session.tad_evaluation_adm}>
+    <{if $all_content|default:false}>
+        <{if $smarty.session.tad_evaluation_adm|default:false}>
             <script type="text/javascript">
             function delete_tad_evaluation_func(evaluation_sn){
                 var sure = window.confirm("<{$smarty.const._TAD_DEL_CONFIRM}>");
@@ -34,7 +34,7 @@
                     <!--路徑-->
                     <{$smarty.const._MA_TADEVALUA_EVALUATION_PATH}>
                 </th>
-                <{if $smarty.session.tad_evaluation_adm}>
+                <{if $smarty.session.tad_evaluation_adm|default:false}>
                     <th>
                     <{$smarty.const._TAD_FUNCTION}>
                     </th>
@@ -55,7 +55,7 @@
                 <td nowrap><{$data.evaluation_date}></td>
                 <td><a href="main.php?evaluation_sn=<{$data.evaluation_sn}>"><{$data.evaluation_path}></a></td>
 
-                <{if $smarty.session.tad_evaluation_adm}>
+                <{if $smarty.session.tad_evaluation_adm|default:false}>
                 <td nowrap>
                     <a href="zip.php?evaluation_sn=<{$data.evaluation_sn}>" class="btn btn-mini btn-success"><{$smarty.const._MA_TADEVALUA_EVALUATION_EXPORT}></a>
                     <a href="javascript:delete_tad_evaluation_func(<{$data.evaluation_sn}>);" class="btn btn-mini btn-danger"><{$smarty.const._TAD_DEL}></a>
@@ -68,7 +68,7 @@
         </table>
 
 
-        <{if $smarty.session.tad_evaluation_adm}>
+        <{if $smarty.session.tad_evaluation_adm|default:false}>
             <div class="text-right text-end">
                 <a href="<{$action}>?op=tad_evaluation_form" class="btn btn-info"><{$smarty.const._TAD_ADD}></a>
             </div>
@@ -77,7 +77,7 @@
         <{$bar}>
     <{elseif $now_op=="list_tad_evaluation"}>
         <div class="jumbotron bg-light p-5 rounded-lg m-3 text-center">
-            <{if $smarty.session.tad_evaluation_adm}>
+            <{if $smarty.session.tad_evaluation_adm|default:false}>
                 <a href="<{$action}>?op=tad_evaluation_form" class="btn btn-info"><{$smarty.const._TAD_ADD}></a>
             <{/if}>
         </div>
@@ -122,17 +122,17 @@
                 <!--評鑑編號-->
                 <input type='hidden' name="evaluation_sn" value="<{$evaluation_sn}>">
                 <input type="hidden" name="op" value="<{$next_op}>">
-                <{if $evaluation_sn}>
+                <{if $evaluation_sn|default:false}>
                     <a href="../index.php?evaluation_sn=<{$evaluation_sn}>" class="btn btn-success"><{$smarty.const._MA_TADEVALUA_EVALUATION_VIEW}></a>
                 <{/if}>
                 <button type="submit" class="btn btn-primary"><{$smarty.const._TAD_SAVE}></button>
             </div>
         </form>
 
-        <{if $evaluation_sn}>
+        <{if $evaluation_sn|default:false}>
             <div class="well card card-body bg-light m-1">
                 <div class="row">
-                    <{if $all_files}>
+                    <{if $all_files|default:false}>
                         <div class="col-sm-6">
                             <i class="fa fa-folder-open"></i> <{$dir_count}>
                             <i class="fa fa-file-text-o"></i> <{$file_count}>
@@ -157,7 +157,7 @@
                         </div>
                     <{/if}>
 
-                    <{if $all_files}>
+                    <{if $all_files|default:false}>
                         <div class="col-sm-6" id='sort'>
 
                         <form action="<{$action}>" method="post" id="myForm" enctype="multipart/form-data">

@@ -1,13 +1,13 @@
 <{$toolbar}>
-<{if $level_css}>
+<{if $level_css|default:false}>
   <style>
     <{$level_css}>
   </style>
 <{/if}>
 
 <!--列出所有資料-->
-<{if $all_content}>
-  <{if $smarty.session.tad_evaluation_adm}>
+<{if $all_content|default:false}>
+  <{if $smarty.session.tad_evaluation_adm|default:false}>
     <script type="text/javascript">
     function delete_tad_evaluation_func(evaluation_sn){
       var sure = window.confirm("<{$smarty.const._TAD_DEL_CONFIRM}>");
@@ -30,7 +30,7 @@
 
   <{/foreach}>
 
-  <{if $smarty.session.tad_evaluation_adm}>
+  <{if $smarty.session.tad_evaluation_adm|default:false}>
   <div style="text-align:right;">
     <a href="admin/main.php?op=tad_evaluation_form" class="btn btn-info"><{$smarty.const._TAD_ADD}></a>
   </div>
@@ -38,7 +38,7 @@
 
 <{elseif $now_op=="list_tad_evaluation"}>
   <div class="jumbotron bg-light p-5 rounded-lg m-3">
-    <{if $smarty.session.tad_evaluation_adm}>
+    <{if $smarty.session.tad_evaluation_adm|default:false}>
       <a href="admin/main.php?op=tad_evaluation_form" class="btn btn-info"><{$smarty.const._TAD_ADD}></a>
     <{/if}>
   </div>
@@ -49,13 +49,13 @@
 <{if $now_op=="show_one_tad_evaluation"}>
 
     <h1><{$evaluation_title}></h1>
-    <{if $cate_count}>
+    <{if $cate_count|default:false}>
         <a href="#" onclick="jQuery('#treetbl<{$evaluation_sn}>').treetable('expandAll'); return false;" onkeypress="jQuery('#treetbl<{$evaluation_sn}>').treetable('expandAll'); return false;" class="btn btn-outline-info btn-sm btn-xs"><{$smarty.const._MD_TADEVALUA_EXPAND_ALL}></a>
         <a href="#" onclick="jQuery('#treetbl<{$evaluation_sn}>').treetable('collapseAll'); return false;" onkeypress="jQuery('#treetbl<{$evaluation_sn}>').treetable('collapseAll'); return false;" class="btn btn-outline-info btn-sm btn-xs"><{$smarty.const._MD_TADEVALUA_COLLAPSE_ALL}></a>
     <{/if}>
     <div class="well card card-body bg-light m-1">
 
-        <{if $db_files}>
+        <{if $db_files|default:false}>
             <div>
             <{$db_files}>
             </div>
@@ -67,7 +67,7 @@
     </div>
 
 
-    <{if $smarty.session.tad_evaluation_adm}>
+    <{if $smarty.session.tad_evaluation_adm|default:false}>
     <div class="text-right text-end">
         <a href="admin/main.php?evaluation_sn=<{$evaluation_sn}>" class="btn btn-warning"><{$smarty.const._TAD_EDIT}></a>
     </div>
