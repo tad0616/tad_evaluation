@@ -1,7 +1,7 @@
-<{$toolbar}>
+<{$toolbar|default:''}>
 <{if $level_css|default:false}>
   <style>
-    <{$level_css}>
+    <{$level_css|default:''}>
   </style>
 <{/if}>
 
@@ -12,7 +12,7 @@
     function delete_tad_evaluation_func(evaluation_sn){
       var sure = window.confirm("<{$smarty.const._TAD_DEL_CONFIRM}>");
       if (!sure)  return;
-      location.href="<{$action}>?op=delete_tad_evaluation&evaluation_sn=" + evaluation_sn;
+      location.href="<{$action|default:''}>?op=delete_tad_evaluation&evaluation_sn=" + evaluation_sn;
     }
     </script>
   <{/if}>
@@ -48,16 +48,16 @@
 <!--顯示某一筆資料-->
 <{if $now_op=="show_one_tad_evaluation"}>
 
-    <h1><{$evaluation_title}></h1>
+    <h1><{$evaluation_title|default:''}></h1>
     <{if $cate_count|default:false}>
-        <a href="#" onclick="jQuery('#treetbl<{$evaluation_sn}>').treetable('expandAll'); return false;" onkeypress="jQuery('#treetbl<{$evaluation_sn}>').treetable('expandAll'); return false;" class="btn btn-outline-info btn-sm btn-xs"><{$smarty.const._MD_TADEVALUA_EXPAND_ALL}></a>
-        <a href="#" onclick="jQuery('#treetbl<{$evaluation_sn}>').treetable('collapseAll'); return false;" onkeypress="jQuery('#treetbl<{$evaluation_sn}>').treetable('collapseAll'); return false;" class="btn btn-outline-info btn-sm btn-xs"><{$smarty.const._MD_TADEVALUA_COLLAPSE_ALL}></a>
+        <a href="#" onclick="jQuery('#treetbl<{$evaluation_sn|default:''}>').treetable('expandAll'); return false;" onkeypress="jQuery('#treetbl<{$evaluation_sn|default:''}>').treetable('expandAll'); return false;" class="btn btn-outline-info btn-sm btn-xs"><{$smarty.const._MD_TADEVALUA_EXPAND_ALL}></a>
+        <a href="#" onclick="jQuery('#treetbl<{$evaluation_sn|default:''}>').treetable('collapseAll'); return false;" onkeypress="jQuery('#treetbl<{$evaluation_sn|default:''}>').treetable('collapseAll'); return false;" class="btn btn-outline-info btn-sm btn-xs"><{$smarty.const._MD_TADEVALUA_COLLAPSE_ALL}></a>
     <{/if}>
     <div class="well card card-body bg-light m-1">
 
         <{if $db_files|default:false}>
             <div>
-            <{$db_files}>
+            <{$db_files|default:''}>
             </div>
         <{else}>
             <div class="jumbotron bg-light p-5 rounded-lg m-3">
@@ -69,7 +69,7 @@
 
     <{if $smarty.session.tad_evaluation_adm|default:false}>
     <div class="text-right text-end">
-        <a href="admin/main.php?evaluation_sn=<{$evaluation_sn}>" class="btn btn-warning"><{$smarty.const._TAD_EDIT}></a>
+        <a href="admin/main.php?evaluation_sn=<{$evaluation_sn|default:''}>" class="btn btn-warning"><{$smarty.const._TAD_EDIT}></a>
     </div>
     <{/if}>
 <{/if}>
