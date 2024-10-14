@@ -1,11 +1,50 @@
 <?php
 use Xmf\Request;
 use XoopsModules\Tadtools\FancyBox;
+use XoopsModules\Tadtools\SweetAlert;
 use XoopsModules\Tadtools\Utility;
 /*-----------引入檔案區--------------*/
 require __DIR__ . '/header.php';
 $xoopsOption['template_main'] = 'tad_evaluation_index.tpl';
 require_once XOOPS_ROOT_PATH . '/header.php';
+
+/*-----------執行動作判斷區----------*/
+$op = Request::getString('op');
+$evaluation_sn = Request::getInt('evaluation_sn');
+$file_sn = Request::getInt('file_sn');
+$cate_sn = Request::getInt('cate_sn');
+
+switch ($op) {
+    //輸入表格
+    case 'tad_evaluation_form':
+        tad_evaluation_form($evaluation_sn);
+        break;
+
+    //刪除資料
+    case 'delete_tad_evaluation':
+        delete_tad_evaluation($evaluation_sn);
+        header("location: {$_SERVER['PHP_SELF']}");
+        exit;
+
+    //預設動作
+    default:
+        if (empty($evaluation_sn)) {
+            list_tad_evaluation();
+            $op = 'list_tad_evaluation';
+        } elseif (!empty($file_sn)) {
+            show_file($evaluation_sn, $cate_sn, $file_sn);
+            $op = 'show_file';
+        } else {
+            show_tad_evaluation($evaluation_sn);
+            $op = 'show_tad_evaluation';
+        }
+        break;
+}
+
+/*-----------秀出結果區--------------*/
+$xoopsTpl->assign('now_op', $op);
+$xoopsTpl->assign('toolbar', Utility::toolbar_bootstrap($interface_menu, false, $interface_icon));
+require_once XOOPS_ROOT_PATH . '/footer.php';
 
 /*-----------功能函數區--------------*/
 
@@ -14,14 +53,12 @@ function list_tad_evaluation()
 {
     global $xoopsDB, $xoopsTpl;
 
-    $sql = 'SELECT * FROM `' . $xoopsDB->prefix('tad_evaluation') . "` WHERE evaluation_enable='1' ORDER BY evaluation_date DESC";
-
-    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    $sql = 'SELECT * FROM `' . $xoopsDB->prefix('tad_evaluation') . '` WHERE `evaluation_enable`=? ORDER BY `evaluation_date` DESC';
+    $result = Utility::query($sql, 's', ['1']) or Utility::web_error($sql, __FILE__, __LINE__);
 
     $all_content = [];
     $i = 0;
     while (false !== ($all = $xoopsDB->fetchArray($result))) {
-        //以下會產生這些變數： $evaluation_sn , $evaluation_title , $evaluation_description , $evaluation_enable , $evaluation_uid , $evaluation_date
         foreach ($all as $k => $v) {
             $$k = $v;
         }
@@ -47,10 +84,14 @@ function list_tad_evaluation()
     $xoopsTpl->assign('action', $_SERVER['PHP_SELF']);
     $xoopsTpl->assign('all_content', $all_content);
     $xoopsTpl->assign('now_op', 'list_tad_evaluation');
+    if ($_SESSION['tad_evaluation_adm']) {
+        $SweetAlert = new SweetAlert();
+        $SweetAlert->render("delete_tad_evaluation_func", "index.php?op=delete_tad_evaluation&evaluation_sn=", 'evaluation_sn');
+    }
 }
 
 //以流水號秀出某筆tad_evaluation資料內容
-function show_one_tad_evaluation($evaluation_sn = '')
+function show_tad_evaluation($evaluation_sn = '')
 {
     global $xoopsDB, $xoopsTpl, $xoopsModuleConfig, $xoTheme;
 
@@ -59,11 +100,11 @@ function show_one_tad_evaluation($evaluation_sn = '')
     }
     $evaluation_sn = (int) $evaluation_sn;
 
-    $sql = 'select * from `' . $xoopsDB->prefix('tad_evaluation') . "` where `evaluation_sn` = '{$evaluation_sn}' ";
-    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    $sql = 'SELECT * FROM `' . $xoopsDB->prefix('tad_evaluation') . '` WHERE `evaluation_sn` = ?';
+    $result = Utility::query($sql, 'i', [$evaluation_sn]) or Utility::web_error($sql, __FILE__, __LINE__);
+
     $all = $xoopsDB->fetchArray($result);
 
-    //以下會產生這些變數： $evaluation_sn , $evaluation_title , $evaluation_description , $evaluation_enable , $evaluation_uid , $evaluation_date
     foreach ($all as $k => $v) {
         $$k = $v;
     }
@@ -83,7 +124,7 @@ function show_one_tad_evaluation($evaluation_sn = '')
     $xoopsTpl->assign('evaluation_cates', get_evaluation_count($evaluation_sn, 'tad_evaluation_cate'));
     $xoopsTpl->assign('evaluation_files', get_evaluation_count($evaluation_sn, 'tad_evaluation_files'));
 
-    $xoopsTpl->assign('now_op', 'show_one_tad_evaluation');
+    $xoopsTpl->assign('now_op', 'show_tad_evaluation');
     $xoopsTpl->assign('title', $evaluation_title);
 
     // $xoopsTpl->assign('db_files' , db_files(false,false,'show',$evaluation_sn));
@@ -108,37 +149,3 @@ function show_file($evaluation_sn, $cate_sn, $file_sn)
     header("location: $real_url");
     exit;
 }
-
-/*-----------執行動作判斷區----------*/
-$op = Request::getString('op');
-$evaluation_sn = Request::getInt('evaluation_sn');
-$file_sn = Request::getInt('file_sn');
-$cate_sn = Request::getInt('cate_sn');
-
-switch ($op) {
-    //輸入表格
-    case 'tad_evaluation_form':
-        tad_evaluation_form($evaluation_sn);
-        break;
-
-    //刪除資料
-    case 'delete_tad_evaluation':
-        delete_tad_evaluation($evaluation_sn);
-        header("location: {$_SERVER['PHP_SELF']}");
-        exit;
-
-    //預設動作
-    default:
-        if (empty($evaluation_sn)) {
-            list_tad_evaluation();
-        } elseif (!empty($file_sn)) {
-            show_file($evaluation_sn, $cate_sn, $file_sn);
-        } else {
-            show_one_tad_evaluation($evaluation_sn);
-        }
-        break;
-}
-
-/*-----------秀出結果區--------------*/
-$xoopsTpl->assign('toolbar', Utility::toolbar_bootstrap($interface_menu));
-require_once XOOPS_ROOT_PATH . '/footer.php';

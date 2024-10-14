@@ -3,20 +3,82 @@ use Xmf\Request;
 use XoopsModules\Tadtools\CkEditor;
 use XoopsModules\Tadtools\FancyBox;
 use XoopsModules\Tadtools\FormValidator;
+use XoopsModules\Tadtools\SweetAlert;
 use XoopsModules\Tadtools\Utility;
 use XoopsModules\Tadtools\Wcag;
 /*-----------引入檔案區--------------*/
-$xoopsOption['template_main'] = 'tad_evaluation_adm_main.tpl';
+$xoopsOption['template_main'] = 'tad_evaluation_admin.tpl';
 require_once __DIR__ . '/header.php';
 require_once dirname(__DIR__) . '/function.php';
+
+/*-----------執行動作判斷區----------*/
+$op = Request::getString('op');
+$evaluation_sn = Request::getInt('evaluation_sn');
+$file_sn = Request::getInt('file_sn');
+$cate_sn = Request::getInt('cate_sn');
+
+switch ($op) {
+    /*---判斷動作請貼在下方---*/
+
+    //替換資料
+    case 'replace_tad_evaluation':
+        replace_tad_evaluation();
+        header("location: {$_SERVER['PHP_SELF']}");
+        exit;
+
+    //新增資料
+    case 'insert_tad_evaluation':
+        $evaluation_sn = insert_tad_evaluation();
+        header("location: {$_SERVER['PHP_SELF']}?evaluation_sn=$evaluation_sn");
+        exit;
+
+    //更新資料
+    case 'update_tad_evaluation':
+        update_tad_evaluation($evaluation_sn);
+        header("location: {$_SERVER['PHP_SELF']}?evaluation_sn=$evaluation_sn");
+        exit;
+
+    //更新資料
+    case 'tad_evaluation_form':
+        tad_evaluation_form();
+        break;
+
+    //刪除資料
+    case 'delete_tad_evaluation':
+        delete_tad_evaluation($evaluation_sn);
+        header("location: {$_SERVER['PHP_SELF']}");
+        exit;
+
+    //匯入檔案
+    case 'tad_evaluation_import':
+        tad_evaluation_import($evaluation_sn);
+        header("location: {$_SERVER['PHP_SELF']}?evaluation_sn=$evaluation_sn");
+        exit;
+
+    //預設動作
+    default:
+        if (empty($evaluation_sn)) {
+            list_all_tad_evaluation();
+            $op = 'list_all_tad_evaluation';
+        } else {
+            tad_evaluation_form($evaluation_sn);
+            show_one_tad_evaluation($evaluation_sn);
+            $op = 'tad_evaluation_form';
+        }
+        break;
+        /*---判斷動作請貼在上方---*/
+}
+
+/*-----------秀出結果區--------------*/
+$xoopsTpl->assign('now_op', $op);
+require_once __DIR__ . '/footer.php';
+
 /*-----------功能函數區--------------*/
 
-////tad_evaluation編輯表單
+//tad_evaluation編輯表單
 function tad_evaluation_form($evaluation_sn = '')
 {
     global $xoopsDB, $xoopsTpl, $xoopsUser;
-    //include_once(XOOPS_ROOT_PATH."/class/xoopsformloader.php");
-    //include_once(XOOPS_ROOT_PATH."/class/xoopseditor/xoopseditor.php");
 
     //抓取預設值
     if (!empty($evaluation_sn)) {
@@ -44,7 +106,7 @@ function tad_evaluation_form($evaluation_sn = '')
     $xoopsTpl->assign('evaluation_enable', $evaluation_enable);
 
     //設定「evaluation_uid」欄位預設值
-    $user_uid = ($xoopsUser) ? $xoopsUser->getVar('uid') : '';
+    $user_uid = ($xoopsUser) ? $xoopsUser->uid() : '';
     $evaluation_uid = !isset($DBV['evaluation_uid']) ? $user_uid : $DBV['evaluation_uid'];
     $xoopsTpl->assign('evaluation_uid', $evaluation_uid);
 
@@ -75,16 +137,21 @@ function insert_tad_evaluation()
     global $xoopsDB, $xoopsUser;
 
     //取得使用者編號
-    $uid = ($xoopsUser) ? $xoopsUser->getVar('uid') : '';
+    $uid = ($xoopsUser) ? $xoopsUser->uid() : '';
 
-    $_POST['evaluation_title'] = $xoopsDB->escape($_POST['evaluation_title']);
-    $_POST['evaluation_description'] = $xoopsDB->escape($_POST['evaluation_description']);
+    $_POST['evaluation_title'] = (string) $_POST['evaluation_title'];
     $_POST['evaluation_description'] = Wcag::amend($_POST['evaluation_description']);
 
-    $sql = 'insert into `' . $xoopsDB->prefix('tad_evaluation') . "`
-    (`evaluation_title` , `evaluation_description` , `evaluation_enable` , `evaluation_uid` , `evaluation_date`)
-    values('{$_POST['evaluation_title']}' , '{$_POST['evaluation_description']}' , '{$_POST['evaluation_enable']}' , '{$uid}' , '" . date('Y-m-d H:i:s', xoops_getUserTimestamp(time())) . "')";
-    $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    $sql = 'INSERT INTO `' . $xoopsDB->prefix('tad_evaluation') . '`
+    (`evaluation_title`, `evaluation_description`, `evaluation_enable`, `evaluation_uid`, `evaluation_date`)
+    VALUES (?, ?, ?, ?, ?)';
+    Utility::query($sql, 'sssis', [
+        $_POST['evaluation_title'],
+        $_POST['evaluation_description'],
+        $_POST['evaluation_enable'],
+        $uid,
+        date('Y-m-d H:i:s', xoops_getUserTimestamp(time())),
+    ]) or Utility::web_error($sql, __FILE__, __LINE__);
 
     //取得最後新增資料的流水編號
     $evaluation_sn = $xoopsDB->getInsertId();
@@ -103,20 +170,26 @@ function update_tad_evaluation($evaluation_sn = '')
     $evaluation = get_tad_evaluation($evaluation_sn);
 
     //取得使用者編號
-    $uid = ($xoopsUser) ? $xoopsUser->getVar('uid') : '';
+    $uid = ($xoopsUser) ? $xoopsUser->uid() : '';
 
-    $_POST['evaluation_title'] = $xoopsDB->escape($_POST['evaluation_title']);
-    $_POST['evaluation_description'] = $xoopsDB->escape($_POST['evaluation_description']);
+    $_POST['evaluation_title'] = (string) $_POST['evaluation_title'];
     $_POST['evaluation_description'] = Wcag::amend($_POST['evaluation_description']);
 
-    $sql = 'update `' . $xoopsDB->prefix('tad_evaluation') . "` set
-    `evaluation_title` = '{$_POST['evaluation_title']}' ,
-    `evaluation_description` = '{$_POST['evaluation_description']}' ,
-    `evaluation_enable` = '{$_POST['evaluation_enable']}' ,
-    `evaluation_uid` = '{$uid}' ,
-    `evaluation_date` = '" . date('Y-m-d H:i:s', xoops_getUserTimestamp(time())) . "'
-    where `evaluation_sn` = '$evaluation_sn'";
-    $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    $sql = 'UPDATE `' . $xoopsDB->prefix('tad_evaluation') . '` SET
+    `evaluation_title` = ?,
+    `evaluation_description` = ?,
+    `evaluation_enable` = ?,
+    `evaluation_uid` = ?,
+    `evaluation_date` = ?
+    WHERE `evaluation_sn` = ?';
+    Utility::query($sql, 'sssisi', [
+        $_POST['evaluation_title'],
+        $_POST['evaluation_description'],
+        $_POST['evaluation_enable'],
+        $uid,
+        date('Y-m-d H:i:s', xoops_getUserTimestamp(time())),
+        $evaluation_sn,
+    ]) or Utility::web_error($sql, __FILE__, __LINE__);
 
     $_POST['evaluation_title'] = change_charset($_POST['evaluation_title'], false);
     $evaluation['evaluation_title'] = change_charset($evaluation['evaluation_title'], false);
@@ -133,7 +206,7 @@ function update_tad_evaluation($evaluation_sn = '')
 }
 
 //列出所有tad_evaluation資料
-function list_tad_evaluation()
+function list_all_tad_evaluation()
 {
     global $xoopsDB, $xoopsTpl;
 
@@ -178,7 +251,9 @@ function list_tad_evaluation()
     $xoopsTpl->assign('bar', $bar);
     $xoopsTpl->assign('action', $_SERVER['PHP_SELF']);
     $xoopsTpl->assign('all_content', $all_content);
-    $xoopsTpl->assign('now_op', 'list_tad_evaluation');
+    $xoopsTpl->assign('now_op', 'list_all_tad_evaluation');
+    $SweetAlert = new SweetAlert();
+    $SweetAlert->render("delete_tad_evaluation_func", "main.php?op=delete_tad_evaluation&evaluation_sn=", 'evaluation_sn');
 }
 
 //刪除tad_evaluation某筆資料資料
@@ -186,22 +261,24 @@ function delete_tad_evaluation($evaluation_sn = '')
 {
     global $xoopsDB;
     delete_tad_evaluation_cate($evaluation_sn, true);
-    $sql = 'delete from `' . $xoopsDB->prefix('tad_evaluation') . "` where `evaluation_sn` = '{$evaluation_sn}'";
-    $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    $sql = 'DELETE FROM `' . $xoopsDB->prefix('tad_evaluation') . '` WHERE `evaluation_sn` = ?';
+    Utility::query($sql, 'i', [$evaluation_sn]) or Utility::web_error($sql, __FILE__, __LINE__);
+
 }
 
 //以流水號秀出某筆tad_evaluation資料內容
 function show_one_tad_evaluation($evaluation_sn = '')
 {
-    global $xoopsDB, $xoopsTpl, $xoopsModuleConfig, $xoTheme;
+    global $xoopsDB, $xoopsTpl;
 
     if (empty($evaluation_sn)) {
         return;
     }
     $evaluation_sn = (int) $evaluation_sn;
 
-    $sql = 'select * from `' . $xoopsDB->prefix('tad_evaluation') . "` where `evaluation_sn` = '{$evaluation_sn}' ";
-    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    $sql = 'SELECT * FROM `' . $xoopsDB->prefix('tad_evaluation') . '` WHERE `evaluation_sn` = ?';
+    $result = Utility::query($sql, 'i', [$evaluation_sn]) or Utility::web_error($sql, __FILE__, __LINE__);
+
     $all = $xoopsDB->fetchArray($result);
 
     //以下會產生這些變數： $evaluation_sn , $evaluation_title , $evaluation_description , $evaluation_enable , $evaluation_uid , $evaluation_date
@@ -216,6 +293,7 @@ function show_one_tad_evaluation($evaluation_sn = '')
 
     $_SESSION['dir_count2'] = $_SESSION['file_count2'] = 0;
     $db_files = db_files(true, false, 'edit', $evaluation_sn);
+
     $xoopsTpl->assign('dir_count2', $_SESSION['dir_count2']);
     $xoopsTpl->assign('file_count2', $_SESSION['file_count2']);
     //die(var_dump($db_files));
@@ -315,8 +393,6 @@ function array_to_dir($all_files, $of_cate_sn = 0, $level = 0)
 //匯入檔案
 function tad_evaluation_import($evaluation_sn = '')
 {
-    global $xoopsDB, $xoopsTpl;
-
     $evaluation = get_tad_evaluation($evaluation_sn);
     delete_tad_evaluation_cate($evaluation_sn, false);
 
@@ -375,17 +451,18 @@ function dir_to_db($evaluation_sn, $all_files, $of_cate_sn = 0, $level = 0)
 //匯入檔案
 function save_tad_evaluation_cate($evaluation_sn, $cate_title, $cate_sn, $of_cate_sn)
 {
-    global $xoopsDB, $xoopsUser;
-    $sql = 'insert into `' . $xoopsDB->prefix('tad_evaluation_cate') . "`
-  (`cate_sn` , `of_cate_sn` , `cate_title` , `cate_desc` , `cate_sort` , `cate_enable` , `evaluation_sn`)
-  values('{$cate_sn}','{$of_cate_sn}' , '{$cate_title}' , '' , '{$cate_sn}' , '1' , '{$evaluation_sn}')";
-    $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    global $xoopsDB;
+    $sql = 'INSERT INTO `' . $xoopsDB->prefix('tad_evaluation_cate') . '`
+    (`cate_sn`, `of_cate_sn`, `cate_title`, `cate_desc`, `cate_sort`, `cate_enable`, `evaluation_sn`)
+    VALUES (?, ?, ?, ?, ?, ?, ?)';
+    Utility::query($sql, 'iissisi', [$cate_sn, $of_cate_sn, $cate_title, '', $cate_sn, '1', $evaluation_sn]) or Utility::web_error($sql, __FILE__, __LINE__);
+
 }
 
 //新增資料到tad_evaluation_files中
 function save_tad_evaluation_files($evaluation_sn, $file_name, $file_sn, $cate_sn)
 {
-    global $xoopsDB, $xoopsUser, $xoopsModuleConfig;
+    global $xoopsDB;
     $evaluation = get_tad_evaluation($evaluation_sn);
 
     $real_evaluation_title = change_charset($evaluation['evaluation_title'], false);
@@ -404,10 +481,11 @@ function save_tad_evaluation_files($evaluation_sn, $file_name, $file_sn, $cate_s
     $end = (mb_strlen($ext) + 1) * -1;
     $file_desc = mb_substr($file_name, 0, $end);
 
-    $sql = 'insert into `' . $xoopsDB->prefix('tad_evaluation_files') . "`
-  (`file_sn` , `cate_sn` , `evaluation_sn` , `file_name` , `file_size` , `file_type` , `file_desc` , `file_enable` , `file_sort`)
-  values('{$file_sn}' , '{$cate_sn}' , '{$evaluation_sn}' , '{$file_name}' , '{$size}' , '{$type}' , '{$file_desc}' , '1' , '{$file_sn}')";
-    $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    $sql = 'INSERT INTO `' . $xoopsDB->prefix('tad_evaluation_files') . '`
+    (`file_sn`, `cate_sn`, `evaluation_sn`, `file_name`, `file_size`, `file_type`, `file_desc`, `file_enable`, `file_sort`)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)';
+    Utility::query($sql, 'iiisisssi', [$file_sn, $cate_sn, $evaluation_sn, $file_name, $size, $type, $file_desc, '', $file_sn]) or Utility::web_error($sql, __FILE__, __LINE__);
+
 }
 
 //刪除某評鑑的所有分類
@@ -425,41 +503,43 @@ function delete_tad_evaluation_cate($evaluation_sn = '', $del_file = false)
         Utility::delete_directory($dirname);
     }
 
-    $sql = 'delete from `' . $xoopsDB->prefix('tad_evaluation_cate') . "` where `evaluation_sn` = '{$evaluation_sn}'";
-    $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    $sql = 'DELETE FROM `' . $xoopsDB->prefix('tad_evaluation_cate') . '` WHERE `evaluation_sn` = ?';
+    Utility::query($sql, 'i', [$evaluation_sn]) or Utility::web_error($sql, __FILE__, __LINE__);
 
-    $sql = 'delete from `' . $xoopsDB->prefix('tad_evaluation_files') . "` where `evaluation_sn` = '{$evaluation_sn}'";
-    $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    $sql = 'DELETE FROM `' . $xoopsDB->prefix('tad_evaluation_files') . '` WHERE `evaluation_sn` = ?';
+    Utility::query($sql, 'i', [$evaluation_sn]) or Utility::web_error($sql, __FILE__, __LINE__);
+
 }
 
 //列出目錄檔案
 function directory_list($directory_base_path = '')
 {
-    $myts = \MyTextSanitizer::getInstance();
-
-    $directory_base_path = $myts->addSlashes($directory_base_path);
-
-    $directory_base_path = rtrim($directory_base_path, '/') . '/';
-
+    $directory_base_path = rtrim(str_replace('\\', '/', $directory_base_path), '/') . '/';
     $result_list = [];
 
-    $allfile = glob($directory_base_path . '*');
-    // die(var_export($allfile));
-    foreach ($allfile as $filename) {
-        $filename = $myts->addSlashes($filename);
-        $basefilename = str_replace($directory_base_path, '', $filename);
+    if ($handle = opendir($directory_base_path)) {
+        while (false !== ($entry = readdir($handle))) {
+            if ($entry != "." && $entry != "..") {
+                $full_path = $directory_base_path . $entry;
 
-        if (is_dir($filename)) {
-            $result_list[$basefilename] = directory_list($filename);
-        } else {
-            $ext = mb_strtolower(array_pop(explode('.', $filename)));
-            $len = mb_strlen($ext);
-            if ($len > 0 and $len <= 4) {
-                $result_list[] = $basefilename;
-            } else {
-                $result_list[$basefilename] = directory_list($filename);
+                // 使用 mb_convert_encoding 確保文件名編碼一致
+                $entry = Utility::is_utf8($entry) ? $entry : mb_convert_encoding($entry, 'UTF-8');
+                $full_path = Utility::is_utf8($full_path) ? $full_path : mb_convert_encoding($full_path, 'UTF-8');
+
+                if (is_dir($full_path)) {
+                    $result_list[$entry] = directory_list($full_path);
+                } else {
+                    $path_parts = pathinfo($full_path);
+                    $ext = isset($path_parts['extension']) ? mb_strtolower($path_parts['extension']) : '';
+                    if (mb_strlen($ext) > 0 && mb_strlen($ext) <= 4) {
+                        $result_list[] = $entry;
+                    } else {
+                        $result_list[$entry] = directory_list($full_path);
+                    }
+                }
             }
         }
+        closedir($handle);
     }
 
     return $result_list;
@@ -537,62 +617,3 @@ if (!function_exists('mime_content_type')) {
         return 'application/octet-stream';
     }
 }
-/*-----------執行動作判斷區----------*/
-$op = Request::getString('op');
-$evaluation_sn = Request::getInt('evaluation_sn');
-$file_sn = Request::getInt('file_sn');
-$cate_sn = Request::getInt('cate_sn');
-
-switch ($op) {
-    /*---判斷動作請貼在下方---*/
-
-    //替換資料
-    case 'replace_tad_evaluation':
-        replace_tad_evaluation();
-        header("location: {$_SERVER['PHP_SELF']}");
-        exit;
-
-    //新增資料
-    case 'insert_tad_evaluation':
-        $evaluation_sn = insert_tad_evaluation();
-        header("location: {$_SERVER['PHP_SELF']}?evaluation_sn=$evaluation_sn");
-        exit;
-
-    //更新資料
-    case 'update_tad_evaluation':
-        update_tad_evaluation($evaluation_sn);
-        header("location: {$_SERVER['PHP_SELF']}?evaluation_sn=$evaluation_sn");
-        exit;
-
-    //更新資料
-    case 'tad_evaluation_form':
-        tad_evaluation_form();
-        break;
-
-    //刪除資料
-    case 'delete_tad_evaluation':
-        delete_tad_evaluation($evaluation_sn);
-        header("location: {$_SERVER['PHP_SELF']}");
-        exit;
-
-    //匯入檔案
-    case 'tad_evaluation_import':
-        tad_evaluation_import($evaluation_sn);
-        header("location: {$_SERVER['PHP_SELF']}?evaluation_sn=$evaluation_sn");
-        exit;
-
-    //預設動作
-    default:
-        if (empty($evaluation_sn)) {
-            list_tad_evaluation();
-        } else {
-            tad_evaluation_form($evaluation_sn);
-            show_one_tad_evaluation($evaluation_sn);
-        }
-        break;
-        /*---判斷動作請貼在上方---*/
-}
-
-/*-----------秀出結果區--------------*/
-$xoTheme->addStylesheet('modules/tadtools/css/font-awesome/css/font-awesome.css');
-require_once __DIR__ . '/footer.php';

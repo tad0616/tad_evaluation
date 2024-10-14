@@ -1,6 +1,7 @@
 <?php
 
 $modversion = [];
+global $xoopsConfig;
 
 //---模組基本資訊---//
 $modversion['name'] = _MI_TADEVALUA_NAME;
@@ -25,11 +26,12 @@ $modversion['min_php'] = 5.4;
 $modversion['min_xoops'] = '2.5';
 
 //---paypal資訊---//
-$modversion['paypal'] = [];
-$modversion['paypal']['business'] = 'tad0616@gmail.com';
-$modversion['paypal']['item_name'] = 'Donation :' . _MI_TADEVALUA_AUTHOR;
-$modversion['paypal']['amount'] = 0;
-$modversion['paypal']['currency_code'] = 'USD';
+$modversion['paypal'] = [
+    'business' => 'tad0616@gmail.com',
+    'item_name' => 'Donation : ' . _MI_TAD_WEB,
+    'amount' => 0,
+    'currency_code' => 'USD',
+];
 
 //---安裝設定---//
 $modversion['onInstall'] = 'include/onInstall.php';
@@ -44,9 +46,11 @@ $modversion['search']['func'] = 'tad_evaluation_search';
 //---啟動後台管理界面選單---//
 $modversion['system_menu'] = 1; //---資料表架構---//
 $modversion['sqlfile']['mysql'] = 'sql/mysql.sql';
-$modversion['tables'][1] = 'tad_evaluation';
-$modversion['tables'][2] = 'tad_evaluation_files';
-$modversion['tables'][3] = 'tad_evaluation_cate';
+$modversion['tables'] = [
+    'tad_evaluation',
+    'tad_evaluation_files',
+    'tad_evaluation_cate',
+];
 
 //---管理介面設定---//
 $modversion['hasAdmin'] = 1;
@@ -57,47 +61,18 @@ $modversion['adminmenu'] = 'admin/menu.php';
 $modversion['hasMain'] = 1;
 
 //---樣板設定---//
-$i = 0;
-$modversion['templates'][$i]['file'] = 'tad_evaluation_adm_main.tpl';
-$modversion['templates'][$i]['description'] = 'tad_evaluation_adm_main.tpl';
-
-$i++;
-$modversion['templates'][$i]['file'] = 'tad_evaluation_index.tpl';
-$modversion['templates'][$i]['description'] = 'tad_evaluation_index.tpl';
+$modversion['templates'] = [
+    ['file' => 'tad_evaluation_admin.tpl', 'description' => 'tad_evaluation_admin.tpl'],
+    ['file' => 'tad_evaluation_index.tpl', 'description' => 'tad_evaluation_index.tpl'],
+];
 
 //---區塊設定---//
-$i = 0;
-$modversion['blocks'][$i]['file'] = 'tad_evaluation_list.php';
-$modversion['blocks'][$i]['name'] = _MI_TADEVALUA_BNAME1;
-$modversion['blocks'][$i]['description'] = _MI_TADEVALUA_BDESC1;
-$modversion['blocks'][$i]['show_func'] = 'tad_evaluation_list';
-$modversion['blocks'][$i]['template'] = 'tad_evaluation_block_list.tpl';
+$modversion['blocks'] = [
+    ['file' => 'tad_evaluation_list.php', 'name' => _MI_TADEVALUA_BNAME1, 'description' => _MI_TADEVALUA_BDESC1, 'show_func' => 'tad_evaluation_list', 'template' => 'tad_evaluation_block_list.tpl'],
+];
 
-$i = 1;
-$modversion['config'][$i]['name'] = 'ignored';
-$modversion['config'][$i]['title'] = '_MI_TADEVALUA_IGNORED';
-$modversion['config'][$i]['description'] = '_MI_TADEVALUA_IGNORED_DESC';
-$modversion['config'][$i]['formtype'] = 'textarea';
-$modversion['config'][$i]['valuetype'] = 'text';
-$modversion['config'][$i]['default'] = 'Thumbs.db';
-
-$i++;
-$modversion['config'][$i]['name'] = 'os_charset';
-$modversion['config'][$i]['title'] = '_MI_TADEVALUA_OS_CHARSET';
-$modversion['config'][$i]['description'] = '_MI_TADEVALUA_OS_CHARSET_DESC';
-$modversion['config'][$i]['formtype'] = 'select';
-$modversion['config'][$i]['valuetype'] = 'text';
-$modversion['config'][$i]['default'] = 'Auto';
-$modversion['config'][$i]['options'] = ['Auto' => 'Auto', 'UTF-8' => 'UTF-8', 'Big5' => 'Big5'];
-
-$i++;
-$modversion['config'][$i]['name'] = 'css_setup';
-$modversion['config'][$i]['title'] = '_MI_TADEVALUA_CSS_SETUP';
-$modversion['config'][$i]['description'] = '_MI_TADEVALUA_CSS_SETUP_DESC';
-$modversion['config'][$i]['formtype'] = 'textarea';
-$modversion['config'][$i]['valuetype'] = 'text';
-$modversion['config'][$i]['default'] = '.level1{font-size:125%;color:#800040;line-height:150%;}
-.level2{font-size:112.5%;color:#00274F;line-height:150%;}
-.level3{font-size:100%;color:#003737;line-height:150%;}
-.level4{font-size:87.5%;color:#542929;line-height:150%;}
-.level5{font-size:75%;color:#000000;line-height:150%;}';
+$modversion['config'] = [
+    ['name' => 'ignored', 'title' => '_MI_TADEVALUA_IGNORED', 'description' => '_MI_TADEVALUA_IGNORED_DESC', 'formtype' => 'textarea', 'valuetype' => 'text', 'default' => 'Thumbs.db'],
+    ['name' => 'os_charset', 'title' => '_MI_TADEVALUA_OS_CHARSET', 'description' => '_MI_TADEVALUA_OS_CHARSET_DESC', 'formtype' => 'select', 'valuetype' => 'text', 'default' => 'Auto', 'options' => ['Auto' => 'Auto', 'UTF-8' => 'UTF-8', 'Big5' => 'Big5']],
+    ['name' => 'css_setup', 'title' => '_MI_TADEVALUA_CSS_SETUP', 'description' => '_MI_TADEVALUA_CSS_SETUP_DESC', 'formtype' => 'textarea', 'valuetype' => 'text', 'default' => '.level1{font-size:125%;color:#800040;line-height:150%;} .level2{font-size:112.5%;color:#00274F;line-height:150%;} .level3{font-size:100%;color:#003737;line-height:150%;} .level4{font-size:87.5%;color:#542929;line-height:150%;} .level5{font-size:75%;color:#000000;line-height:150%;}'],
+];

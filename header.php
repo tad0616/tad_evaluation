@@ -8,6 +8,4 @@ if (!isset($_SESSION['tad_evaluation_adm'])) {
 }
 
 $interface_menu[_MD_TADEVALUA_SMNAME1] = 'index.php';
-if ($_SESSION['tad_evaluation_adm']) {
-    $interface_menu[_TAD_TO_ADMIN] = 'admin/main.php';
-}
+$interface_icon[_MD_TADEVALUA_SMNAME1] = 'fa-file-text-o';

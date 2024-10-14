@@ -39,8 +39,8 @@ function get_tad_evaluation($evaluation_sn = '')
         return;
     }
 
-    $sql = 'select * from `' . $xoopsDB->prefix('tad_evaluation') . "` where `evaluation_sn` = '{$evaluation_sn}'";
-    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    $sql = 'SELECT * FROM `' . $xoopsDB->prefix('tad_evaluation') . '` WHERE `evaluation_sn` = ?';
+    $result = Utility::query($sql, 'i', [$evaluation_sn]) or Utility::web_error($sql, __FILE__, __LINE__);
     $data = $xoopsDB->fetchArray($result);
 
     return $data;
@@ -54,10 +54,9 @@ function get_tad_evaluation_files($evaluation_sn = '', $cate_sn = '', $file_sn =
         return;
     }
 
-    //
-    //`file_sn`, `cate_sn`, `evaluation_sn`, `file_name`, `file_size`, `file_type`, `file_desc`, `file_enable`, `file_sort`
-    $sql = 'select * from `' . $xoopsDB->prefix('tad_evaluation_files') . "` where `evaluation_sn` = '{$evaluation_sn}' and `cate_sn` = '{$cate_sn}' and `file_sn` = '{$file_sn}'";
-    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    $sql = 'SELECT * FROM `' . $xoopsDB->prefix('tad_evaluation_files') . '` WHERE `evaluation_sn` =? AND `cate_sn` =? AND `file_sn` =?';
+    $result = Utility::query($sql, 'iii', [$evaluation_sn, $cate_sn, $file_sn]) or Utility::web_error($sql, __FILE__, __LINE__);
+
     $data = $xoopsDB->fetchArray($result);
 
     return $data;
@@ -66,14 +65,14 @@ function get_tad_evaluation_files($evaluation_sn = '', $cate_sn = '', $file_sn =
 //以流水號實際目錄資料
 function get_tad_evaluation_cate_path($evaluation_sn = '', $cate_sn = '')
 {
-    global $xoopsDB, $xoopsModuleConfig;
+    global $xoopsDB;
     if (empty($cate_sn)) {
         return;
     }
 
-    //`cate_sn`, `of_cate_sn`, `cate_title`, `cate_desc`, `cate_sort`, `cate_enable`, `evaluation_sn`
-    $sql = 'select cate_title,of_cate_sn from `' . $xoopsDB->prefix('tad_evaluation_cate') . "` where `evaluation_sn` = '{$evaluation_sn}' and `cate_sn` = '{$cate_sn}'";
-    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    $sql = 'SELECT `cate_title`, `of_cate_sn` FROM `' . $xoopsDB->prefix('tad_evaluation_cate') . '` WHERE `evaluation_sn` =? AND `cate_sn` =?';
+    $result = Utility::query($sql, 'ii', [$evaluation_sn, $cate_sn]) or Utility::web_error($sql, __FILE__, __LINE__);
+
     list($cate_title, $of_cate_sn) = $xoopsDB->fetchRow($result);
     if (!empty($of_cate_sn)) {
         $cate_title = get_tad_evaluation_cate_path($evaluation_sn, $of_cate_sn) . "/{$cate_title}";
@@ -85,7 +84,7 @@ function get_tad_evaluation_cate_path($evaluation_sn = '', $cate_sn = '')
 //讀出資料庫中的檔案結構
 function db_files($admin_tool, $icon, $mode, $evaluation_sn, $of_cate_sn = 0, $level = 0)
 {
-    global $xoopsDB, $xoopsTpl, $xoopsModuleConfig;
+    global $xoopsDB, $xoopsTpl;
 
     if (empty($evaluation_sn)) {
         return;
@@ -100,12 +99,12 @@ function db_files($admin_tool, $icon, $mode, $evaluation_sn, $of_cate_sn = 0, $l
     $treeID = $evaluation_sn;
 
     //檢查有無目錄，沒目錄的話，不要套用treetable
-    $sql = 'select count(*) from `' . $xoopsDB->prefix('tad_evaluation_cate') . "` where `evaluation_sn` = '{$evaluation_sn}'";
-    $result = $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    $sql = 'SELECT COUNT(*) FROM `' . $xoopsDB->prefix('tad_evaluation_cate') . '` WHERE `evaluation_sn` =?';
+    $result = Utility::query($sql, 'i', [$evaluation_sn]) or Utility::web_error($sql, __FILE__, __LINE__);
+
     list($cate_count) = $xoopsDB->fetchRow($result);
     $xoopsTpl->assign('cate_count', $cate_count);
 
-    $treetable_code = '';
     if ($old_level == $start and 'edit' === $mode) {
         //後台編輯模式
         if ($cate_count) {
@@ -132,22 +131,14 @@ function db_files($admin_tool, $icon, $mode, $evaluation_sn, $of_cate_sn = 0, $l
 
     $pull = $admin_tool ? "<img src='" . XOOPS_URL . "/modules/tadtools/treeTable/images/updown_s.png' style='cursor: s-resize;margin:0px 4px;' alt='" . _MA_TADEVALUA_EVALUATION_PULL_TO_SORT . "' title='" . _MA_TADEVALUA_EVALUATION_PULL_TO_SORT . "'>" : '';
     $cate_icon = $icon ? '<i class="icon-folder-open"></i>' : '';
-    $file_icon = $icon ? '<i class="icon-file"></i>' : '';
 
-    $left = $level * 20;
-    $file_left = $left + 20;
     $level++;
-    $h = $level + 1;
-
-    $evaluation = get_tad_evaluation($evaluation_sn);
 
     $data .= get_cate_files($evaluation_sn, 0);
 
-    $sql = 'select * from `' . $xoopsDB->prefix('tad_evaluation_cate') . "` where `evaluation_sn` = '{$evaluation_sn}' and `of_cate_sn`='$of_cate_sn' order by cate_sort";
-    //die($sql);
-    $result = $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    $sql = 'SELECT * FROM `' . $xoopsDB->prefix('tad_evaluation_cate') . '` WHERE `evaluation_sn` =? AND `of_cate_sn`=? ORDER BY `cate_sort`';
+    $result = Utility::query($sql, 'ii', [$evaluation_sn, $of_cate_sn]) or Utility::web_error($sql, __FILE__, __LINE__);
 
-    //`cate_sn`, `of_cate_sn`, `cate_title`, `cate_desc`, `cate_sort`, `cate_enable`, `evaluation_sn`
     while (false !== ($all = $xoopsDB->fetchArray($result))) {
         foreach ($all as $k => $v) {
             $$k = $v;
@@ -186,11 +177,12 @@ function db_files($admin_tool, $icon, $mode, $evaluation_sn, $of_cate_sn = 0, $l
 //抓取目錄下的檔案
 function get_cate_files($evaluation_sn = '', $cate_sn = '')
 {
-    global $xoopsDB, $xoopsModuleConfig;
+    global $xoopsDB;
 
     $myts = \MyTextSanitizer::getInstance();
 
     $evaluation = get_tad_evaluation($evaluation_sn);
+
     $img_ext = ['png', 'jpg', 'jpeg', 'gif'];
     $iframe_ext = ['svg', 'swf'];
     $video_ext = ['3gp', 'mp3', 'mp4', 'flv'];
@@ -202,10 +194,9 @@ function get_cate_files($evaluation_sn = '', $cate_sn = '')
 
     $cate_path = get_tad_evaluation_cate_path($evaluation_sn, $cate_sn);
 
-    $sql = 'select * from `' . $xoopsDB->prefix('tad_evaluation_files') . "` where `evaluation_sn` = '{$evaluation_sn}' and `cate_sn`='$cate_sn' order by file_sort";
-    //die($sql);
     $data = '';
-    $result = $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    $sql = 'SELECT * FROM `' . $xoopsDB->prefix('tad_evaluation_files') . '` WHERE `evaluation_sn` =? AND `cate_sn`=? ORDER BY `file_sort`';
+    $result = Utility::query($sql, 'ii', [$evaluation_sn, $cate_sn]) or Utility::web_error($sql, __FILE__, __LINE__);
 
     while (false !== ($all = $xoopsDB->fetchArray($result))) {
         foreach ($all as $k => $v) {
@@ -268,8 +259,9 @@ function get_evaluation_count($evaluation_sn, $tbl)
     }
     $evaluation_sn = (int) $evaluation_sn;
 
-    $sql = 'select count(*) from `' . $xoopsDB->prefix($tbl) . "` where `evaluation_sn` = '{$evaluation_sn}' ";
-    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    $sql = 'SELECT COUNT(*) FROM `' . $xoopsDB->prefix($tbl) . '` WHERE `evaluation_sn` = ?';
+    $result = Utility::query($sql, 'i', [$evaluation_sn]) or Utility::web_error($sql, __FILE__, __LINE__);
+
     list($count) = $xoopsDB->fetchRow($result);
 
     return $count;
