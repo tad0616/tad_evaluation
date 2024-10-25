@@ -18,7 +18,6 @@ $file_sn = Request::getInt('file_sn');
 $cate_sn = Request::getInt('cate_sn');
 
 switch ($op) {
-    /*---判斷動作請貼在下方---*/
 
     //替換資料
     case 'replace_tad_evaluation':
@@ -66,7 +65,7 @@ switch ($op) {
             $op = 'tad_evaluation_form';
         }
         break;
-        /*---判斷動作請貼在上方---*/
+
 }
 
 /*-----------秀出結果區--------------*/

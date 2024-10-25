@@ -20,6 +20,10 @@ function tad_evaluation_list()
         foreach ($all as $k => $v) {
             $$k = $v;
         }
+        $uid_name = XoopsUser::getUnameFromId($evaluation_uid, 1);
+        if (empty($uid_name)) {
+            $uid_name = XoopsUser::getUnameFromId($evaluation_uid, 0);
+        }
 
         $all_content[$i]['evaluation_sn'] = $evaluation_sn;
         $all_content[$i]['evaluation_title'] = $evaluation_title;

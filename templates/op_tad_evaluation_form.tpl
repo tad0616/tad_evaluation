@@ -38,7 +38,7 @@
         <{if $evaluation_sn|default:false}>
             <a href="../index.php?evaluation_sn=<{$evaluation_sn|default:''}>" class="btn btn-success"><{$smarty.const._MA_TADEVALUA_EVALUATION_VIEW}></a>
         <{/if}>
-        <button type="submit" class="btn btn-primary"><{$smarty.const._TAD_SAVE}></button>
+        <button type="submit" class="btn btn-primary"><i class="fa fa-floppy-o" aria-hidden="true"></i>  <{$smarty.const._TAD_SAVE}></button>
     </div>
 </form>
 
@@ -81,7 +81,7 @@
                     <input type="hidden" name="op" value="save_tad_evaluation">
                     <input type="hidden" name="evaluation_sn" value="<{$evaluation_sn|default:''}>">
 
-                    <!--button type="submit" class="btn btn-primary"><{$smarty.const._TAD_SAVE}></button-->
+                    <!--button type="submit" class="btn btn-primary"><i class="fa fa-floppy-o" aria-hidden="true"></i>  <{$smarty.const._TAD_SAVE}></button-->
                     </div>
                 </form>
                 </div>

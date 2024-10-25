@@ -1,7 +1,7 @@
 <?php
 use XoopsModules\Tadtools\Utility;
 require dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
-error_reporting(0);
+// 關閉除錯訊息
 $xoopsLogger->activated = false;
 
 $cate_sn_Array = $_REQUEST['cate_sn-'];
