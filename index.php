@@ -140,8 +140,6 @@ function show_tad_evaluation($evaluation_sn = '')
 //顯示檔案內容
 function show_file($evaluation_sn, $cate_sn, $file_sn)
 {
-    global $xoopsDB, $xoopsTpl;
-
     $evaluation = get_tad_evaluation($evaluation_sn);
     $cate_path = get_tad_evaluation_cate_path($evaluation_sn, $cate_sn);
     $file = get_tad_evaluation_files($evaluation_sn, $cate_sn, $file_sn);

@@ -5,13 +5,13 @@ require_once dirname(__DIR__) . '/function.php';
 
 $evaluation_sn = (int) $_GET['evaluation_sn'];
 $evaluation = get_tad_evaluation($evaluation_sn);
-$dirname = $evaluation['evaluation_title'];
+$dirname = str_replace(['|', '%', ' ', '<', '>'], '', $evaluation['evaluation_title']);
 $dirname = change_charset($dirname, false);
 if (file_exists(XOOPS_ROOT_PATH . "/uploads/tad_evaluation/{$dirname}.zip")) {
     unlink(XOOPS_ROOT_PATH . "/uploads/tad_evaluation/{$dirname}.zip");
 }
 
-$FromDir = XOOPS_ROOT_PATH . "/uploads/tad_evaluation/{$dirname}";
+$FromDir = str_replace(['|', '%', ' ', '<', '>'], '', XOOPS_ROOT_PATH . "/uploads/tad_evaluation/{$dirname}");
 
 $msg = shell_exec('zip -r -j ' . XOOPS_ROOT_PATH . "/uploads/tad_evaluation/{$dirname}.zip $FromDir");
 
