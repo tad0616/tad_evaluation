@@ -43,6 +43,7 @@ switch ($op) {
 
 /*-----------秀出結果區--------------*/
 $xoopsTpl->assign('now_op', $op);
+$xoopsTpl->assign('tad_evaluation_adm', $tad_evaluation_adm);
 $xoopsTpl->assign('toolbar', Utility::toolbar_bootstrap($interface_menu, false, $interface_icon));
 require_once XOOPS_ROOT_PATH . '/footer.php';
 
@@ -51,7 +52,7 @@ require_once XOOPS_ROOT_PATH . '/footer.php';
 //列出所有tad_evaluation資料
 function list_tad_evaluation()
 {
-    global $xoopsDB, $xoopsTpl;
+    global $xoopsDB, $xoopsTpl, $tad_evaluation_adm;
 
     $sql = 'SELECT * FROM `' . $xoopsDB->prefix('tad_evaluation') . '` WHERE `evaluation_enable`=? ORDER BY `evaluation_date` DESC';
     $result = Utility::query($sql, 's', ['1']) or Utility::web_error($sql, __FILE__, __LINE__);
@@ -84,7 +85,7 @@ function list_tad_evaluation()
     $xoopsTpl->assign('action', $_SERVER['PHP_SELF']);
     $xoopsTpl->assign('all_content', $all_content);
     $xoopsTpl->assign('now_op', 'list_tad_evaluation');
-    if ($_SESSION['tad_evaluation_adm']) {
+    if ($tad_evaluation_adm) {
         $SweetAlert = new SweetAlert();
         $SweetAlert->render("delete_tad_evaluation_func", "index.php?op=delete_tad_evaluation&evaluation_sn=", 'evaluation_sn');
     }

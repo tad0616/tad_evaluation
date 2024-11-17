@@ -18,7 +18,7 @@
 </div>
 
 
-<{if $smarty.session.tad_evaluation_adm|default:false}>
+<{if $tad_evaluation_adm|default:false}>
     <div class="text-right text-end">
         <a href="admin/main.php?evaluation_sn=<{$evaluation_sn|default:''}>" class="btn btn-warning"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> <{$smarty.const._TAD_EDIT}></a>
     </div>

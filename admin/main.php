@@ -70,6 +70,7 @@ switch ($op) {
 
 /*-----------秀出結果區--------------*/
 $xoopsTpl->assign('now_op', $op);
+$xoopsTpl->assign('tad_evaluation_adm', $tad_evaluation_adm);
 require_once __DIR__ . '/footer.php';
 
 /*-----------功能函數區--------------*/

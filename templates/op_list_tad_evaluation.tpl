@@ -20,7 +20,7 @@
 
   <{/foreach}>
 
-  <{if $smarty.session.tad_evaluation_adm|default:false}>
+  <{if $tad_evaluation_adm|default:false}>
   <div style="text-align:right;">
     <a href="admin/main.php?op=tad_evaluation_form" class="btn btn-info"><i class="fa fa-plus-circle" aria-hidden="true"></i> <{$smarty.const._TAD_ADD}></a>
   </div>
@@ -29,7 +29,7 @@
 <{else}>
   <h3><{$smarty.const._MD_TADEVALUA_EVALUATION_EMPTY}></h3>
   <div class="jumbotron bg-light p-5 rounded-lg m-3">
-    <{if $smarty.session.tad_evaluation_adm|default:false}>
+    <{if $tad_evaluation_adm|default:false}>
       <a href="admin/main.php?op=tad_evaluation_form" class="btn btn-info"><i class="fa fa-plus-circle" aria-hidden="true"></i> <{$smarty.const._TAD_ADD}></a>
     <{/if}>
   </div>

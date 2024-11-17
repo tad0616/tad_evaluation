@@ -1,7 +1,7 @@
 <?php
 //判斷是否對該模組有管理權限
-if (!isset($_SESSION['tad_evaluation_adm'])) {
-    $_SESSION['tad_evaluation_adm'] = isset($xoopsUser) && \is_object($xoopsUser) ? $xoopsUser->isAdmin() : false;
+if (!isset($tad_evaluation_adm)) {
+    $tad_evaluation_adm = isset($xoopsUser) && \is_object($xoopsUser) ? $xoopsUser->isAdmin() : false;
 }
 
 $interface_menu[_MD_TADEVALUA_SMNAME1] = 'index.php';
