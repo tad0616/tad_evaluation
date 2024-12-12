@@ -37,7 +37,7 @@
                 <td nowrap>
                     <{if $data.evaluation_enable=='1'}><{$smarty.const._YES}><{else}><{$smarty.const._NO}><{/if}>
                     <i class="fa fa-folder-open"></i> <{$data.evaluation_cates}>
-                    <i class="fa fa-file-text-o"></i> <{$data.evaluation_files}>
+                    <i class="fa fa-file-text"></i> <{$data.evaluation_files}>
                 </td>
                 <td nowrap><{$data.evaluation_uid}></td>
                 <td nowrap><{$data.evaluation_date}></td>
@@ -45,8 +45,8 @@
 
                 <td nowrap>
                     <a href="zip.php?evaluation_sn=<{$data.evaluation_sn}>" class="btn btn-mini btn-success"><i class="fa fa-download" aria-hidden="true"></i> <{$smarty.const._MA_TADEVALUA_EVALUATION_EXPORT}></a>
-                    <a href="javascript:delete_tad_evaluation_func(<{$data.evaluation_sn}>);" class="btn btn-mini btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i> <{$smarty.const._TAD_DEL}></a>
-                    <a href="main.php?evaluation_sn=<{$data.evaluation_sn}>" class="btn btn-mini btn-warning"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> <{$smarty.const._TAD_EDIT}></a>
+                    <a href="javascript:delete_tad_evaluation_func(<{$data.evaluation_sn}>);" class="btn btn-mini btn-danger"><i class="fa fa-trash" aria-hidden="true"></i> <{$smarty.const._TAD_DEL}></a>
+                    <a href="main.php?evaluation_sn=<{$data.evaluation_sn}>" class="btn btn-mini btn-warning"><i class="fa fa-pencil" aria-hidden="true"></i> <{$smarty.const._TAD_EDIT}></a>
                 </td>
                 </tr>
             <{/foreach}>

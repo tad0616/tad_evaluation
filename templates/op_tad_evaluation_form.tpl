@@ -38,7 +38,7 @@
         <{if $evaluation_sn|default:false}>
             <a href="../index.php?evaluation_sn=<{$evaluation_sn|default:''}>" class="btn btn-success"><{$smarty.const._MA_TADEVALUA_EVALUATION_VIEW}></a>
         <{/if}>
-        <button type="submit" class="btn btn-primary"><i class="fa fa-floppy-o" aria-hidden="true"></i>  <{$smarty.const._TAD_SAVE}></button>
+        <button type="submit" class="btn btn-primary"><i class="fa fa-floppy-disk" aria-hidden="true"></i>  <{$smarty.const._TAD_SAVE}></button>
     </div>
 </form>
 
@@ -48,8 +48,8 @@
             <{if $all_files|default:false}>
                 <div class="col-sm-6">
                     <i class="fa fa-folder-open"></i> <{$dir_count|default:''}>
-                    <i class="fa fa-file-text-o"></i> <{$file_count|default:''}>
-                    <i class="fa fa-trash-o"></i> <{$pass_count|default:''}>
+                    <i class="fa fa-file-text"></i> <{$file_count|default:''}>
+                    <i class="fa fa-trash"></i> <{$pass_count|default:''}>
 
                     <form action="<{$action|default:''}>" method="post" id="myForm" enctype="multipart/form-data">
                         <input type="hidden" name="op" value="tad_evaluation_import">
@@ -75,13 +75,13 @@
 
                 <form action="<{$action|default:''}>" method="post" id="myForm" enctype="multipart/form-data">
                     <i class="fa fa-folder-open"></i> <{$dir_count2|default:''}>
-                    <i class="fa fa-file-text-o"></i> <{$file_count2|default:''}>
+                    <i class="fa fa-file-text"></i> <{$file_count2|default:''}>
                     <{$db_files|default:''}>
                     <div class="text-center">
                     <input type="hidden" name="op" value="save_tad_evaluation">
                     <input type="hidden" name="evaluation_sn" value="<{$evaluation_sn|default:''}>">
 
-                    <!--button type="submit" class="btn btn-primary"><i class="fa fa-floppy-o" aria-hidden="true"></i>  <{$smarty.const._TAD_SAVE}></button-->
+                    <!--button type="submit" class="btn btn-primary"><i class="fa fa-floppy-disk" aria-hidden="true"></i>  <{$smarty.const._TAD_SAVE}></button-->
                     </div>
                 </form>
                 </div>

@@ -3,6 +3,7 @@ use Xmf\Request;
 use XoopsModules\Tadtools\Utility;
 use XoopsModules\Tadtools\VideoJs;
 require __DIR__ . '/header.php';
+header('HTTP/1.1 200 OK');
 $xoopsLogger->activated = false;
 Utility::get_jquery();
 
